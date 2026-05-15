@@ -1,3 +1,6 @@
+/* ==========================================================================
+   GLOBAL STYLES
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -190,7 +193,7 @@ button { border: none; background: none; cursor: pointer; outline: none; }
 }
 
 .sidebar__dropdown-container {
-    background-color: #ffffff;
+    background-color: #ffffff; 
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #ccd6dd;
@@ -205,6 +208,8 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     font-size: 14px;
     font-weight: bold;
     position: relative;
+    border: none;
+    display: block; 
 }
 
 .sidebar__dropdown-trigger::after {
@@ -217,16 +222,17 @@ button { border: none; background: none; cursor: pointer; outline: none; }
 }
 
 .sidebar__menu-list {
-    background-color: #e4ebf1;
-    padding: 4px 0;
+    background-color: #ffffff; 
+    padding: 0; 
 }
 
 .sidebar__menu-item a {
     display: block;
-    padding: 9px 20px;
+    padding: 10px 20px;
     font-size: 13px;
     color: #444444;
     font-weight: 500;
+    border-bottom: none; 
 }
 
 .sidebar__menu-item--active a {
@@ -294,9 +300,7 @@ button { border: none; background: none; cursor: pointer; outline: none; }
 }
 
 .post-card__title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    margin-bottom: 8px;
 }
 
 .post-card__title {
@@ -305,19 +309,26 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     font-weight: bold;
 }
 
-.post-card__stats {
-    font-size: 12px;
-    color: #555555;
-}
-
+/* 핵심 수정: 메타 정보와 통계 정렬 */
 .post-card__meta {
     margin-top: 6px;
     font-size: 12px;
     color: #777777;
     display: flex;
-    gap: 10px;
+    justify-content: space-between; /* 양 끝 정렬 */
+    align-items: center;
     border-bottom: 1px solid #ccd6dd;
     padding-bottom: 10px;
+}
+
+.post-card__meta-info {
+    display: flex;
+    gap: 10px;
+}
+
+.post-card__stats {
+    font-size: 12px;
+    color: #777777;
 }
 
 .post-card__author { font-weight: bold; }
@@ -374,9 +385,7 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     transition: transform 0.2s ease;
 }
 
-.btn-vote:hover {
-    transform: scale(1.08);
-}
+.btn-vote:hover { transform: scale(1.08); }
 
 .btn-vote img {
     width: 100%;
@@ -438,10 +447,7 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     color: #777777;
 }
 
-.comment-box__author {
-    font-weight: bold;
-    color: #333333;
-}
+.comment-box__author { font-weight: bold; color: #333333; }
 
 .comment-box__badge {
     background-color: #002b49;
@@ -472,16 +478,6 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     gap: 8px;
 }
 
-.comment-box__btn-reply {
-    font-size: 11px;
-    color: #ffffff;
-    background-color: #002b49;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-weight: bold;
-    height: 24px;
-}
-
 .comment-capsule-btn {
     background-color: #002b49;
     padding: 4px 14px;
@@ -493,9 +489,7 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     transition: background 0.2s ease;
 }
 
-.comment-capsule-btn:hover {
-    background-color: #004b7c;
-}
+.comment-capsule-btn:hover { background-color: #004b7c; }
 
 .comment-capsule-btn__icon {
     width: 12px;
