@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOOPS - 통학 게시판</title>
+    <link rel="stylesheet" href="post-detail.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <header class="header">
+            <div class="header__inner">
+                <h1 class="header__logo">
+                    <a href="#"><img src="public/main Logo.png" alt="LOOPS 로고"></a>
+                </h1>
+                
+                <div class="header__search-bar">
+                    <input type="text" placeholder="검색어를 입력해주세요.">
+                </div>
+
+                <nav class="header__nav">
+                    <a href="#" class="header__link">게시판</a>
+                    <a href="#" class="header__link">학교 홈페이지</a>
+                    <div class="header__auth-wrapper">
+                        <button class="header__btn-login">
+                            <img src="public/man.png" alt="프로필 아이콘" class="header__user-icon header__user-icon--bright">
+                            로그인 / 회원가입
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            
+            <div class="board-header-row">
+                <div class="board-header-row__left">
+                    <h2 class="board-main-title">통학 게시판</h2>
+                </div>
+                <div class="board-header-row__right">
+                    <button class="btn-subscribe">
+                        구독 
+                        <img src="public/Star.png" alt="별" class="btn-subscribe__icon">
+                    </button>
+                </div>
+            </div>
+
+            <div class="columns-container">
+
+                <aside class="sidebar">
+                    <button class="sidebar__btn sidebar__btn--notice">공지사항</button>
+                    
+                    <div class="sidebar__dropdown-container">
+                        <button class="sidebar__dropdown-trigger">구독 게시판</button>
+                        <ul class="sidebar__menu-list">
+                            <li class="sidebar__menu-item sidebar__menu-item--active"><a href="#">통학 게시판</a></li>
+                            <li class="sidebar__menu-item"><a href="#">분실물 게시판</a></li>
+                            <li class="sidebar__menu-item"><a href="#">컴퓨터공학과 게시판</a></li>
+                            <li class="sidebar__menu-item"><a href="#">학식 게시판</a></li>
+                            <li class="sidebar__menu-item"><a href="#">고양이 게시판</a></li>
+                        </ul>
+                    </div>
+
+                    <button class="sidebar__btn sidebar__btn--login-info">로그인 및 로그인안내</button>
+
+                    <section class="sidebar__widget widget-popular">
+                        <h3 class="widget-popular__title">
+                            <img src="public/🔥.png" alt="인기" class="widget-title-icon"> 인기 게시글
+                        </h3>
+                        <ul class="widget-popular__list">
+                            <li><a href="#">외대 주변 맛집 추천... <span class="comment-count">[1]</span></a></li>
+                            <li><a href="#">1교시 등교 팁 (하게... <span class="comment-count">[3]</span></a></li>
+                            <li><a href="#">오픈소스공학 조평 관련... <span class="comment-count">[18]</span></a></li>
+                            <li><a href="#">기숙사 입사 꿀팁 [1]</a></li>
+                            <li><a href="#">시험공부 장소 추천...</a></li>
+                            <li><a href="#">시험 참고집 양도... <span class="comment-count">[2]</span></a></li>
+                            <li><a href="#">교통카드 충전기... <span class="comment-count">[1]</span></a></li>
+                        </ul>
+                    </section>
+
+                    <section class="sidebar__widget widget-board-preview">
+                        <h3 class="widget-board-preview__title">통학 게시판</h3>
+                        <ul class="widget-board-preview__list">
+                            <li><a href="#">강남역 가는 버스... <span class="comment-count">[1]</span></a></li>
+                            <li><a href="#">수원 캠퍼스 셔틀...</a></li>
+                            <li><a href="#">통학 시외권 정보... <span class="comment-count">[5]</span></a></li>
+                            <li><a href="#">통학 시간 단축...</a></li>
+                            <li><a href="#">막차 시간 변경... <span class="comment-count">[12]</span></a></li>
+                            <li><a href="#">카풀 하실 분 구합... <span class="comment-count">[1]</span></a></li>
+                        </ul>
+                    </section>
+                </aside>
+
+                <main class="content-area">
+                    
+                    <article class="post-card">
+                        <header class="post-card__header">
+                            <div class="post-card__title-row">
+                                <h3 class="post-card__title">1150 버스 노선도</h3>
+                                <div class="post-card__stats">
+                                    <span>추천 13</span> | <span>댓글 2</span> | <span>조회수 728</span>
+                                </div>
+                            </div>
+                            <div class="post-card__meta">
+                                <span class="post-card__author">통학러123</span>
+                                <span class="post-card__date">2026.04.28 01:47</span>
+                            </div>
+                        </header>
+
+                        <div class="post-card__content">
+                            <p class="post-card__text">최신본 입니다.</p>
+                            
+                            <div class="post-image-container">
+                                <img src="public/bus.png" alt="1150 버스 노선도 시간표" class="post-main-image">
+                            </div>
+                        </div>
+
+                        <div class="post-card__actions">
+                            <div class="action-item">
+                                <button class="btn-vote btn-vote--like">
+                                    <img src="public/good.png" alt="추천">
+                                </button>
+                                <span class="vote-count">13</span>
+                            </div>
+                            <div class="action-item">
+                                <button class="btn-vote btn-vote--dislike">
+                                    <img src="public/bad.png" alt="비추천">
+                                </button>
+                                <span class="vote-count">0</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <section class="comment-section">
+                        <h4 class="comment-section__title">댓글 2개</h4>
+                        
+                        <div class="comment-section__list">
+                            <div class="comment-box">
+                                <div class="comment-box__header">
+                                    <div class="comment-box__user-info">
+                                        <span class="comment-box__author">통학하는사람</span>
+                                        <span class="comment-box__date">04.28 01:38</span>
+                                        <span class="comment-box__like-indicator">
+                                            <img src="public/good.png" alt="추천수" class="comment-mini-icon"> 13
+                                        </span>
+                                    </div>
+                                    <div class="comment-box__actions">
+                                        <button class="comment-box__btn-reply">대댓글</button>
+                                        <button class="comment-capsule-btn">
+                                            <img src="public/good.png" alt="좋아요" class="comment-capsule-btn__icon">
+                                            <span class="comment-capsule-btn__text">좋아요</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="comment-box__text">판교역 가나요?</p>
+                            </div>
+
+                            <div class="comment-box comment-box--reply">
+                                <div class="comment-box__header">
+                                    <div class="comment-box__user-info">
+                                        <span class="comment-box__badge">글쓴이</span>
+                                        <span class="comment-box__author">통학러123</span>
+                                        <span class="comment-box__date">04.28 01:42</span>
+                                        <span class="comment-box__like-indicator">
+                                            <img src="public/good.png" alt="추천수" class="comment-mini-icon"> 13
+                                        </span>
+                                    </div>
+                                    <div class="comment-box__actions">
+                                        <button class="comment-capsule-btn">
+                                            <img src="public/good.png" alt="좋아요" class="comment-capsule-btn__icon">
+                                            <span class="comment-capsule-btn__text">좋아요</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="comment-box__text">네. 갑니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="comment-form">
+                            <div class="comment-form__user-info">
+                                댓글 작성 &nbsp;<strong>통학러123123</strong>
+                            </div>
+                            <div class="comment-form__input-wrapper">
+                                <textarea placeholder="댓글을 입력해주세요." class="comment-form__textarea"></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                </main>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer__inner">
+                <img src="public/under Logo.png" alt="LOOPS 하단 로고" class="footer__logo">
+                <p class="footer__copyright">© 2026 OOPS. All right reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
