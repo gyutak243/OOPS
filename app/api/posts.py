@@ -4,6 +4,7 @@ from app.api.deps import get_db, get_current_user
 from app.models.models import User
 from app.schemas.schemas import PostCreate, PostResponse
 from app.services import post_service
+from typing import Optional
 
 router = APIRouter(prefix="/posts", tags=["게시글"])
 
@@ -19,8 +20,8 @@ def get_popular_posts(db: Session = Depends(get_db)):
 
 
 @router.get("", response_model=list[PostResponse])
-def get_posts(db: Session = Depends(get_db)):
-    return post_service.get_posts(db)
+def get_posts(category: Optional[str] = None, db: Session = Depends(get_db)):
+    return post_service.get_posts(db, category)
 
 
 @router.get("/{post_id}", response_model=PostResponse)

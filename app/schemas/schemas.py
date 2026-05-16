@@ -42,6 +42,7 @@ class UserLogin(BaseModel):
 class PostCreate(BaseModel):
     title: str
     content: str
+    category: str = "free"
 
 class PostResponse(BaseModel):
     id: int
@@ -51,6 +52,7 @@ class PostResponse(BaseModel):
     author_id: int
     like_count: int = 0
     comment_count: int = 0
+    category: str = "free"
 
     class Config:
         from_attributes = True

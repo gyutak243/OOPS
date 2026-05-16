@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.models.models import Post, Like
 from app.schemas.schemas import PostCreate, PostResponse
+from typing import Optional
 
 
 def make_post_response(post: Post) -> PostResponse:
@@ -16,9 +17,11 @@ def make_post_response(post: Post) -> PostResponse:
     )
 
 
-def get_posts(db: Session) -> list[PostResponse]:
-    posts = db.query(Post).order_by(Post.created_at.desc()).all()
-    return [make_post_response(post) for post in posts]
+def get_posts(db: Session, category: Optional[str] = None) -> list[PostResponse]:
+    query = db.query(Post).order_by(Post.created_at.desc())
+    if category:
+        query = query.filter(Post.category == category)
+    return [make_post_response(post) for post in query.all()]
 
 
 def get_popular_posts(db: Session) -> list[PostResponse]:

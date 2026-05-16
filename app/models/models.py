@@ -26,6 +26,7 @@ class Post(Base):
     content = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
     author_id = Column(Integer, ForeignKey("users.id"))
+    category = Column(String, default="free")
 
     author = relationship("User", back_populates="posts")
     likes = relationship("Like", back_populates="post", cascade="all, delete-orphan")
