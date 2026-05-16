@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOOPS - 게시판 검색</title>
+    <link rel="stylesheet" href="board_Search.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <header class="header">
+            <div class="header__inner">
+                <h1 class="header__logo">
+                    <a href="#"><img src="public/main Logo.png" alt="LOOPS 로고"></a>
+                </h1>
+                
+                <div class="header__search-bar">
+                    <input type="text" placeholder="검색어를 입력해주세요." value="통학">
+                </div>
+
+                <nav class="header__nav">
+                    <a href="#" class="header__link active">게시판</a>
+                    <a href="#" class="header__link">학교 홈페이지</a>
+                    <div class="header__auth-wrapper">
+                        <button class="header__btn-login">
+                            <img src="public/man.png" alt="프로필 아이콘" class="header__user-icon header__user-icon--bright">
+                            로그인 / 회원가입
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            
+            <div class="board-header-row">
+                <div class="board-header-row__left">
+                    <h2 class="board-main-title">검색 결과</h2>
+                    <p class="search-summary">'<span class="search-keyword">통학</span>'에 대한 검색 결과가 총 <span class="search-count">5</span>건 있습니다.</p>
+                </div>
+            </div>
+
+            <div class="board-content-wrapper">
+                
+                <aside class="sidebar">
+                    <section class="sidebar-section">
+                        <h3 class="sidebar-title">인기 실시간 게시글</h3>
+                        <ul class="sidebar-list">
+                            <li><a href="#">오늘 셔틀 버스 연착 정보... <span class="reply-badge">[1]</span></a></li>
+                            <li><a href="#">수원 캠퍼스 셔틀...</a></li>
+                            <li><a href="#">통학 시외권 정보... <span class="reply-badge">[5]</span></a></li>
+                            <li><a href="#">통학 시간 단축...</a></li>
+                            <li><a href="#">막차 시간 변경... <span class="reply-badge">[12]</span></a></li>
+                            <li><a href="#">카풀 하실 분 구합... <span class="reply-badge">[1]</span></a></li>
+                        </ul>
+                    </section>
+                </aside>
+
+                <main class="content-area">
+                    <div class="board-table-wrapper">
+                        <table class="board-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">번호</th>
+                                    <th>제목</th>
+                                    <th style="width: 120px;">작성자</th>
+                                    <th style="width: 120px;">작성일</th>
+                                    <th style="width: 80px;">조회수</th>
+                                    <th style="width: 80px;">추천</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0024</td>
+                                    <td class="td-title">
+                                        <a href="#">오늘 <span class="highlight">통학</span> 버스 연착 정보 공유합니다.</a>
+                                        <span class="reply-badge">[1]</span>
+                                    </td>
+                                    <td>통학러1번</td>
+                                    <td>2026.05.15</td>
+                                    <td>42</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>0021</td>
+                                    <td class="td-title">
+                                        <a href="#">지방에서 <span class="highlight">통학</span>하시는 분들 시외권 정보 있나요?</a>
+                                        <span class="reply-badge">[5]</span>
+                                    </td>
+                                    <td>시외버스유저</td>
+                                    <td>2026.05.12</td>
+                                    <td>118</td>
+                                    <td>12</td>
+                                </tr>
+                                <tr>
+                                    <td>0019</td>
+                                    <td class="td-title">
+                                        <a href="#">저만의 <span class="highlight">통학</span> 시간 단축 꿀팁 방출합니다.</a>
+                                        <span class="reply-badge">[8]</span>
+                                    </td>
+                                    <td>프로통학러</td>
+                                    <td>2026.05.10</td>
+                                    <td>245</td>
+                                    <td>19</td>
+                                </tr>
+                                <tr>
+                                    <td>0015</td>
+                                    <td class="td-title">
+                                        <a href="#">강남역에서 학교까지 <span class="highlight">통학</span> 카풀 하실 분 구합니다!</a>
+                                        <span class="reply-badge">[1]</span>
+                                    </td>
+                                    <td>카풀맨</td>
+                                    <td>2026.05.02</td>
+                                    <td>89</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>0001</td>
+                                    <td class="td-title">
+                                        <a href="#">[필독] <span class="highlight">통학</span> 게시판 이용 수칙 및 안내</a>
+                                    </td>
+                                    <td>관리자</td>
+                                    <td>2026.04.25</td>
+                                    <td>2,450</td>
+                                    <td>128</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pagination-box">
+                            <button class="p-arrow">이전</button>
+                            <div class="p-numbers">
+                                <button class="p-num active">1</button>
+                                <button class="p-num">2</button>
+                                <button class="p-num">3</button>
+                            </div>
+                            <button class="p-arrow">다음</button>
+                        </div>
+                    </div>
+                </main>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer__inner">
+                <img src="public/under Logo.png" alt="LOOPS 하단 로고" class="footer__logo">
+                <p class="footer__copyright">© 2026 OOPS. All right reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

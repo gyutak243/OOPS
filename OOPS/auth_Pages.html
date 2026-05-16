@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOOPS - 인증 센터</title>
+    <link rel="stylesheet" href="auth_Pages.css">
+    <style>
+        /* 화면 전환을 위한 토글 스타일 */
+        .auth-view { display: none; }
+        .auth-view.active { display: flex; }
+        
+        /* 유효성 검증용 에러 메시지 스타일 */
+        .error-text {
+            font-size: 12px;
+            color: #e03131; /* 부드럽고 가독성 좋은 경고용 레드 */
+            font-weight: 500;
+            margin-top: 6px;
+            padding-left: 2px;
+            animation: fadeInError 0.2s ease-in-out;
+        }
+
+        @keyframes fadeInError {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <header class="header">
+            <div class="header__inner">
+                <h1 class="header__logo">
+                    <a href="#"><img src="public/main Logo.png" alt="LOOPS 로고"></a>
+                </h1>
+                <div class="header__search-bar">
+                    <input type="text" placeholder="검색어를 입력해주세요." disabled>
+                </div>
+                <nav class="header__nav">
+                    <a href="#" class="header__link">게시판</a>
+                    <a href="#" class="header__link">학교 홈페이지</a>
+                    <div class="header__auth-wrapper">
+                        <button type="button" class="header__btn-login" onclick="switchView('view-login')">
+                            <img src="public/man.png" alt="프로필 아이콘" class="header__user-icon header__user-icon--bright">
+                            로그인
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="main-layout main-layout--center">
+
+            <main id="view-login" class="content-area max-width-wrapper auth-view active">
+                <div class="auth-card">
+                    <div class="auth-card__header">
+                        <h2 class="auth-title">로그인</h2>
+                        <p class="auth-subtitle">LOOPS 계정으로 로그인해 주세요.</p>
+                    </div>
+
+                    <form class="auth-form" onsubmit="return false;">
+                        <div class="input-field-group">
+                            <label class="input-label">아이디</label>
+                            <input type="text" class="form-input" placeholder="아이디를 입력하세요." required>
+                        </div>
+
+                        <div class="input-field-group">
+                            <label class="input-label">비밀번호</label>
+                            <input type="password" class="form-input" placeholder="비밀번호를 입력하세요." required>
+                        </div>
+
+                        <button type="submit" class="btn-auth-primary">로그인</button>
+                    </form>
+
+                    <div class="auth-links-row">
+                        <a href="#" class="auth-link-item" onclick="switchView('view-register')">회원 가입</a>
+                        <span class="auth-link-divider">|</span>
+                        <a href="#" class="auth-link-item" onclick="switchView('view-reset-pw')">비밀번호 찾기</a>
+                    </div>
+                </div>
+            </main>
+
+
+            <main id="view-register" class="content-area max-width-wrapper auth-view">
+                <div class="auth-card">
+                    <div class="auth-card__header">
+                        <h2 class="auth-title">회원 가입</h2>
+                        <p class="auth-subtitle">정보를 입력하고 회원가입을 완료하세요.</p>
+                    </div>
+
+                    <form class="auth-form" onsubmit="handleRegister(event)">
+                        <div class="input-field-group">
+                            <label class="input-label">아이디</label>
+                            <input type="text" class="form-input" placeholder="사용할 아이디를 입력하세요." required>
+                        </div>
+
+                        <div class="input-field-group">
+                            <label class="input-label">비밀번호</label>
+                            <input type="password" id="reg-password" class="form-input" placeholder="비밀번호를 입력하세요." required>
+                        </div>
+
+                        <div class="input-field-group">
+                            <label class="input-label">비밀번호 확인</label>
+                            <input type="password" id="reg-password-confirm" class="form-input" placeholder="비밀번호를 한 번 더 입력하세요." required>
+                            <p id="reg-error-msg" class="error-text"></p>
+                        </div>
+
+                        <button type="submit" class="btn-auth-primary">회원 가입 완료</button>
+                    </form>
+
+                    <div class="auth-links-row">
+                        <p class="auth-info-text">이미 계정이 있으신가요?</p>
+                        <a href="#" class="auth-link-item auth-link-item--accent" onclick="switchView('view-login')">로그인하러 가기</a>
+                    </div>
+                </div>
+            </main>
+
+
+            <main id="view-reset-pw" class="content-area max-width-wrapper auth-view">
+                <div class="auth-card">
+                    <div class="auth-card__header">
+                        <h2 class="auth-title">비밀번호 변경</h2>
+                        <p class="auth-subtitle">비밀번호를 재설정할 아이디와 새 비밀번호를 입력해 주세요.</p>
+                    </div>
+
+                    <form class="auth-form" onsubmit="handleResetPassword(event)">
+                        <div class="input-field-group">
+                            <label class="input-label">아이디</label>
+                            <input type="text" class="form-input" placeholder="아이디를 입력하세요." required>
+                        </div>
+
+                        <div class="input-field-group">
+                            <label class="input-label">새 비밀번호 입력</label>
+                            <input type="password" id="reset-password" class="form-input" placeholder="새 비밀번호를 입력하세요." required>
+                        </div>
+
+                        <div class="input-field-group">
+                            <label class="input-label">새 비밀번호 확인</label>
+                            <input type="password" id="reset-password-confirm" class="form-input" placeholder="새 비밀번호를 다시 입력하세요." required>
+                            <p id="reset-error-msg" class="error-text"></p>
+                        </div>
+
+                        <button type="submit" class="btn-auth-primary">비밀번호 변경 완료</button>
+                    </form>
+
+                    <div class="auth-links-row">
+                        <a href="#" class="auth-link-item" onclick="switchView('view-login')">이전 로그인 화면으로</a>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+
+        <footer class="footer">
+            <div class="footer__inner">
+                <img src="public/under Logo.png" alt="LOOPS 하단 로고" class="footer__logo">
+                <p class="footer__copyright">© 2026 OOPS. All right reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // 1. 화면 전환 함수
+        function switchView(viewId) {
+            const views = document.querySelectorAll('.auth-view');
+            views.forEach(v => v.classList.remove('active'));
+            
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+            
+            // 화면 전환 시 기존 에러 메시지 초기화
+            document.getElementById('reg-error-msg').innerText = '';
+            document.getElementById('reset-error-msg').innerText = '';
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // 2. 회원가입 비밀번호 일치 검증
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('reg-password-confirm').value;
+            const errorMsg = document.getElementById('reg-error-msg');
+            
+            if (password !== confirm) {
+                errorMsg.innerText = "⚠️ 비밀번호가 일치하지 않습니다. 다시 확인해 주세요.";
+                document.getElementById('reg-password-confirm').focus();
+                return false;
+            }
+            
+            errorMsg.innerText = "";
+            alert('회원가입이 완료되었습니다!');
+            switchView('view-login');
+        }
+
+        // 3. 비밀번호 변경 일치 검증
+        function handleResetPassword(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('reset-password').value;
+            const confirm = document.getElementById('reset-password-confirm').value;
+            const errorMsg = document.getElementById('reset-error-msg');
+            
+            if (password !== confirm) {
+                errorMsg.innerText = "⚠️ 새 비밀번호가 일치하지 않습니다. 다시 확인해 주세요.";
+                document.getElementById('reset-password-confirm').focus();
+                return false;
+            }
+            
+            errorMsg.innerText = "";
+            alert('비밀번호가 성공적으로 변경되었습니다!');
+            switchView('view-login');
+        }
+    </script>
+
+</body>
+</html>
