@@ -40,11 +40,12 @@ def get_post(db: Session, post_id: int) -> PostResponse:
     return make_post_response(post)
 
 
-def create_post(db: Session, post_data: PostCreate, author_id: int) -> PostResponse:
+def create_post(db: Session, post_data: PostCreate, author_id: int, category: str = "free") -> PostResponse:
     post = Post(
         title=post_data.title,
         content=post_data.content,
-        author_id=author_id
+        author_id=author_id,
+        category=category
     )
     db.add(post)
     db.commit()

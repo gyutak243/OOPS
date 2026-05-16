@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.api.deps import get_db, get_current_user
+from app.api.deps import get_db, get_current_user, get_admin_user
 from app.models.models import User
 from app.schemas.schemas import PostCreate, PostResponse
 from app.services import post_service
 from typing import Optional
+
 
 router = APIRouter(prefix="/posts", tags=["게시글"])
 
@@ -73,3 +74,11 @@ def unlike_post(
     current_user: User = Depends(get_current_user)
 ):
     return post_service.unlike_post(db, post_id, current_user.id)
+
+@router.post("/notice", response_model=PostResponse, status_code=201)
+def create_notice(
+    post_data: PostCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_user)
+):
+    return post_service.create_post(db, post_data, current_user.id, category="notice")
