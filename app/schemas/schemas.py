@@ -32,6 +32,10 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+    
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
 
 # ── 게시글 ─────────────────────────────────────────
