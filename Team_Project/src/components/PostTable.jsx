@@ -1,46 +1,10 @@
 import { useContext, useRef } from "react";
 import PostItem from "./PostItem";
-import { PostDataContext } from "../util/context";
-
-const mockUsers = [
-  { 
-    id: 999, 
-    username: "관리자", 
-    email: "admin@oops.com", 
-    profile_image: "" 
-},
-
-  { 
-    id: 104, 
-    username: "통학러123", 
-    email: "user1@oops.com", 
-    profile_image: "" 
-},
-
-  { 
-    id: 421, 
-    username: "돈까스빌런", 
-    email: "user2@oops.com", 
-    profile_image: "" 
-},
-
-  { 
-    id: 87, 
-    username: "새내기A", 
-    email: "user3@oops.com", 
-    profile_image: "" 
-},
-
-  { 
-    id: 512, 
-    username: "복학생오빠", 
-    email: "user4@oops.com", 
-    profile_image: "" 
-}, 
-
-];
+import { UserDataContext } from "../util/context";
 
 const PostTable = ({postData})=>{
+    const users = useContext(UserDataContext) || []; 
+
 
     return (
         <table className="board-table">
@@ -63,11 +27,11 @@ const PostTable = ({postData})=>{
                         </td>
                     </tr>
                 ) : (postData.map((post)=>{
-                    const writerInfo = mockUsers.find((user)=>{
+                    const writerInfo = users.find((user)=>{
                         return user.id === post.authorId;
                     }); 
                     //writerInfo가 있다면 userName을 사용하고 없다면 회원 탈퇴등을 고려해서 알 수 없음으로 해줌. 
-                    const authorName = writerInfo ? writerInfo.username : "알 수 없음"; 
+                    const authorName = writerInfo ? writerInfo.userName : "알 수 없음"; 
                     return <PostItem key={post.postId} {...post} authorName={authorName}/>
                 }))}
             </tbody>
