@@ -13,7 +13,9 @@ def make_post_response(post: Post) -> PostResponse:
         created_at=post.created_at,
         author_id=post.author_id,
         like_count=len(post.likes),
-        comment_count=len(post.comments)
+        comment_count=len(post.comments),
+        category=post.category,
+        view_count=post.view_count
     )
 
 
@@ -37,7 +39,10 @@ def get_post(db: Session, post_id: int) -> PostResponse:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="게시글이 없습니다"
         )
-    return make_post_response(post)
+    post.view_count += 1
+    db.commit()
+    db.refresh(post)
+    return make_post_response(post) 
 
 
 def create_post(db: Session, post_data: PostCreate, author_id: int, category: str = "free") -> PostResponse:
