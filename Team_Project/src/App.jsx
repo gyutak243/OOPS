@@ -8,6 +8,8 @@ import Bottom from './components/Bottom';
 import HotPostWidget from './components/HotPostWidget'; 
 import PostWrite from './components/PostWrite';
 import PostDetail from './components/PostDetail';
+import FreePostWidget from './components/FreePostWidget';
+import NoticePostWidget from './components/NoticePostWidget';
 
 
 const mockPosts = [
@@ -631,8 +633,10 @@ function App() {
                 <div className='app-container'>
                   <Header />
                   <Routes>
-                    <Route path='/' element={<Main />} />
-                    <Route path='/popular' element={<HotPostWidget />} />
+                    <Route path='/' element={<Main></Main>} />
+                    <Route path='/popular' element={<HotPostWidget></HotPostWidget>} />
+                    <Route path='/free' element={<FreePostWidget></FreePostWidget>}></Route>
+                    <Route path='/notice' element={<NoticePostWidget></NoticePostWidget>}></Route>
                     <Route path='/write' element={<PostWrite></PostWrite>}></Route>
                     <Route path='/detail/:postId' element={<PostDetail></PostDetail>}></Route>
                   </Routes>
