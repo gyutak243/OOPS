@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CommentDataContext } from "../util/context";
+import { formattedId } from "../util/formattedId";
 
 
-const formattedId = (id)=>{
-    return String(id).padStart(4, "0"); 
-}
+
 
 const PostItem = ({authorName, ...props})=>{
     const date = new Date(props.createdAt).toLocaleDateString();

@@ -11,6 +11,7 @@ import PostDetail from './components/PostDetail';
 import FreePostWidget from './components/FreePostWidget';
 import NoticePostWidget from './components/NoticePostWidget';
 import AuthCenter from './components/AuthCenter';
+import SearchPage from './components/SearchPage';
 
 
 
@@ -617,6 +618,23 @@ function App() {
     })
   }
 
+  //Searching을 위한 함수이다. 현재 백앤드 서버가 없어서 프론트에서 작동하도록 만들었지만 백앤드 서버를 붙이고 나서는 비동기로 데이터를 불러오게 만들어 줄 것이다. 
+  const onSearch = (searchValue)=>{
+    const query = searchValue.toLowerCase(); 
+
+    return posts.filter((post)=>{
+      const isTitleMatch = post.title.toLowerCase().includes(query);
+      
+      //유저 데이터를 뒤져서 유저이름을 가져옴 
+      const targetUser = users.find((user)=> user.id === post.authorId); 
+      const authorName = targetUser ? targetUser.userName.toLowerCase() : ""; 
+      const isAuthorMatch = authorName.includes(query); 
+      
+      //제목이나 글쓴이 중 하나라도 매칭되면 필터를 통과하게 설계했다. 
+      return isTitleMatch || isAuthorMatch; 
+    })
+  }
+
   return (
     <UserDataContext.Provider value={users}>
       <UserDispatchContext.Provider value={{onCreateUserInfo, onDeleteUserInfo, onUpdateUserInfo}}>
@@ -625,7 +643,7 @@ function App() {
             <CommentDataContext.Provider value={comments}>
               <CommentDispatchContext.Provider value={{onCreateComment, onDeleteComment, onUpdateComment}}>
                 <div className='app-container'>
-                  <Header />
+                  <Header onSearch={onSearch}/>
                   <Routes>
                     <Route path='/' element={<Main></Main>} />
                     <Route path='/popular' element={<HotPostWidget></HotPostWidget>} />
@@ -634,6 +652,8 @@ function App() {
                     <Route path='/write' element={<PostWrite></PostWrite>}></Route>
                     <Route path='/detail/:postId' element={<PostDetail></PostDetail>}></Route>
                     <Route path='/auth' element={<AuthCenter></AuthCenter>}></Route>
+                    {/* 쿼리를 이용해서 검색결과를 url로 표현해주겠다. */}
+                    <Route path='/search/:searchId' element={<SearchPage></SearchPage>}></Route>
                   </Routes>
                   <Bottom />
                 </div>

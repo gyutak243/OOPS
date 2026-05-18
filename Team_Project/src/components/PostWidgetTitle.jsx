@@ -10,7 +10,7 @@ const PostWidgetTitle = ({type})=>{
     return (
         <>
             {titleList.map((item)=>{
-                return <PostWidgetItem title={item.title}></PostWidgetItem>
+                return <PostWidgetItem key={item.postId} title={item.title}></PostWidgetItem>
             })}
         </>
         

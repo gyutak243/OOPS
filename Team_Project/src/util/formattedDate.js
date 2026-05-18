@@ -1,4 +1,4 @@
-export const filteredDate = (dateObj)=>{
+export const formattedDate = (dateObj)=>{
     const postDate = new Date(dateObj); 
     const date = postDate.toLocaleDateString(); 
     const time = postDate.toLocaleTimeString('ko-KR', {
