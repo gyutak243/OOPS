@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import "./Login.css"; 
+import { CommentDataContext, CommentDispatchContext } from "../util/context";
 
 const Login = ({ setView }) => {
+
     const handleLoginSubmit = (e) => {
         e.preventDefault();
+
         console.log("로그인 시도");
     };
 
@@ -33,7 +37,7 @@ const Login = ({ setView }) => {
                 </span>
                 <span className="auth-link-divider">|</span>
                 <span className="auth-link-item" onClick={() => setView("revise-pw")} style={{ cursor: "pointer" }}>
-                    비밀번호 찾기
+                    비밀번호 변경하기
                 </span>
             </div>
         </div>
