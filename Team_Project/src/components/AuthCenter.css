@@ -17,7 +17,7 @@ html, body {
     flex-direction: column;
     align-items: center;            /* 가로축 정중앙 정렬 */
     justify-content: center;         /* 세로축 정중앙 정렬 */
-    padding: 40px 20px;              /* 상하 여백을 주어 푸터/헤더와의 간격 확보 */
+    padding: 60px 20px;              /* 상하 여백을 주어 푸터/헤더와의 간격 확보 */
     box-sizing: border-box;
     animation: authCardFadeIn 0.54s ease-in; 
 }
@@ -41,7 +41,7 @@ button {
     padding: 50px 45px;        /* 내부 컴포넌트들의 정돈된 여백 */
     min-width: 600px;
     height: 600px;
-    min-height: 600px;  
+    min-height: 680px;  
     display: flex;
     flex-direction: column;
     gap: 32px;                 /* 타이틀, 폼, 하단 링크 사이의 여유로운 간격 */

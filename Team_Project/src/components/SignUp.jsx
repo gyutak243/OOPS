@@ -1,24 +1,87 @@
-import { useState } from "react";
+import { useContext, useState, useRef } from "react";
 import "./SignUp.css"; 
+import { UserDataContext, UserDispatchContext } from "../util/context";
 
 const SignUp = ({ setView }) => {
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");
+    const users = useContext(UserDataContext); 
+    const {onCreateUserInfo} = useContext(UserDispatchContext);
+    const idRef = useRef(); 
+    const pwdRef = useRef();  
+    const confirmPwdRef = useRef(); 
+    const emailRef = useRef();
+    const [newUser, setNewUser] = useState({
+        userName: "", 
+        passWord: "", 
+        email: "",
+    }); 
+    const [confirmPassword, setConfirmPassword] = useState(""); 
+    const [errorMsg, setErrorMsg] = useState(""); 
 
-    const handleRegister = (e) => {
-        e.preventDefault();
+    //state를 여러개 관리해주는 방식 대신 객체로 state를 관리해주는 방식을 선택했다. 
+    const onChangeUser = (e)=>{
+        const {name, value} = e.target;
+        setNewUser({
+            ...newUser, 
+            [name] : value, 
+        }); 
+    }
+    
 
-        // 💡 비밀번호 검증 로직
-        if (password !== confirmPassword) {
-            setErrorMsg("⚠️ 비밀번호가 일치하지 않습니다. 다시 확인해 주세요.");
-            return;
+    const handleRegister = (e)=>{
+        e.preventDefault(); 
+        
+        //폼이 작성되지 않으면 포커싱을 해준다. 
+        if(newUser.userName.trim()===""){
+            idRef.current.focus(); 
+            return; 
         }
 
-        setErrorMsg("");
-        alert('회원가입이 완료되었습니다!');
-        setView("login"); // 성공 시 로그인 화면으로 전환
-    };
+        else if(newUser.passWord.trim()===""){
+            pwdRef.current.focus(); 
+            return; 
+        }
+
+        else if(confirmPassword.trim()===""){
+            confirmPwdRef.current.focus();
+            return; 
+        }
+
+        //겹치는 아이디가 있으면 종료 
+        const isDuplicated = users.find((user)=> user.userName === newUser.userName); 
+
+        if(isDuplicated){
+            window.alert("겹치는 아이디가 존재합니다"); 
+            setNewUser({
+                ...newUser, 
+                userName: ""
+            })
+            idRef.current.focus(); 
+            return; 
+        }
+
+        //폼에 작성된 값들을 확인한다. 
+        if(newUser.passWord === confirmPassword){
+            const userInfo = {
+                ...newUser
+            }
+            onCreateUserInfo(userInfo); 
+            setNewUser({
+                userName: "", 
+                passWord: "", 
+                email: "", 
+            }); 
+            //가입 완료후에 로그인 페이지로 가게 해줬다. 
+            setView("login"); 
+            console.log(users); 
+        }
+
+        else{
+            setErrorMsg("비밀번호가 일치하는지 확인하세요!"); 
+            return; 
+        }
+
+
+    }
 
     return (
         <div className="auth-card">
@@ -30,17 +93,41 @@ const SignUp = ({ setView }) => {
             <form className="auth-form" onSubmit={handleRegister}>
                 <div className="input-field-group">
                     <label className="input-label">아이디</label>
-                    <input type="text" className="form-input" placeholder="사용할 아이디를 입력하세요." required />
+                    <input
+                        name="userName" 
+                        type="text" 
+                        className="form-input" 
+                        placeholder="사용할 아이디를 입력하세요." 
+                        ref={idRef}
+                        value={newUser.userName}
+                        onChange={onChangeUser}
+                        required />
+                </div>
+
+                <div className="input-field-group">
+                    <label className="input-label">이메일</label>
+                    <input 
+                        name="email"
+                        type="email" /* 💡 브라우저 자체 이메일 형식 검증을 위해 type="email" 사용 */
+                        className="form-input" 
+                        placeholder="이메일 주소를 입력하세요." 
+                        ref={emailRef}
+                        value={newUser.email}
+                        onChange={onChangeUser}
+                        required 
+                    />
                 </div>
 
                 <div className="input-field-group">
                     <label className="input-label">비밀번호</label>
                     <input 
+                        name="passWord"
                         type="password" 
                         className="form-input" 
                         placeholder="비밀번호를 입력하세요." 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={newUser.passWord}
+                        onChange={onChangeUser}
+                        ref={pwdRef}
                         required 
                     />
                 </div>
@@ -53,10 +140,11 @@ const SignUp = ({ setView }) => {
                         placeholder="비밀번호를 한 번 더 입력하세요." 
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
+                        ref={confirmPwdRef}
                         required 
                     />
                     {/* 💡 errorMsg 상태가 있을 때만 에러 텍스트 태그가 출력되도록 리액트 조건부 렌더링 적용 */}
-                    {errorMsg && <p className="error-text">{errorMsg}</p>}
+                    {errorMsg ? <p className="error-text">{errorMsg}</p> : ""}
                 </div>
 
                 <button type="submit" className="btn-auth-primary">회원 가입 완료</button>
