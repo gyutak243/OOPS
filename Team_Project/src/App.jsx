@@ -10,6 +10,7 @@ import PostWrite from './components/PostWrite';
 import PostDetail from './components/PostDetail';
 import FreePostWidget from './components/FreePostWidget';
 import NoticePostWidget from './components/NoticePostWidget';
+import AuthCenter from './components/AuthCenter';
 
 
 const mockPosts = [
@@ -639,6 +640,7 @@ function App() {
                     <Route path='/notice' element={<NoticePostWidget></NoticePostWidget>}></Route>
                     <Route path='/write' element={<PostWrite></PostWrite>}></Route>
                     <Route path='/detail/:postId' element={<PostDetail></PostDetail>}></Route>
+                    <Route path='/auth' element={<AuthCenter></AuthCenter>}></Route>
                   </Routes>
                   <Bottom />
                 </div>

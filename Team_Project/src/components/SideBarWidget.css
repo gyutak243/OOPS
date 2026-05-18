@@ -68,6 +68,10 @@
     padding: 15px;
 }
 
+.sidebar-widget__link{
+    cursor: pointer; 
+}
+
 /* 인기게시글, 게시판 프리뷰 타이틀 통합 공통 스타일 */
 .widget-popular__title, 
 .widget-board-preview__title {

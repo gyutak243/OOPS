@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = ()=>{
     const nav = useNavigate(); 
+    //학교 홈페이지로 갈 수 있게 해줬다. 
     const handleMove = ()=>{
         window.open("https://www.hufs.ac.kr/hufs/index.do", "_blank"); 
     }
@@ -26,10 +27,10 @@ const Header = ()=>{
                 </div>
 
                 <nav className="header__nav">
-                    <div className="header__link" onClick={()=>nav("/")}>게시판</div>
+                    <div className="header__link" onClick={()=>nav("/")}>홈 게시판</div>
                     <div className="header__link" onClick={handleMove}>학교 홈페이지</div>
                     <div className="header__auth-wrapper">
-                        <button className="header__btn-login">
+                        <button className="header__btn-login" onClick={()=>nav("/auth")}>
                             <img src={man} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright"></img>
                             로그인 / 회원가입
                         </button>
