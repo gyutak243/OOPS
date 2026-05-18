@@ -17,6 +17,7 @@ class User(Base):
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
     likes = relationship("Like", back_populates="user", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
+    comment_likes = relationship("CommentLike", back_populates="user", cascade="all, delete-orphan")
 
 
 class Post(Base):
@@ -54,6 +55,20 @@ class Comment(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     author_id = Column(Integer, ForeignKey("users.id"))
     post_id = Column(Integer, ForeignKey("posts.id"))
+    parent_id = Column(Integer, ForeignKey("comments.id"), nullable=True)
 
     author = relationship("User", back_populates="comments")
     post = relationship("Post", back_populates="comments")
+    replies = relationship("Comment", back_populates="parent") 
+    parent = relationship("Comment", back_populates="replies", remote_side="Comment.id")
+    likes = relationship("CommentLike", back_populates="comment", cascade="all, delete-orphan")
+    
+class CommentLike(Base):
+    __tablename__ = "comment_likes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    comment_id = Column(Integer, ForeignKey("comments.id"))
+
+    user = relationship("User", back_populates="comment_likes")
+    comment = relationship("Comment", back_populates="likes")
