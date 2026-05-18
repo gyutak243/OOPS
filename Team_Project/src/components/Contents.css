@@ -1,6 +1,6 @@
 .contents{
     display: flex; 
-    align-items: center;
+    align-items: flex-start;
     gap: 30px; 
     width: 100%; 
     animation: fadeInUp 0.6s ease-in-out forwards; 

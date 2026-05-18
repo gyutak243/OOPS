@@ -50,20 +50,18 @@ const PostList = ({type})=>{
     }, [displayPosts, currentPage]);
 
 
-    // 탭을 클릭해 정렬을 바꿀 때, 정렬 상태 변경과 동시에 1페이지 리셋을 함께 처리하도록 했다. 
+
+    // 탭을 클릭해 정렬을 바꿀 때
     const onSortDataByDate = ()=>{
         setActive("latest"); 
-        setCurrentPage(1); 
     }
 
     const onSortDataByLike = ()=>{
         setActive("like"); 
-        setCurrentPage(1); 
     }
 
     const onSortDataByView = ()=>{
         setActive("view"); 
-        setCurrentPage(1); 
     }
 
     return (

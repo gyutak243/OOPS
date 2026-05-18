@@ -19,20 +19,15 @@ const Header = ()=>{
                 </h1>
                 
                 <div className="header__search-bar">
-                    <div className="header__search-bar">
-                        <div className="header__search-bar-inner">
-                            <input type="text" placeholder="검색어를 입력해주세요."/>
-
-                            <button type="button" className="header__search-btn">
-                                <img src={search} alt="검색" className="header__search-icon"/>
-                            </button>
-                        </div>
-                    </div>
+                    <input type="text" placeholder="검색어를 입력해주세요."/>
+                    <button type="button" className="header__search-btn">
+                        <img src={search} alt="검색" className="header__search-icon"/>
+                    </button>
                 </div>
 
                 <nav className="header__nav">
-                    <a href="#" className="header__link">게시판</a>
-                    <a href="#" className="header__link" onClick={handleMove}>학교 홈페이지</a>
+                    <div className="header__link" onClick={()=>nav("/")}>게시판</div>
+                    <div className="header__link" onClick={handleMove}>학교 홈페이지</div>
                     <div className="header__auth-wrapper">
                         <button className="header__btn-login">
                             <img src={man} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright"></img>

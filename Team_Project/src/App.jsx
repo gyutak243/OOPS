@@ -1,12 +1,16 @@
 import './App.css'; 
 import { useState, useReducer, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { PostDataContext, PostDispatchContext } from './util/context';
+import { CommentDataContext, CommentDispatchContext, PostDataContext, PostDispatchContext, UserDataContext, UserDispatchContext } from './util/context';
 import Main from './components/Main';
 import Header from './components/Header';
 import Bottom from './components/Bottom';
 import HotPostWidget from './components/HotPostWidget'; 
 import PostWrite from './components/PostWrite';
+import PostDetail from './components/PostDetail';
+import FreePostWidget from './components/FreePostWidget';
+import NoticePostWidget from './components/NoticePostWidget';
+
 
 
 const mockPosts = [
@@ -342,6 +346,116 @@ const mockPosts = [
   }
 ];
 
+const mockUsers = [
+  { id: 999, userName: "admin_manager",    email: "admin@oops.ac.kr",      profile_image: "https://picsum.photos/id/1025/150/150" },
+  { id: 104, userName: "user104_tong",     email: "tong104@example.com",   profile_image: "https://picsum.photos/id/64/150/150" },
+  { id: 421, userName: "user421_matzip",   email: "matzip421@example.com", profile_image: "https://picsum.photos/id/103/150/150" },
+  { id: 87,  userName: "user87_cse",       email: "cse87@example.com",     profile_image: "https://picsum.photos/id/1062/150/150" },
+  { id: 512, userName: "user512_dev",      email: "dev512@example.com",    profile_image: "https://picsum.photos/id/338/150/150" },
+  { id: 231, userName: "user231_mohyun",   email: "mohyun231@example.com", profile_image: "https://picsum.photos/id/177/150/150" },
+  { id: 302, userName: "user302_music",    email: "music302@example.com",  profile_image: "https://picsum.photos/id/453/150/150" },
+  { id: 1,   userName: "user1_kim",        email: "kim1@example.com",      profile_image: "https://picsum.photos/id/65/150/150" },
+  { id: 2,   userName: "user2_lee",        email: "lee2@example.com",      profile_image: "https://picsum.photos/id/91/150/150" },
+  { id: 3,   userName: "user3_park",       email: "park3@example.com",     profile_image: "https://picsum.photos/id/1005/150/150" },
+  { id: 4,   userName: "user4_choi",       email: "choi4@example.com",     profile_image: "https://picsum.photos/id/342/150/150" },
+  { id: 5,   userName: "user5_jung",       email: "jung5@example.com",     profile_image: "https://picsum.photos/id/447/150/150" },
+  { id: 6,   userName: "user6_kang",       email: "kang6@example.com",     profile_image: "https://picsum.photos/id/564/150/150" },
+  { id: 7,   userName: "user7_cho",        email: "cho7@example.com",      profile_image: "https://picsum.photos/id/669/150/150" },
+  { id: 8,   userName: "user8_yoon",       email: "yoon8@example.com",     profile_image: "https://picsum.photos/id/779/150/150" },
+  { id: 9,   userName: "user9_jang",       email: "jang9@example.com",     profile_image: "https://picsum.photos/id/824/150/150" },
+  { id: 10,  userName: "user10_lim",       email: "lim10@example.com",     profile_image: "https://picsum.photos/id/837/150/150" },
+  { id: 11,  userName: "user11_han",       email: "han11@example.com",     profile_image: "https://picsum.photos/id/996/150/150" },
+  { id: 12,  userName: "user12_oh",        email: "oh12@example.com",      profile_image: "https://picsum.photos/id/1011/150/150" },
+  { id: 13,  userName: "user13_seo",       email: "seo13@example.com",     profile_image: "https://picsum.photos/id/1027/150/150" }
+];
+
+const mockComments = [
+  // ==========================================
+  // 12번 게시글: 댓글 총 2개 (댓글 1개 + 대댓글 1개)
+  // ==========================================
+  { 
+    id: 1,  
+    postId: 12, 
+    authorId: 104, 
+    content: "도서관 와이파이 3층 저만 그런 게 아니었군요! 진짜 계속 끊겨서 핫스팟 켰습니다 ㅠㅠ", 
+    createdAt: "2026-05-17T02:35:11.000Z", 
+    parentId: null, // 일반 댓글
+    likeCount: 12 
+  },
+  { 
+    id: 2,  
+    postId: 12, 
+    authorId: 512, 
+    content: "맥북 쓰시나요? 특정 OS에서 가끔 학내 와이파이 프로필이랑 충돌 나더라고요.", 
+    createdAt: "2026-05-17T02:38:22.000Z", 
+    parentId: 1, // 1번 댓글에 대한 대댓글
+    likeCount: 24 
+  },
+
+  // ==========================================
+  // 14번 게시글: 댓글 총 1개 (단독 댓글 1개)
+  // ==========================================
+  { 
+    id: 3,  
+    postId: 14, 
+    authorId: 104, 
+    content: "오 통학러 앱이라니 아이디어 너무 좋네요! 혹시 테스터 모집하시나요?", 
+    createdAt: "2026-05-17T03:15:00.000Z", 
+    parentId: null, 
+    likeCount: 8 
+  },
+
+  // ==========================================
+  // 16번 게시글: 댓글 총 3개 (댓글 2개 + 대댓글 1개)
+  // ==========================================
+  { 
+    id: 4, 
+    postId: 16, 
+    authorId: 87,  
+    content: "여기 직화 제육 인정합니다 ㅋㅋㅋ 불맛 제대로 나서 요즘 점심마다 도장 깨기 중이에요.", 
+    createdAt: "2026-05-16T12:45:12.000Z", 
+    parentId: null, 
+    likeCount: 31 
+  },
+  { 
+    id: 5, 
+    postId: 16, 
+    authorId: 231, 
+    content: "거기 현금 결제만 되나요 아니면 카드나 페이코도 다 먹히나요?", 
+    createdAt: "2026-05-16T12:48:59.000Z", 
+    parentId: 4, // 4번 댓글에 대한 대댓글
+    likeCount: 0 
+  },
+  { 
+    id: 6, 
+    postId: 16, 
+    authorId: 302, 
+    content: "꿀정보 감사합니다. 내일 점심은 무조건 제육으로 달립니다.", 
+    createdAt: "2026-05-16T12:55:22.000Z", 
+    parentId: null, 
+    likeCount: 2 
+  },
+
+  { 
+    id: 7, 
+    postId: 26, 
+    authorId: 3,   
+    content: "와 안 그래도 매번 카드 찍을 때마다 에러 나서 뒷사람 눈치 보였는데 내일 당장 해볼게요.", 
+    createdAt: "2026-05-16T07:22:15.000Z", 
+    parentId: null, 
+    likeCount: 7 
+  },
+  { 
+    id: 8, 
+    postId: 26, 
+    authorId: 4,   
+    content: "스마트폰 NFC 기본 모드를 카드 모드로만 바꿔도 주파수 간섭 훨씬 줄어들더라고요.", 
+    createdAt: "2026-05-16T07:30:11.000Z", 
+    parentId: null, 
+    likeCount: 29 
+  }
+];
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "CREATE": 
@@ -358,10 +472,52 @@ const reducer = (state, action) => {
   }
 }
 
+const reducerUser = (state, action)=>{
+  switch (action.type){
+    case "CREATE": 
+      return [action.userData, ...state]; 
+
+    case "DELETE": 
+      return state.filter((item)=> item.id !== action.id); 
+
+    case "UPDATE": 
+      return state.map((item)=>(
+        item.id === action.id ? action.userData : item
+      )); 
+
+    default: 
+      return state; 
+  }
+}
+
+const reducerComment = (state, action)=>{
+  switch (action.type){
+    case "CREATE": 
+      return [action.commentData, ...state]; 
+
+    case "DELETE": 
+      return state.filter((item)=>item.id !== action.id);
+      
+    case "UPDATE": 
+      return state.map((item)=>(
+        item.id === action.id ? action.commentData : item
+      )); 
+
+    default: 
+      return state; 
+  }
+}
+
 function App() {
   const [posts, dispatchPost] = useReducer(reducer, mockPosts);
-  const postRef = useRef(5);  
+  const [users, dispatchUser] = useReducer(reducerUser, mockUsers); 
+  const [comments, dispatchComment] = useReducer(reducerComment, mockComments); 
+  const postRef = useRef(30); 
+  const authorRef = useRef(14); 
+  const commentRef = useRef(21); 
+  
 
+  //Posting 관련 dispatch 함수들
   const onCreatePost = (title, content, createdAt, authorId, likeCount = 0, commentCount = 0) => {
     dispatchPost({
       type: "CREATE", 
@@ -400,20 +556,92 @@ function App() {
     }); 
   }
 
+  //계정 관련 dispatch 함수들
+  const onCreateUserInfo = (userInfo)=>{
+    dispatchUser({
+      type: "CREATE", 
+      userData: {
+        ...userInfo,
+        id: authorRef.current++,  
+      }
+    }); 
+  }
+
+  const onDeleteUserInfo = (id)=>{
+    dispatchUser({
+      type: "DELETE", 
+      id: id, 
+    })
+  }
+
+  const onUpdateUserInfo = (id, userName, email, password) =>{
+    dispatchUser({
+      type: "UPDATE", 
+      id: id, 
+      userData: {
+        id: id, 
+        userName, 
+        email, 
+        password
+      }
+    })
+  }
+
+  const onCreateComment = (commentInfo)=>{
+    dispatchComment({
+      type: "CREATE", 
+      commentData: {
+        id: commentRef.current++,
+        ...commentInfo, 
+        
+      }
+    })
+  }
+
+  const onDeleteComment = (id)=>{
+    dispatchComment({
+      type: "DELETE", 
+      id: id,
+    })
+  }
+
+  const onUpdateComment = (id, commentInfo)=>{
+    dispatchComment({
+      type: "UPDATE", 
+      id: id, 
+      commentData: {
+        id: id, 
+        ...commentInfo, 
+      }
+    })
+  }
+
   return (
-    <PostDataContext.Provider value={posts}>
-      <PostDispatchContext.Provider value={{ onCreatePost, onDeletePost, onUpdatePost }}>
-        <div className='app-container'>
-          <Header />
-          <Routes>
-            <Route path='/' element={<Main />} />
-            <Route path='/popular' element={<HotPostWidget />} />
-            <Route path='/write' element={<PostWrite></PostWrite>}></Route>
-          </Routes>
-          <Bottom />
-        </div>
-      </PostDispatchContext.Provider>
-    </PostDataContext.Provider>
+    <UserDataContext.Provider value={users}>
+      <UserDispatchContext.Provider value={{onCreateUserInfo, onDeleteUserInfo, onUpdateUserInfo}}>
+        <PostDataContext.Provider value={posts}>
+          <PostDispatchContext.Provider value={{onCreatePost, onDeletePost, onUpdatePost}}>
+            <CommentDataContext.Provider value={comments}>
+              <CommentDispatchContext.Provider value={{onCreateComment, onDeleteComment, onUpdateComment}}>
+                <div className='app-container'>
+                  <Header />
+                  <Routes>
+                    <Route path='/' element={<Main></Main>} />
+                    <Route path='/popular' element={<HotPostWidget></HotPostWidget>} />
+                    <Route path='/free' element={<FreePostWidget></FreePostWidget>}></Route>
+                    <Route path='/notice' element={<NoticePostWidget></NoticePostWidget>}></Route>
+                    <Route path='/write' element={<PostWrite></PostWrite>}></Route>
+                    <Route path='/detail/:postId' element={<PostDetail></PostDetail>}></Route>
+                  </Routes>
+                  <Bottom />
+                </div>
+              </CommentDispatchContext.Provider>
+            </CommentDataContext.Provider>
+          </PostDispatchContext.Provider>
+        </PostDataContext.Provider>
+      </UserDispatchContext.Provider>
+    </UserDataContext.Provider>
+
   )
 }
 

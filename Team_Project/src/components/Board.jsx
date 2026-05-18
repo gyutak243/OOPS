@@ -1,6 +1,7 @@
 import './Board.css';
 import {useNavigate} from 'react-router-dom'; 
 import HotPost from './HotPost';
+import PostWidgetTitle from './PostWidgetTitle';
 
 const Board = () => {
   const nav = useNavigate(); 
@@ -24,20 +25,14 @@ const Board = () => {
     {/* 현재는 다른 페이지가 들어가 있지만 컴포넌트 디자인 완료되면 여기도 컴포넌트화 할것임 */}
     {/* 하단: 일반 카테고리 (3열 그리드) */}
       <div className="bottom-grid">
-        <div className="card board-item">
-          <h3>분실물</h3>
-          <p>1150번 에어팟 분실...</p>
-          <p>후생관 우산 찾아가세요</p>
+
+        <div className="card board-item" onClick={()=> nav("/free")}>
+          <h3>자유 게시글</h3>
+          <PostWidgetTitle type={"free"}></PostWidgetTitle>
         </div>
-        <div className="card board-item">
-          <h3>컴퓨터공학과</h3>
-          <p>여름엔 이제 안 씻어도 됨</p>
-          <p>ㅇㅇㅇ 교수님 과제...</p>
-        </div>
-        <div className="card board-item">
-          <h3>학식</h3>
-          <p>내일 학식 개맛있겠다</p>
-          <p>바비든든 이벤트 [1]</p>
+        <div className="card board-item" onClick={()=> nav("/notice")}>
+          <h3>학교 공지글</h3>
+          <PostWidgetTitle type={"notification"}></PostWidgetTitle>
         </div>
       </div>
     </div>
