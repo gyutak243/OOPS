@@ -21,7 +21,7 @@ const Aside = ()=>{
                 </ul>
             </div>
 
-            <button className="sidebar__btn sidebar__btn--login-info">로그인 / 회원가입</button>
+            <button className="sidebar__btn sidebar__btn--login-info" onClick={()=>nav("/auth")}>로그인 / 회원가입</button>
 
             <section className="sidebar__widget widget-popular">
 

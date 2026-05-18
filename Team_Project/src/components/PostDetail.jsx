@@ -13,12 +13,11 @@ import { filteredDate } from "../util/filteredDate";
 
 const PostDetail = ()=>{
     const {postId} = useParams(); 
-    const posts = useContext(PostDataContext); 
-    const comments = useContext(CommentDataContext); 
-
+    const posts = useContext(PostDataContext) || []; 
+    const comments = useContext(CommentDataContext) || []; 
     const postData = posts.find((post)=>{
         return post.postId === Number(postId); 
-    }); 
+    });
 
     if(!postData){
         window.alert("글이 존재하지 않습니다!"); 
@@ -30,7 +29,8 @@ const PostDetail = ()=>{
     const commentsList = comments.filter((comment)=> comment.postId === postData.postId); 
 
     return(
-        <div className="post-detail">
+        //글의 내용만 바뀌고 리랜더링되면서 애니메이션이나 이런것들이 없어져 밋밋해보여서 key값을 주어서 key값이 바뀔 때마다 리액트가 재랜더링 되도록 만들어 주었다.
+        <div className="post-detail" key={postId}>
             <Title title={`${postData.category === "free" ? "자유": "공지"}`}></Title>
             <div className="contents-wrapper">
                 <Aside></Aside>
