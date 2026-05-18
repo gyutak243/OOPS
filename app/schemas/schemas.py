@@ -62,6 +62,7 @@ class PostResponse(BaseModel):
 # ── 댓글 ──────────────────────────────────────────
 class CommentCreate(BaseModel):
     content: str
+    parent_id: Optional[int] = None
 
 class CommentResponse(BaseModel):
     id: int
@@ -69,6 +70,8 @@ class CommentResponse(BaseModel):
     created_at: datetime
     author_id: int
     post_id: int
+    parent_id: Optional[int] = None
+    like_count: int = 0
 
     class Config:
         from_attributes = True
