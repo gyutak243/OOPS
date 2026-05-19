@@ -652,7 +652,7 @@ function App() {
                     <Route path='/write' element={<PostWrite></PostWrite>}></Route>
                     <Route path='/detail/:postId' element={<PostDetail></PostDetail>}></Route>
                     <Route path='/auth' element={<AuthCenter></AuthCenter>}></Route>
-                    {/* 쿼리를 이용해서 검색결과를 url로 표현해주겠다. */}
+                    {/* url 파라미터를 이용해서 검색결과를 url로 표현해주겠다. */}
                     <Route path='/search/:searchId' element={<SearchPage></SearchPage>}></Route>
                   </Routes>
                   <Bottom />
