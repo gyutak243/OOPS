@@ -24,6 +24,7 @@ const mockPosts = [
     authorId: 999,
     viewCount: 2450, 
     likeCount: 128,
+    badCount: 1, // 💡 공식 공지라 비추가 거의 없음
     commentCount: 45, 
     category: "notification"
   },
@@ -35,6 +36,7 @@ const mockPosts = [
     authorId: 104,
     viewCount: 412,  
     likeCount: 5,
+    badCount: 0, 
     commentCount: 3, 
     category: "free"
   },
@@ -46,6 +48,7 @@ const mockPosts = [
     authorId: 421,
     viewCount: 728,  
     likeCount: 42,
+    badCount: 2, 
     commentCount: 14, 
     category: "free"
   },
@@ -57,6 +60,7 @@ const mockPosts = [
     authorId: 87,
     viewCount: 95,   
     likeCount: 2,
+    badCount: 0, 
     commentCount: 8, 
     category: "free"
   },
@@ -68,6 +72,7 @@ const mockPosts = [
     authorId: 512,
     viewCount: 320, 
     likeCount: 11,
+    badCount: 1, 
     commentCount: 21, 
     category: "free"
   },
@@ -79,6 +84,7 @@ const mockPosts = [
     authorId: 999,
     viewCount: 1520, 
     likeCount: 34,
+    badCount: 5, // 💡 운동장 못 써서 아쉬운 학우들의 소심한 비추
     commentCount: 5, 
     category: "notification"
   },
@@ -90,6 +96,7 @@ const mockPosts = [
     authorId: 231,
     viewCount: 184, 
     likeCount: 0,
+    badCount: 0, 
     commentCount: 1, 
     category: "free"
   },
@@ -101,6 +108,7 @@ const mockPosts = [
     authorId: 84,
     viewCount: 290, 
     likeCount: 4,
+    badCount: 0, 
     commentCount: 12,
     category: "free"
   },
@@ -112,6 +120,7 @@ const mockPosts = [
     authorId: 302,
     viewCount: 810, 
     likeCount: 56,
+    badCount: 1, 
     commentCount: 18, 
     category: "free"
   },
@@ -123,6 +132,7 @@ const mockPosts = [
     authorId: 999,
     viewCount: 3100,
     likeCount: 12, 
+    badCount: 18, // 💡 귀찮은 강의평가 강제라 비추가 더 많음 찐현실
     commentCount: 2, 
     category: "notification"
   },
@@ -134,6 +144,7 @@ const mockPosts = [
     authorId: 104,
     viewCount: 142,
     likeCount: 1,
+    badCount: 0, 
     commentCount: 4,
     category: "free"
   },
@@ -145,6 +156,7 @@ const mockPosts = [
     authorId: 87,
     viewCount: 88,
     likeCount: 0,
+    badCount: 0, 
     commentCount: 2,
     category: "free"
   },
@@ -156,7 +168,8 @@ const mockPosts = [
     authorId: 421,
     viewCount: 210,
     likeCount: 8,
-    commentCount: 15, // 🔥 핫게시물 조건 충족 (댓글 10개 이상)
+    badCount: 0, 
+    commentCount: 15, 
     category: "free"
   },
   {
@@ -167,17 +180,19 @@ const mockPosts = [
     authorId: 999,
     viewCount: 1890,
     likeCount: 22,
-    commentCount: 38, // 🔥 핫게시물 조건 충족
+    badCount: 35, // 💡 몰래 담배 피우다 찔린 사람들의 반발 비추 폭탄
+    commentCount: 38, 
     category: "notification"
   },
   {
     postId: 14,
     title: "학교 커뮤니티 앱(OOPS) 개발중인데 피드백 좀 해주라",
     content: "웹프로그래밍 프로젝트 겸 동아리원들이랑 소소하게 통학러 전용 웹앱 만들고 있거든? 지금 페이지네이션이랑 게시판 정렬 기능까지 붙였는데 UI 검수 좀 도와줄 사람 구함!!",
-    createdAt: "2026-05-17T03:10:00.000Z", // ⏱️ 초신작 글
+    createdAt: "2026-05-17T03:10:00.000Z", 
     authorId: 512,
     viewCount: 510,
-    likeCount: 33, // 🔥 핫게시물 조건 충족
+    likeCount: 33, 
+    badCount: 2, 
     commentCount: 27,
     category: "free"
   },
@@ -189,6 +204,7 @@ const mockPosts = [
     authorId: 104,
     viewCount: 94,
     likeCount: 2,
+    badCount: 0, 
     commentCount: 0,
     category: "free"
   },
@@ -199,7 +215,8 @@ const mockPosts = [
     createdAt: "2026-05-16T12:40:59.112Z",
     authorId: 421,
     viewCount: 602,
-    likeCount: 19, // 🔥 핫게시물 조건 충족
+    likeCount: 19, 
+    badCount: 1, 
     commentCount: 11,
     category: "free"
   },
@@ -210,7 +227,8 @@ const mockPosts = [
     createdAt: "2026-05-15T14:22:00.000Z",
     authorId: 87,
     viewCount: 1120,
-    likeCount: 95, // 🔥 핫게시물 조건 충족
+    likeCount: 95, 
+    badCount: 0, // 💡 전적으로 공감하는 유익한 글이라 비추 0
     commentCount: 42,
     category: "free"
   },
@@ -222,6 +240,7 @@ const mockPosts = [
     authorId: 512,
     viewCount: 415,
     likeCount: 6,
+    badCount: 0, 
     commentCount: 9,
     category: "free"
   },
@@ -231,8 +250,9 @@ const mockPosts = [
     content: "국제교류팀에서 안내합니다. 다가오는 여름방학 동안 아시아 및 아프리카 지역에서 교육 봉사 및 노력 봉사를 펼칠 참신하고 책임감 있는 해외 봉사단을 집결하오니 많은 지원 바랍니다.",
     createdAt: "2026-05-12T02:00:00.000Z",
     authorId: 999,
-    viewCount: 4200, // 📈 엄청 높은 조회수
+    viewCount: 4200, 
     likeCount: 54,
+    badCount: 2, 
     commentCount: 16,
     category: "notification"
   },
@@ -244,6 +264,7 @@ const mockPosts = [
     authorId: 104,
     viewCount: 280,
     likeCount: 3,
+    badCount: 0, 
     commentCount: 5,
     category: "free"
   },
@@ -254,7 +275,8 @@ const mockPosts = [
     createdAt: "2026-05-15T11:00:00.000Z",
     authorId: 87,
     viewCount: 395,
-    likeCount: 14, // 🔥 핫게시물 조건 충족
+    likeCount: 14, 
+    badCount: 1, 
     commentCount: 8,
     category: "free"
   },
@@ -265,18 +287,20 @@ const mockPosts = [
     createdAt: "2026-05-16T21:11:00.000Z",
     authorId: 421,
     viewCount: 520,
-    likeCount: 22, // 🔥 핫게시물 조건 충족
+    likeCount: 22, 
+    badCount: 0, 
     commentCount: 7,
     category: "free"
   },
   {
     postId: 23,
     title: "미시경제학 조교님 연락처 아시는 분 계신가요?",
-    content: "출결 정정 때문에 메일을 보내야 하는데 강의계획서에 적힌 번호가 없는 번호라고 뜨네요. 혹시 학과사무실 거치지 않고 조교님께 다이렉트로 연락할 수 있는 이메일 아시면 공유 부탁드려요.",
+    content: "출결 정정 때문에 메일을 보내야 하는데 강의계획서에 적힌 번호가 없는 번호라고 뜨네요. 혹시 학과사무실 거치지 않고 조교님께 다이렉트로 연락할 수 있는 이메일 아시면 공유 부탁려요.",
     createdAt: "2026-05-16T10:05:19.000Z",
     authorId: 231,
     viewCount: 110,
     likeCount: 1,
+    badCount: 0, 
     commentCount: 2,
     category: "free"
   },
@@ -287,8 +311,9 @@ const mockPosts = [
     createdAt: "2026-05-15T17:35:00.000Z",
     authorId: 302,
     viewCount: 1980,
-    likeCount: 67, // 🔥 핫게시물 조건 충족
-    commentCount: 54, // 🔥 댓글 대폭발
+    likeCount: 67, 
+    badCount: 14, // 💡 "구라 치지 마라"라며 찍힌 비추들
+    commentCount: 54, 
     category: "free"
   },
   {
@@ -299,7 +324,8 @@ const mockPosts = [
     authorId: 999,
     viewCount: 1450,
     likeCount: 4,
-    commentCount: 11, // 🔥 핫게시물 조건 충족
+    badCount: 22, // 💡 고층 이용 학우들의 분노의 비추
+    commentCount: 11, 
     category: "notification"
   },
   {
@@ -309,7 +335,8 @@ const mockPosts = [
     createdAt: "2026-05-16T07:15:33.000Z",
     authorId: 104,
     viewCount: 920,
-    likeCount: 41, // 🔥 핫게시물 조건 충족
+    likeCount: 41, 
+    badCount: 1, 
     commentCount: 19,
     category: "free"
   },
@@ -320,7 +347,8 @@ const mockPosts = [
     createdAt: "2026-05-16T23:50:11.000Z",
     authorId: 302,
     viewCount: 450,
-    likeCount: 15, // 🔥 핫게시물 조건 충족
+    likeCount: 15, 
+    badCount: 0, 
     commentCount: 6,
     category: "free"
   },
@@ -331,7 +359,8 @@ const mockPosts = [
     createdAt: "2026-05-16T13:10:00.000Z",
     authorId: 512,
     viewCount: 630,
-    likeCount: 28, // 🔥 핫게시물 조건 충족
+    likeCount: 28, 
+    badCount: 2, 
     commentCount: 13,
     category: "free"
   },
@@ -339,10 +368,11 @@ const mockPosts = [
     postId: 29,
     title: "[안내] 2026-1학기 국가장학금 2차 신청 마감 임박 안내",
     content: "장학복지팀입니다. 한국장학재단에서 주관하는 국가장학금 1학기 2차 신청 기간이 이틀 뒤 마감됩니다. 신입생, 편입생, 복학생 중 아직 신청하지 않은 대상자는 서둘러 서류 제출을 완료 바랍니다.",
-    createdAt: "2026-05-10T04:00:00.000Z", // 가장 오래된 글
+    createdAt: "2026-05-10T04:00:00.000Z", 
     authorId: 999,
     viewCount: 3500,
-    likeCount: 45, // 🔥 핫게시물 조건 충족
+    likeCount: 45, 
+    badCount: 3, 
     commentCount: 3,
     category: "notification"
   }
@@ -520,17 +550,12 @@ function App() {
   
 
   //Posting 관련 dispatch 함수들
-  const onCreatePost = (title, content, createdAt, authorId, likeCount = 0, commentCount = 0) => {
+  const onCreatePost = (postInfo) => {
     dispatchPost({
       type: "CREATE", 
       data: {
         postId: postRef.current++, 
-        title, 
-        content, 
-        createdAt, 
-        authorId, 
-        likeCount, 
-        commentCount,  
+        ...postInfo, 
       }
     }); 
   }
@@ -542,18 +567,13 @@ function App() {
     }); 
   }
 
-  const onUpdatePost = (id, title, content, createdAt, authorId, likeCount, commentCount) => {
+  const onUpdatePost = (postInfo) => {
     dispatchPost({
       type: "UPDATE", 
-      id: id,
+      id: postInfo.postId,
       data: {
-        postId: id,
-        title, 
-        content, 
-        createdAt, 
-        authorId, 
-        likeCount, 
-        commentCount,
+        postId: postInfo.postId,
+        ...postInfo, 
       }
     }); 
   }

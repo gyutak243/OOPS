@@ -21,8 +21,7 @@ const Board = () => {
           </div>
         </section>
       </div>
-    
-    {/* 현재는 다른 페이지가 들어가 있지만 컴포넌트 디자인 완료되면 여기도 컴포넌트화 할것임 */}
+  
     {/* 하단: 일반 카테고리 (3열 그리드) */}
       <div className="bottom-grid">
 

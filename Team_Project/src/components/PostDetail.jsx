@@ -5,17 +5,32 @@ import good from "../assets/good.png";
 import bad from "../assets/bad.png";
 import CommentList from "./CommentList";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
-import { CommentDataContext, PostDataContext } from "../util/context";
-import { formattedDate} from "../util/formattedDate";
+import { useContext, useEffect, useState, useRef } from "react";
+import { CommentDataContext, PostDataContext, PostDispatchContext } from "../util/context";
+import { formattedDate } from "../util/formattedDate";
 
 const PostDetail = () => {
   const { postId } = useParams();
   const posts = useContext(PostDataContext) || [];
   const comments = useContext(CommentDataContext) || [];
+  const {onUpdatePost} = useContext(PostDispatchContext); 
   const postData = posts.find((post) => {
     return post.postId === Number(postId);
   });
+
+  //메인페이지에 들어올때마다 즉 포스트 아이디가 바뀔 때마다 조회수를 업데이트 해주겠다. 
+  useEffect(()=>{
+    //postData가 존재하면 조회수를 업데이트 해준다. 
+    if(postData){
+      onUpdatePost({
+        ...postData, 
+        viewCount : postData.viewCount + 1, 
+      });
+    }
+    
+    //이 주석을 달아주면 의존성 배열 관련 애러가 사라진다. 
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
+  }, [postId]); 
 
   if (!postData) {
     window.alert("글이 존재하지 않습니다!");
@@ -66,13 +81,13 @@ const PostDetail = () => {
                 <button className="btn-vote btn-vote--like">
                   <img src={good} alt="추천" />
                 </button>
-                <span className="vote-count">13</span>
+                <span className="vote-count">{postData.likeCount}</span>
               </div>
               <div className="action-item">
                 <button className="btn-vote btn-vote--dislike">
                   <img src={bad} alt="비추천" />
                 </button>
-                <span className="vote-count">0</span>
+                <span className="vote-count">{postData.badCount}</span>
               </div>
             </div>
           </article>
