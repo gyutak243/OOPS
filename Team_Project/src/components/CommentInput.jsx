@@ -1,18 +1,33 @@
 import "./CommentInput.css"; 
 import { useContext, useState, useRef } from "react";
-import { CommentDataContext, CommentDispatchContext } from "../util/context";
+import { CommentDataContext, CommentDispatchContext, UserDataContext } from "../util/context";
 
 const CommentInput = ({postId, parentId=null, onSuccess=(()=>{})})=>{
     const [comment, setComment] = useState(""); 
     const {onCreateComment} = useContext(CommentDispatchContext); 
     const commentRef = useRef(); 
     const comments = useContext(CommentDataContext); 
+    //현재 로그인 중인 유저 정보를 가져온다. 
+    const currentUser = localStorage.getItem('currentLoginUser') || null; 
+    const loginUser = JSON.parse(currentUser) || ''; 
+    //user 데이터에서 현재 로그인 중인 유저의 데이터를 가져온다. 
+    const users = useContext(UserDataContext) || []; 
+    const loginUserInfo = users.find((user)=>{
+        return user.userName === loginUser.userName; 
+    }); 
+
     
     const onChangeComment = (e)=>{
         setComment(e.target.value); 
     }
 
     const handleSubmit = ()=>{
+        //현재 로그인한 유저가 없다면 메시지를 보여주고 종료
+        if(!loginUser){
+            window.alert("로그인 후에 이용 가능합니다."); 
+            return; 
+        }
+
         if(comment.trim()===""){
             commentRef.current.focus(); 
             return; 
@@ -20,7 +35,7 @@ const CommentInput = ({postId, parentId=null, onSuccess=(()=>{})})=>{
 
         const commentInfo = {
             postId: Number(postId), 
-            authorId: 100, //임시데이터 
+            authorId: loginUserInfo.id, 
             content: comment, 
             createdAt: new Date().toISOString(), 
             parentId: parentId, 
@@ -38,7 +53,7 @@ const CommentInput = ({postId, parentId=null, onSuccess=(()=>{})})=>{
         <div className="comment-form">
             <div className="comment-form__user-info">
                 {/* 추후에 로그인 정보 넣고서 작업할 것이다 */}
-                댓글 작성 &nbsp;<strong>통학러123123</strong>
+                댓글 작성 &nbsp;<strong>{`${loginUser ? loginUser.userName : "로그인 전"}`}</strong>
             </div>
             <div className="comment-form__input-wrapper">
                 <textarea 
@@ -47,6 +62,7 @@ const CommentInput = ({postId, parentId=null, onSuccess=(()=>{})})=>{
                     value={comment}
                     onChange={onChangeComment}
                     ref={commentRef}
+                    disabled={!loginUser}
                     ></textarea>
             </div>
 

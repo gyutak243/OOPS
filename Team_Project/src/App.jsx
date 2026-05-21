@@ -1,7 +1,7 @@
 import './App.css'; 
 import { useState, useReducer, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { CommentDataContext, CommentDispatchContext, PostDataContext, PostDispatchContext, UserDataContext, UserDispatchContext } from './util/context';
+import { CommentDataContext, CommentDispatchContext, LoginStateContext, PostDataContext, PostDispatchContext, UserDataContext, UserDispatchContext } from './util/context';
 import Main from './components/Main';
 import Header from './components/Header';
 import Bottom from './components/Bottom';
@@ -12,6 +12,7 @@ import FreePostWidget from './components/FreePostWidget';
 import NoticePostWidget from './components/NoticePostWidget';
 import AuthCenter from './components/AuthCenter';
 import SearchPage from './components/SearchPage';
+import MyPage from './components/MyPage';
 
 
 
@@ -379,26 +380,146 @@ const mockPosts = [
 ];
 
 const mockUsers = [
-  { id: 999, userName: "admin_manager",    email: "admin@oops.ac.kr",      passWord: "password999!" },
-  { id: 104, userName: "user104_tong",     email: "tong104@example.com",   passWord: "password104!" },
-  { id: 421, userName: "user421_matzip",   email: "matzip421@example.com", passWord: "password421!" },
-  { id: 87,  userName: "user87_cse",       email: "cse87@example.com",     passWord: "password87!" },
-  { id: 512, userName: "user512_dev",      email: "dev512@example.com",    passWord: "password512!" },
-  { id: 231, userName: "user231_mohyun",   email: "mohyun231@example.com", passWord: "password231!" },
-  { id: 302, userName: "user302_music",    email: "music302@example.com",  passWord: "password302!" },
-  { id: 1,   userName: "user1_kim",        email: "kim1@example.com",      passWord: "password1!" },
-  { id: 2,   userName: "user2_lee",        email: "lee2@example.com",      passWord: "password2!" },
-  { id: 3,   userName: "user3_park",       email: "park3@example.com",     passWord: "password3!" },
-  { id: 4,   userName: "user4_choi",       email: "choi4@example.com",     passWord: "password4!" },
-  { id: 5,   userName: "user5_jung",       email: "jung5@example.com",     passWord: "password5!" },
-  { id: 6,   userName: "user6_kang",       email: "kang6@example.com",     passWord: "password6!" },
-  { id: 7,   userName: "user7_cho",        email: "cho7@example.com",      passWord: "password7!" },
-  { id: 8,   userName: "user8_yoon",       email: "yoon8@example.com",     passWord: "password8!" },
-  { id: 9,   userName: "user9_jang",       email: "jang9@example.com",     passWord: "password9!" },
-  { id: 10,  userName: "user10_lim",       email: "lim10@example.com",     passWord: "password10!" },
-  { id: 11,  userName: "user11_han",       email: "han11@example.com",     passWord: "password11!" },
-  { id: 12,  userName: "user12_oh",        email: "oh12@example.com",      passWord: "password12!" },
-  { id: 13,  userName: "user13_seo",       email: "seo13@example.com",     passWord: "password13!" }
+  { 
+    id: 999, 
+    userName: "admin_manager",    
+    email: "admin@oops.ac.kr",      
+    passWord: "password999!",
+    likedPosts: []
+  },
+  { 
+    id: 104, 
+    userName: "user104_tong",     
+    email: "tong104@example.com",   
+    passWord: "password104!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 421, 
+    userName: "user421_matzip",   
+    email: "matzip421@example.com", 
+    passWord: "password421!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 87,  
+    userName: "user87_cse",       
+    email: "cse87@example.com",    
+    passWord: "password87!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 512, 
+    userName: "user512_dev",      
+    email: "dev512@example.com",    
+    passWord: "password512!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 231, 
+    userName: "user231_mohyun",   
+    email: "mohyun231@example.com", 
+    passWord: "password231!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 302, 
+    userName: "user302_music",    
+    email: "music302@example.com",  
+    passWord: "password302!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 1,   
+    userName: "user1_kim",        
+    email: "kim1@example.com",      
+    passWord: "password1!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 2,   
+    userName: "user2_lee",        
+    email: "lee2@example.com",      
+    passWord: "password2!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 3,   
+    userName: "user3_park",       
+    email: "park3@example.com",     
+    passWord: "password3!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 4,   
+    userName: "user4_choi",       
+    email: "choi4@example.com",     
+    passWord: "password4!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 5,   
+    userName: "user5_jung",       
+    email: "jung5@example.com",     
+    passWord: "password5!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 6,   
+    userName: "user6_kang",       
+    email: "kang6@example.com",     
+    passWord: "password6!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 7,   
+    userName: "user7_cho",        
+    email: "cho7@example.com",      
+    passWord: "password7!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 8,   
+    userName: "user8_yoon",       
+    email: "yoon8@example.com",     
+    passWord: "password8!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 9,   
+    userName: "user9_jang",       
+    email: "jang9@example.com",     
+    passWord: "password9!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 10,  
+    userName: "user10_lim",       
+    email: "lim10@example.com",     
+    passWord: "password10!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 11,  
+    userName: "user11_han",       
+    email: "han11@example.com",     
+    passWord: "password11!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 12,  
+    userName: "user12_oh",        
+    email: "oh12@example.com",      
+    passWord: "password12!",
+    likedPosts: [] // 💡 추가됨
+  },
+  { 
+    id: 13,  
+    userName: "user13_seo",       
+    email: "seo13@example.com",     
+    passWord: "password13!",
+    likedPosts: [] // 💡 추가됨
+  }
 ];
 
 const mockComments = [
@@ -597,15 +718,13 @@ function App() {
     })
   }
 
-  const onUpdateUserInfo = (id, userName, email, passWord) =>{
+  const onUpdateUserInfo = (userInfo) =>{
     dispatchUser({
       type: "UPDATE", 
-      id: id, 
+      id: userInfo.id, 
       userData: {
-        id: id, 
-        userName, 
-        email, 
-        passWord
+        id: userInfo.id, 
+        ...userInfo, 
       }
     })
   }
@@ -674,6 +793,7 @@ function App() {
                     <Route path='/auth' element={<AuthCenter></AuthCenter>}></Route>
                     {/* url 파라미터를 이용해서 검색결과를 url로 표현해주겠다. */}
                     <Route path='/search/:searchId' element={<SearchPage></SearchPage>}></Route>
+                    <Route path='/mypage/:userId' element={<MyPage></MyPage>}></Route>
                   </Routes>
                   <Bottom />
                 </div>

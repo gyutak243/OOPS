@@ -12,3 +12,6 @@ export const UserDispatchContext = createContext();
 export const CommentDataContext = createContext(); 
 export const CommentDispatchContext = createContext(); 
 
+//로그인 정보 관리 
+export const LoginStateContext = createContext(); 
+

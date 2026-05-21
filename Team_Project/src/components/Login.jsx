@@ -1,6 +1,6 @@
 import { useContext, useState, useRef } from "react";
 import "./Login.css"; 
-import { CommentDataContext, CommentDispatchContext, UserDataContext } from "../util/context";
+import { CommentDataContext, CommentDispatchContext, LoginStateContext, UserDataContext } from "../util/context";
 import { useNavigate } from "react-router-dom";
 
 
@@ -49,8 +49,11 @@ const Login = ({ setView }) => {
             userName: "", 
             passWord: "", 
         }); 
-        //로그인 직후에 홈페이지로 돌아간다. 
-        nav("/"); 
+        const currentUser = localStorage.getItem("currentLoginUser"); 
+        const loginUser = JSON.parse(currentUser) || ""; 
+
+        //로그인 직후에 마이페이지로 돌아간다. 
+        nav(`/mypage/${loginUser.userName}`); 
         console.log("로그인 시도");
     };
 

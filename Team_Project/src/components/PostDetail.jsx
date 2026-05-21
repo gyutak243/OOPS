@@ -6,17 +6,21 @@ import bad from "../assets/bad.png";
 import CommentList from "./CommentList";
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState, useRef } from "react";
-import { CommentDataContext, PostDataContext, PostDispatchContext } from "../util/context";
+import { CommentDataContext, LoginStateContext, PostDataContext, PostDispatchContext, UserDataContext, UserDispatchContext } from "../util/context";
 import { formattedDate } from "../util/formattedDate";
 
 const PostDetail = () => {
   const { postId } = useParams();
   const posts = useContext(PostDataContext) || [];
   const comments = useContext(CommentDataContext) || [];
-  const {onUpdatePost} = useContext(PostDispatchContext); 
+  const users = useContext(UserDataContext) || []; 
+  const { onUpdatePost } = useContext(PostDispatchContext) || []; 
+  
   const postData = posts.find((post) => {
     return post.postId === Number(postId);
   });
+
+  
 
   //메인페이지에 들어올때마다 즉 포스트 아이디가 바뀔 때마다 조회수를 업데이트 해주겠다. 
   useEffect(()=>{
@@ -27,7 +31,7 @@ const PostDetail = () => {
         viewCount : postData.viewCount + 1, 
       });
     }
-    
+     
     //이 주석을 달아주면 의존성 배열 관련 애러가 사라진다. 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [postId]); 
@@ -37,11 +41,17 @@ const PostDetail = () => {
     return;
   }
 
+  const currentUser = users.find((user)=>{
+    return user.id === postData.authorId; 
+  })
+
   const postDate = formattedDate(postData.createdAt);
   //해당 글에 맞는 댓글 개수
   const commentsList = comments.filter(
     (comment) => comment.postId === postData.postId,
   );
+
+  
 
   return (
     //글의 내용만 바뀌고 리랜더링되면서 애니메이션이나 이런것들이 없어져 밋밋해보여서 key값을 주어서 key값이 바뀔 때마다 리액트가 재랜더링 되도록 만들어 주었다.
@@ -59,7 +69,7 @@ const PostDetail = () => {
               </div>
               <div className="post-card__meta">
                 <div className="post-card__meta-info">
-                  <span className="post-card__author">{postData.authorId}</span>
+                  <span className="post-card__author">{currentUser.userName}</span>
                   <span className="post-card__date">
                     {postDate.date} {postDate.time}
                   </span>
@@ -78,7 +88,7 @@ const PostDetail = () => {
 
             <div className="post-card__actions">
               <div className="action-item">
-                <button className="btn-vote btn-vote--like">
+                <button className="btn-vote btn-vote--like" >
                   <img src={good} alt="추천" />
                 </button>
                 <span className="vote-count">{postData.likeCount}</span>
