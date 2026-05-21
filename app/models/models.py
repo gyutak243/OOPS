@@ -30,6 +30,7 @@ class Post(Base):
     author_id = Column(Integer, ForeignKey("users.id"))
     category = Column(String, default="free")
     view_count = Column(Integer, default = 0)
+    bad_count = Column(Integer, default = 0)
 
     author = relationship("User", back_populates="posts")
     likes = relationship("Like", back_populates="post", cascade="all, delete-orphan")

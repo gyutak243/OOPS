@@ -13,6 +13,7 @@ def make_post_response(post: Post) -> PostResponse:
         created_at=post.created_at,
         author_id=post.author_id,
         like_count=len(post.likes),
+        bad_count=post.bad_count,
         comment_count=len(post.comments),
         category=post.category,
         view_count=post.view_count

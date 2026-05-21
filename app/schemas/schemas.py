@@ -51,9 +51,11 @@ class PostResponse(BaseModel):
     created_at: datetime
     author_id: int
     like_count: int = 0
+    bad_count: int = 0
     comment_count: int = 0
     category: str = "free"
     view_count: int = 0
+    
 
     class Config:
         from_attributes = True
