@@ -13,7 +13,7 @@ def make_post_response(post: Post) -> PostResponse:
         created_at=post.created_at,
         author_id=post.author_id,
         like_count=len(post.likes),
-        bad_count=post.bad_count,
+        bad_count = post.bad_count,
         comment_count=len(post.comments),
         category=post.category,
         view_count=post.view_count
@@ -130,6 +130,35 @@ def unlike_post(db: Session, post_id: int, user_id: int) -> dict:
     db.delete(like)
     db.commit()
     return {"message": "좋아요 취소"}
+
+
+def bad_post(db: Session, post_id: int, user_id: int) -> dict:
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="게시글이 없습니다"
+        )
+    post.bad_count += 1
+    db.commit()
+    return {"message": "비추천 완료"}
+
+
+def unbad_post(db: Session, post_id: int, user_id: int) -> dict:
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="게시글이 없습니다"
+        )
+    if post.bad_count <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="비추천 수가 0입니다"
+        )
+    post.bad_count -= 1
+    db.commit()
+    return {"message": "비추천 취소"}
 
 
 def search_posts(db: Session, keyword: str) -> list[PostResponse]:
