@@ -7,7 +7,7 @@ import Contents from "./Contents";
 const HotPostWidget = ()=>{
     return (
         <div className="main-layout">
-            <Title title={"인기글"}></Title>
+            <Title title={"인기"}></Title>
             <Contents type={"hot"}></Contents>  
         </div>
         
