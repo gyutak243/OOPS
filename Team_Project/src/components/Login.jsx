@@ -61,7 +61,7 @@ const Login = ({ setView }) => {
         <div className="auth-card">
             <div className="auth-card__header">
                 <h2 className="auth-title">로그인</h2>
-                <p className="auth-subtitle">LOOPS 계정으로 로그인해 주세요.</p>
+                <p className="auth-subtitle">OOPS 계정으로 로그인해 주세요.</p>
             </div>
 
             <form className="auth-form" onSubmit={handleLoginSubmit}>

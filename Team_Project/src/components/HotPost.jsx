@@ -7,7 +7,7 @@ const HotPost = ()=>{
     return (
         <section className="card hot-posts" onClick={()=>nav("/popular")}>
           <div className="card-header">
-            <h2>🔥 인기 게시글</h2>
+            <h2>🔥 인기 게시판</h2>
           </div>
           <HotPostTitleList></HotPostTitleList>
         </section>

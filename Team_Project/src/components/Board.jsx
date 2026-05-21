@@ -26,11 +26,11 @@ const Board = () => {
       <div className="bottom-grid">
 
         <div className="card board-item" onClick={()=> nav("/free")}>
-          <h3>자유 게시글</h3>
+          <h3>자유 게시판</h3>
           <PostWidgetTitle type={"free"}></PostWidgetTitle>
         </div>
         <div className="card board-item" onClick={()=> nav("/notice")}>
-          <h3>학교 공지글</h3>
+          <h3>공지사항</h3>
           <PostWidgetTitle type={"notification"}></PostWidgetTitle>
         </div>
       </div>
