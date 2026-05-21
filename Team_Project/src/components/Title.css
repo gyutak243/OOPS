@@ -1,0 +1,27 @@
+.board-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-left: 5px;
+}
+
+.board-main-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #002b49;
+}
+
+.btn-subscribe {
+    background-color: #002b49;
+    color: #ffffff;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-subscribe__icon { width: 14px; }
