@@ -41,13 +41,13 @@ const Aside = () => {
 
             <section className="sidebar__widget widget-popular">
                 <h3 className="widget-popular__title" onClick={() => nav("/popular")}>
-                    <img src={fire} alt="인기" className="widget-title-icon"/> 인기 게시글
+                    <img src={fire} alt="인기" className="widget-title-icon"/> 인기 게시판
                 </h3>
                 <SideBarWidget type={"free"}></SideBarWidget>
             </section>
 
             <section className="sidebar__widget widget-board-preview">
-                <h3 className="widget-board-preview__title" onClick={() => nav("/notice")}>공지글 게시판</h3>
+                <h3 className="widget-board-preview__title" onClick={() => nav("/notice")}>공지 게시판</h3>
                 <SideBarWidget type={"notification"}></SideBarWidget>
             </section>
         </aside>
