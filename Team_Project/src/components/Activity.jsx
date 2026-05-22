@@ -2,9 +2,9 @@ import { useState } from "react";
 import ActivityContents from "./ActivityContents";
 
 const Activity = ()=>{
-    const tabMenus = ["내가 쓴 글", "내가 쓴 댓글", "좋아요 한 글", "좋아요 한 댓글"];
+    const tabMenus = ["내가 쓴 글", "내가 쓴 댓글", "좋아요 한 글"];
     const [activeTab, setActiveTab] = useState(0);
-    const types = ["post", "comment", "postLike", "commentLike"]; 
+    const types = ["post", "comment", "postLike"]; 
 
     return (
         <section className="settings-group activity-section">

@@ -25,6 +25,12 @@ const ActivityList = ({type})=>{
                 return comment.authorId === currentUser.id; 
             }); 
         }
+
+        else{
+            myActivity = posts.filter((post)=>{
+                return currentUser.likedPosts?.includes(post.postId); 
+            }); 
+        }
     }
     
 

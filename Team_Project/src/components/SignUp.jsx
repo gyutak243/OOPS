@@ -69,6 +69,8 @@ const SignUp = ({ setView }) => {
                 userName: "", 
                 passWord: "", 
                 email: "", 
+                likedPosts: [], 
+                badPosts: [], 
             }); 
             //가입 완료후에 로그인 페이지로 가게 해줬다. 
             setView("login"); 

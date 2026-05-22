@@ -46,22 +46,23 @@ const ActivityItem = ({type, id ,postId ,title, createdAt})=>{
             <div className="activity-item__meta-box">
                 <span className="activity-item__date">{date}</span>
                 <div className="activity-item__actions">
-                    <button 
+                    {/* 타입이 내가 좋아요 누른 글이라면 수정버튼이랑 삭제 버튼을 안 보여주겠다 */}
+                    {type === "postLike" ? "" : (<button 
                         type="button" 
                         className="btn-activity-action btn-activity-action--edit" 
                         title="수정"
                         onClick={onMoveEdit}
                     >
                         수정
-                    </button>
-                    <button 
+                    </button>)}
+                    {type==="postLike" ? "" : (<button 
                         type="button" 
                         className="btn-activity-action btn-activity-action--delete" 
                         title="삭제"
                         onClick={Delete}
                     >
                         삭제
-                    </button>
+                    </button>)}
                 </div>
             </div>
         </div>

@@ -5,15 +5,7 @@ import { formattedDate } from "../util/formattedDate";
 import { CommentDispatchContext, UserDataContext } from "../util/context";
 import CommentInput from "./CommentInput";
 
-const CommentItem = ({
-  id,
-  postId,
-  authorId,
-  content,
-  createdAt,
-  parentId,
-  likeCount,
-}) => {
+const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCount}) => {
   const postDate = formattedDate(createdAt);
   const users = useContext(UserDataContext);
   const { onUpdateComment } = useContext(CommentDispatchContext);
@@ -26,6 +18,12 @@ const CommentItem = ({
   const [isLiked, setIsLiked] = useState(false);
 
   const onUpdateLike = () => {
+    const isLogin = localStorage.getItem("currentLoginUser") || ""; 
+    if(!isLogin){
+      window.alert("로그인 후에 이용 가능합니다."); 
+      return; 
+    }
+
     const nextLike = isLiked ? numLike - 1 : numLike + 1;
     setNumLike(nextLike);
     setIsLiked(!isLiked);
