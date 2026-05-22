@@ -64,6 +64,17 @@ const PostList = ({type})=>{
         setActive("view"); 
     }
 
+    const onMoveWrite = ()=>{
+        const currentUser = localStorage.getItem("currentLoginUser"); 
+        if(!currentUser){
+            window.alert("로그인 후에 이용 가능합니다."); 
+        }
+
+        else{
+            nav("/write"); 
+        }
+    }
+
     return (
         <main className="content-area">
             <div className="board-list-inner">
@@ -73,7 +84,7 @@ const PostList = ({type})=>{
                         <span className={`sort-tab ${active === "view" ? "active" : ""}`} onClick={onSortDataByView}>조회순</span>
                         <span className={`sort-tab ${active === "like" ? "active" : ""}`} onClick={onSortDataByLike}>추천순</span>
                     </div>
-                    <button className="btn-write-simple" onClick={()=>nav("/write")}>📝 글쓰기</button>
+                    <button className="btn-write-simple" onClick={onMoveWrite}>📝 글쓰기</button>
                 </div>
 
                 <PostTable postData={currentPosts}/>
