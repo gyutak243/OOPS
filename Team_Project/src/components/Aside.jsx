@@ -22,8 +22,9 @@ const Aside = () => {
     return (
         <aside className="sidebar">
             <button className="sidebar__btn sidebar__btn--notice" onClick={() => nav("/notice")}>공지사항</button>
+            <button className="sidebar__btn sidebar__btn--free" onClick={() => nav("/free")}>자유 게시판</button>
             
-            <div className="sidebar__dropdown-container">
+            {/* <div className="sidebar__dropdown-container">
                 <button className="sidebar__dropdown-trigger" onClick={() => nav("/popular")}>인기 게시판</button>
                 <ul className="sidebar__menu-list">
                     <li className="sidebar__menu-item sidebar__menu-item--active"><a href="#">통학 게시판</a></li>
@@ -32,7 +33,7 @@ const Aside = () => {
                     <li className="sidebar__menu-item"><a href="#">학식 게시판</a></li>
                     <li className="sidebar__menu-item"><a href="#">고양이 게시판</a></li>
                 </ul>
-            </div>
+            </div> */}
 
             <button className="sidebar__btn sidebar__btn--login-info" onClick={() => nav("/auth")}>로그인 / 회원가입</button>
             

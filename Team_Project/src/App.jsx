@@ -13,6 +13,7 @@ import NoticePostWidget from './components/NoticePostWidget';
 import AuthCenter from './components/AuthCenter';
 import SearchPage from './components/SearchPage';
 import MyPage from './components/MyPage';
+import Edit from './components/Edit';
 
 
 
@@ -794,6 +795,8 @@ function App() {
                     {/* url 파라미터를 이용해서 검색결과를 url로 표현해주겠다. */}
                     <Route path='/search/:searchId' element={<SearchPage></SearchPage>}></Route>
                     <Route path='/mypage/:userId' element={<MyPage></MyPage>}></Route>
+                    {/* 수정 페이지가 코멘트 수정인지 posting 수정인지 확인 */}
+                    <Route path='/edit/:type/:postId' element={<Edit></Edit>}></Route>
                   </Routes>
                   <Bottom />
                 </div>

@@ -43,7 +43,7 @@ const PostDetail = () => {
 
   const currentUser = users.find((user)=>{
     return user.id === postData.authorId; 
-  })
+  }); 
 
   const postDate = formattedDate(postData.createdAt);
   //해당 글에 맞는 댓글 개수
@@ -69,7 +69,8 @@ const PostDetail = () => {
               </div>
               <div className="post-card__meta">
                 <div className="post-card__meta-info">
-                  <span className="post-card__author">{currentUser.userName}</span>
+                  {/* 게시자가 탈퇴했을 경우를 포함 */}
+                  <span className="post-card__author">{currentUser ? currentUser.userName : "알수 없음"}</span>
                   <span className="post-card__date">
                     {postDate.date} {postDate.time}
                   </span>

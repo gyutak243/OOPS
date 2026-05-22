@@ -153,6 +153,7 @@ const MyPage = () => {
         if(window.confirm("정말로 회원 탈퇴를 진행하시겠습니까? 지워진 계정은 복구되지 않습니다.")){
             onDeleteUserInfo(currentUserData.id); 
             localStorage.removeItem("currentLoginUser"); 
+            nav("/"); 
         }
     }
 
