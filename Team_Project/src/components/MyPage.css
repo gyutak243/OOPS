@@ -272,3 +272,56 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     /* 부모 박스를 삐져나가지 않도록 최대 너비나 유연한 너비 지정 */
     max-width: 70%; /* 날짜 영역을 고려해 적당히 조절하세요 */
 }
+
+/* ====================================================
+   PROFILE INPUT BOX SECTION (조건부 렌더링 파일 업로드 스타일)
+==================================================== */
+
+/* 1. 인풋 박스를 감싸는 파일 래퍼 구역에 페이드인 애니메이션 적용 */
+.file-input-wrapper {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f8fafc; /* 활동 리스트 배경과 동일한 부드러운 톤 */
+    border: 1px dashed #ccd6dd; /* 파일 업로드 영역 느낌을 주는 점선 */
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    /* 💡 처음에 뿅 나타날 때 부드럽게 위로 올라오는 효과 */
+    animation: fadeInUp 0.3s ease-out; 
+}
+
+/* 2. 실제 파일 선택 input 스타일 튜닝 */
+.real-file-input {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: #ffffff;
+    border: 1px solid #ccd6dd;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #555555;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* 파일 선택 버튼 호버/포커스 시 메인 테마 컬러 매칭 */
+.real-file-input:focus,
+.real-file-input:hover {
+    border-color: #002b49;
+    background-color: #f5f8fa;
+}
+
+/* 3. 이미지 변경 버튼이 활성화(active) 되었을 때 스타일 고정 */
+.btn-avatar-upload.active {
+    background-color: #e03e2d; /* 취소 느낌을 주기 위해 경고 컬러로 스위칭 */
+    color: #ffffff;
+    min-width: 100px; 
+}
+
+/* 4. 파일 안내 가이드 텍스트 (옵션: 인풋 박스 위에 설명 달 때 사용) */
+.file-input-help {
+    font-size: 12px;
+    color: #666666;
+    margin-bottom: 2px;
+}

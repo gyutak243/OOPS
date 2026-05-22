@@ -387,7 +387,8 @@ const mockUsers = [
     email: "admin@oops.ac.kr",      
     passWord: "password999!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 104, 
@@ -395,7 +396,8 @@ const mockUsers = [
     email: "tong104@example.com",   
     passWord: "password104!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 421, 
@@ -403,7 +405,8 @@ const mockUsers = [
     email: "matzip421@example.com", 
     passWord: "password421!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 87,  
@@ -411,7 +414,8 @@ const mockUsers = [
     email: "cse87@example.com",    
     passWord: "password87!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 512, 
@@ -419,7 +423,8 @@ const mockUsers = [
     email: "dev512@example.com",    
     passWord: "password512!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 231, 
@@ -427,7 +432,8 @@ const mockUsers = [
     email: "mohyun231@example.com", 
     passWord: "password231!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 302, 
@@ -435,7 +441,8 @@ const mockUsers = [
     email: "music302@example.com",  
     passWord: "password302!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 1,   
@@ -443,7 +450,8 @@ const mockUsers = [
     email: "kim1@example.com",      
     passWord: "password1!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 2,   
@@ -451,7 +459,8 @@ const mockUsers = [
     email: "lee2@example.com",      
     passWord: "password2!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 3,   
@@ -459,7 +468,8 @@ const mockUsers = [
     email: "park3@example.com",     
     passWord: "password3!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 4,   
@@ -467,7 +477,8 @@ const mockUsers = [
     email: "choi4@example.com",     
     passWord: "password4!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 5,   
@@ -475,7 +486,8 @@ const mockUsers = [
     email: "jung5@example.com",     
     passWord: "password5!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 6,   
@@ -483,7 +495,8 @@ const mockUsers = [
     email: "kang6@example.com",     
     passWord: "password6!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 7,   
@@ -491,7 +504,8 @@ const mockUsers = [
     email: "cho7@example.com",      
     passWord: "password7!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 8,   
@@ -499,7 +513,8 @@ const mockUsers = [
     email: "yoon8@example.com",     
     passWord: "password8!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 9,   
@@ -507,7 +522,8 @@ const mockUsers = [
     email: "jang9@example.com",     
     passWord: "password9!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 10,  
@@ -515,7 +531,8 @@ const mockUsers = [
     email: "lim10@example.com",     
     passWord: "password10!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 11,  
@@ -523,7 +540,8 @@ const mockUsers = [
     email: "han11@example.com",     
     passWord: "password11!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 12,  
@@ -531,7 +549,8 @@ const mockUsers = [
     email: "oh12@example.com",      
     passWord: "password12!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   },
   { 
     id: 13,  
@@ -539,7 +558,8 @@ const mockUsers = [
     email: "seo13@example.com",     
     passWord: "password13!",
     likedPosts: [],
-    badPosts: [] // 💡 추가됨
+    badPosts: [],
+    profileImg: "" // 💡 추가됨 (String)
   }
 ];
 

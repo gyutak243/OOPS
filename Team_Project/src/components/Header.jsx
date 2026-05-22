@@ -2,32 +2,39 @@ import './Header.css';
 import logo from "../assets/main Logo.png";
 import man from "../assets/man.png"; 
 import searchLogo from "../assets/search.png"; 
-import { useNavigate} from 'react-router-dom';
-import { useState, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useContext } from 'react';
+import { UserDataContext } from '../util/context';
 
-
-const Header = ({onSearch})=>{
+const Header = ({ onSearch }) => {
     const nav = useNavigate(); 
-    //학교 홈페이지로 갈 수 있게 해줬다. 
     const [search, setSearch] = useState(""); 
+    const users = useContext(UserDataContext) || []; // 혹시 모를 undefined 방지 null guarding
     const searchRef = useRef(); 
-    const handleMove = ()=>{
+
+    const handleMove = () => {
         window.open("https://www.hufs.ac.kr/hufs/index.do", "_blank"); 
     }
 
-    const onChangeSearch = (e)=>{
+    const currentLoginUser = localStorage.getItem("currentLoginUser") || ""; 
+    const loginUser = currentLoginUser ? JSON.parse(currentLoginUser) : null; 
+    
+    const currentUserInfo = users.find((user) => {
+        return user.userName === loginUser?.userName; 
+    }); 
+
+    const onChangeSearch = (e) => {
         setSearch(e.target.value);
     }
 
-    //Enter를 눌르면 검색이 되는 기능을 추가했다.
-    const onKeyDownEnter = (e)=>{
-        if(e.key==="Enter"){
+    const onKeyDownEnter = (e) => {
+        if (e.key === "Enter") {
             onSearchData(); 
         }
     }
 
-    const onSearchData = ()=>{
-        if(search.trim()===""){
+    const onSearchData = () => {
+        if (search.trim() === "") {
             searchRef.current.focus(); 
             return; 
         }
@@ -36,8 +43,7 @@ const Header = ({onSearch})=>{
         nav(`/search/${search}`); 
     }
 
-    // x표시를 눌르면 검색어가 지워지고 홈화면으로 돌아가게 했다.  
-    const onClearSearch = ()=>{
+    const onClearSearch = () => {
         setSearch(""); 
         nav("/"); 
         return; 
@@ -46,7 +52,7 @@ const Header = ({onSearch})=>{
     return (
         <header className="header">
             <div className="header__inner">
-                <h1 className="header__logo" onClick={()=>nav("/")}>
+                <h1 className="header__logo" onClick={() => nav("/")}>
                     <img src={logo} alt="LOOPS 로고"/>
                 </h1>
                 
@@ -58,9 +64,8 @@ const Header = ({onSearch})=>{
                         onChange={onChangeSearch}
                         onKeyDown={onKeyDownEnter}
                         ref={searchRef}
-                        />
+                    />
 
-                    {/* 조건부 랜더링을 이용해서 검색어를 입력하면 x자가 나타나게끔 해줬다 */}
                     {search.length > 0 && (
                         <button 
                             type="button" 
@@ -76,26 +81,38 @@ const Header = ({onSearch})=>{
                 </div>
 
                 <nav className="header__nav">
-                    <div className="header__link" onClick={()=>nav("/")}>홈 게시판</div>
+                    <div className="header__link" onClick={() => nav("/")}>홈 게시판</div>
                     <div className="header__link" onClick={handleMove}>학교 홈페이지</div>
+                    
                     <div className="header__auth-wrapper">
-                        <button className="header__btn-login" onClick={()=>nav("/auth")}>
-                            <img src={man} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright"></img>
-                            로그인 / 회원가입
-                        </button>
+                        
+                        {currentUserInfo && (
+                            // 로그인 상태일때 랜더링 구조 
+                            <div 
+                                className="header__profile-zone" 
+                                onClick={() => nav(`/mypage/${currentUserInfo.userName}`)}
+                                title="마이페이지로 이동"
+                            >
+                                <div className="header__avatar-holder">
+                                    {/* 프로필 정보가 있다면 사용 없으면 기본 이미지 사용 */}
+                                    <img 
+                                        src={currentUserInfo.profileImg || man} 
+                                        alt="내 프로필" 
+                                        className="header__user-avatar"
+                                    />
+                                </div>
+                                <span className="header__user-name">{currentUserInfo.userName}님</span>
+                            </div>
+                        )}
                     </div>
+                    <button className="header__btn-login" onClick={() => nav("/auth")}>
+                        <img src={man} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright" />
+                        로그인 / 회원가입
+                    </button>
                 </nav>
             </div>
         </header>
     )
 }
 
-export default Header; 
-
-/*
-배운점
-
-1. 컴포넌트가 서로 분리돼 있을때 그것들을 연결할 수 있는 방법은 바로 URL을 이용하는 것이다. 
-현재 searchBar가 헤더에 위치하고 검색결과 페이지는 라우터 안에 위치한다. 이것을 연결해주기 위해서 react-router-dom을 이용해주겠다. 
-
-*/
+export default Header;

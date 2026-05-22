@@ -1,9 +1,9 @@
 import "./MyPage.css"; 
-import man from "../assets/man.png"; 
 import { useContext, useState, useRef } from "react"; 
 import { PostDataContext, UserDataContext, UserDispatchContext } from "../util/context";
 import { useNavigate, useParams } from "react-router-dom";
 import Activity from "./Activity";
+import SettingProfile from "./SettingProfile";
 
 const MyPage = () => {
     const posts = useContext(PostDataContext); 
@@ -173,15 +173,7 @@ const MyPage = () => {
                     <section className="settings-group">
                         <h3 className="settings-group__title">프로필 설정</h3>
                         
-                        <div className="profile-avatar-row">
-                            <div className="avatar-holder">
-                                <img src={man} alt="사용자 프로필"/>
-                            </div>
-                            <div className="avatar-actions">
-                                <button type="button" className="btn-avatar-upload">이미지 변경</button>
-                                <button type="button" className="btn-avatar-delete">삭제</button>
-                            </div>
-                        </div>
+                        <SettingProfile></SettingProfile>
 
                         <div className="input-field-group">
                             <label className="input-label">닉네임 변경</label>

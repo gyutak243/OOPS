@@ -1,4 +1,3 @@
-
 /* ==========================================================================
    HEADER MAIN LAYOUT
    ========================================================================== */
@@ -40,7 +39,6 @@
     max-width: 520px;
     display: flex;
     align-items: center;
-
 }
 
 .header__search-bar input {
@@ -87,14 +85,27 @@
     display: block;
 }
 
+.header__clear-btn {
+    position: absolute;
+    right: 45px;
+    top: 50%; 
+    transform: translateY(-50%); 
+    background: none; 
+    border: none; 
+    font-size: 18px; 
+    cursor: pointer; 
+    color: #999; 
+}
+
 /* ==========================================================================
-   NAVIGATION & LINKS
+   NAVIGATION & LINKS (병합 및 정렬 튜닝 완료 ⚙️)
    ========================================================================== */
 
+/* 상단 메뉴들을 감싸는 네비게이션 바 */
 .header__nav {
     display: flex;
-    align-items: center;
-    gap: 35px;
+    align-items: center; /* 💡 모든 메뉴, 프로필, 로그인 버튼의 세로 정렬을 가운데로 정렬 */
+    gap: 20px;           /* 메뉴 간의 정당한 간격 격리 */
 }
 
 .header__link {
@@ -102,6 +113,12 @@
     font-weight: bold;
     color: #002b49;
     cursor: pointer; 
+}
+
+/* 프로필 존을 감싸고 있는 인증 래퍼 */
+.header__auth-wrapper {
+    display: flex;
+    align-items: center;
 }
 
 .header__btn-login {
@@ -123,14 +140,55 @@
     width: 18px;
 }
 
-.header__clear-btn{
-    position: absolute;
-    right: 45px;
-    top: 50%; 
-    transform: translateY(-50%); 
-    background: none; 
-    border: none; 
-    font-size: 18px; 
-    cursor: pointer; 
-    color: #999; 
+/* ====================================================
+   HEADER USER PROFILE ZONE (로그인 성공 시 우측 상단 프로필)
+==================================================== */
+
+.header__profile-zone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 4px 14px 4px 6px;
+    border-radius: 20px;
+    background-color: #f5f8fa; /* 메뉴들과 이질감 없는 부드러운 배경색 */
+    border: 1px solid #eef2f5;
+    transition: all 0.2s ease-in-out;
+    
+    /* 💡 프로필이 뿅 나타날 때 툭 켜지지 않고 부드럽게 페이드인 되도록 애니메이션 추가 */
+    animation: fadeInUp 0.25s ease-out; 
+}
+
+/* 마우스를 올렸을 때 살짝 떠오르며 메인 딥네이비 테두리로 변경 */
+.header__profile-zone:hover {
+    background-color: #ffffff;
+    border-color: #002b49;
+    box-shadow: 0 4px 10px rgba(0, 43, 73, 0.06);
+}
+
+/* 프로필 이미지를 감싸는 액자 프레임 */
+.header__avatar-holder {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 1px solid #ccd6dd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* 원 밖으로 사진이 나가지 않게 자름 */
+}
+
+/* 마이페이지에서 바꾼 긴 이미지 주소(Base64)도 깨짐 없이 원 안에 꽉 차게 */
+.header__user-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 가로세로 비율 유지하며 꽉 채우기 */
+}
+
+/* 로그인된 유저 네임 텍스트 */
+.header__user-name {
+    font-size: 13.5px;
+    font-weight: bold;
+    color: #002b49; /* 메인 브랜드 컬러 매칭 */
 }
