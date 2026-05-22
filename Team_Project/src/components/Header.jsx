@@ -1,6 +1,7 @@
 import './Header.css'; 
 import logo from "../assets/main Logo.png";
-import man from "../assets/man.png"; 
+import manLogin from "../assets/man_login.png"; 
+import manProfile from "../assets/man_profile.png"; 
 import searchLogo from "../assets/search.png"; 
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef, useContext } from 'react';
@@ -96,7 +97,7 @@ const Header = ({ onSearch }) => {
                                 <div className="header__avatar-holder">
                                     {/* 프로필 정보가 있다면 사용 없으면 기본 이미지 사용 */}
                                     <img 
-                                        src={currentUserInfo.profileImg || man} 
+                                        src={currentUserInfo.profileImg || manProfile} 
                                         alt="내 프로필" 
                                         className="header__user-avatar"
                                     />
@@ -106,7 +107,7 @@ const Header = ({ onSearch }) => {
                         )}
                     </div>
                     <button className="header__btn-login" onClick={() => nav("/auth")}>
-                        <img src={man} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright" />
+                        <img src={manLogin} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright" />
                         로그인 / 회원가입
                     </button>
                 </nav>

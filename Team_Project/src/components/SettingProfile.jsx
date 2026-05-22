@@ -1,4 +1,4 @@
-import man from "../assets/man.png";
+import man from "../assets/man_profile.png";
 import { useState, useRef, useContext } from "react"; // 💡 useRef 추가
 import { UserDataContext, UserDispatchContext } from "../util/context";
 import { useParams } from "react-router-dom";

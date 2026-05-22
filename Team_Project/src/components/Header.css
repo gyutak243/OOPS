@@ -123,6 +123,7 @@
 
 .header__btn-login {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 8px;
     background-color: #002b49;
@@ -177,6 +178,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden; /* 원 밖으로 사진이 나가지 않게 자름 */
+    padding: 5px; 
 }
 
 /* 마이페이지에서 바꾼 긴 이미지 주소(Base64)도 깨짐 없이 원 안에 꽉 차게 */

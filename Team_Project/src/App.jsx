@@ -377,6 +377,18 @@ const mockPosts = [
     badCount: 3, 
     commentCount: 3,
     category: "notification"
+  }, 
+  {
+    postId: 333,
+    title: "안녕하세요",
+    content: "기능 확인용 글추가 ",
+    createdAt: "2026-05-16T02:15:22.114Z",
+    authorId: 999,
+    viewCount: 2450, 
+    likeCount: 128,
+    badCount: 1, // 💡 공식 공지라 비추가 거의 없음
+    commentCount: 45, 
+    category: "notification"
   }
 ];
 
