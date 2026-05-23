@@ -4,6 +4,7 @@ import good from "../assets/good.png";
 import { formattedDate } from "../util/formattedDate";
 import { CommentDispatchContext, UserDataContext } from "../util/context";
 import CommentInput from "./CommentInput";
+import * as commentsApi from "../api/comments";
 
 const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCount}) => {
   const postDate = formattedDate(createdAt);
@@ -17,16 +18,29 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
   const [numLike, setNumLike] = useState(likeCount);
   const [isLiked, setIsLiked] = useState(false);
 
-  const onUpdateLike = () => {
-    const isLogin = localStorage.getItem("currentLoginUser") || ""; 
+  const onUpdateLike = async () => {
+    const isLogin = localStorage.getItem("currentLoginUser") || "";
     if(!isLogin){
-      window.alert("로그인 후에 이용 가능합니다."); 
-      return; 
+      window.alert("로그인 후에 이용 가능합니다.");
+      return;
     }
 
     const nextLike = isLiked ? numLike - 1 : numLike + 1;
     setNumLike(nextLike);
     setIsLiked(!isLiked);
+
+    try {
+      if (isLiked) {
+        await commentsApi.unlikeComment(postId, id);
+      } else {
+        await commentsApi.likeComment(postId, id);
+      }
+    } catch (err) {
+      setNumLike(isLiked ? numLike : numLike - 1);
+      setIsLiked(isLiked);
+      window.alert(err.message ?? "좋아요 처리에 실패했습니다.");
+      return;
+    }
 
     const commentInfo = {
       postId: postId,

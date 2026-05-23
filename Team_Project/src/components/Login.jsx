@@ -1,60 +1,67 @@
 import { useContext, useState, useRef } from "react";
-import "./Login.css"; 
-import { CommentDataContext, CommentDispatchContext, LoginStateContext, UserDataContext } from "../util/context";
+import "./Login.css";
+import { UserDataContext, UserDispatchContext } from "../util/context";
 import { useNavigate } from "react-router-dom";
+import { login as loginApi } from "../api/auth";
+import { fetchMe } from "../api/users";
+import { setStoredUser } from "../api/authStorage";
 
 
 const Login = ({ setView }) => {
-    const users = useContext(UserDataContext); 
+    const { onUpsertUserInfo } = useContext(UserDispatchContext) ?? {};
     const [loginInfo, setLoginInfo] = useState({
-        userName: "", 
-        passWord: "", 
-    }); 
-    const idRef = useRef(); 
-    const pwdRef = useRef(); 
-    const nav = useNavigate(); 
+        userName: "",
+        passWord: "",
+    });
+    const idRef = useRef();
+    const pwdRef = useRef();
+    const nav = useNavigate();
 
     const onChangeLoginInfo = (e)=>{
-        const {name, value} = e.target; 
+        const {name, value} = e.target;
 
         setLoginInfo({
-            ...loginInfo, 
+            ...loginInfo,
             [name]: value,
-        }); 
+        });
     }
 
-    const handleLoginSubmit = (e) => {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
 
-        if(loginInfo.userName.trim()===""){
-            idRef.current.focus(); 
-            return; 
+        if (loginInfo.userName.trim() === "") {
+            idRef.current.focus();
+            return;
         }
 
-        else if(loginInfo.passWord.trim()===""){
-            pwdRef.current.focus(); 
-            return; 
+        if (loginInfo.passWord.trim() === "") {
+            pwdRef.current.focus();
+            return;
         }
 
-        const loginData = users.find((user)=> (user.userName === loginInfo.userName && user.passWord === loginInfo.passWord)); 
-
-        if(!loginData){
-            window.alert("아이디와 비밀번호를 확인하세요"); 
-            return; 
+        try {
+            const { access_token } = await loginApi(
+                loginInfo.userName,
+                loginInfo.passWord,
+            );
+            setStoredUser({
+                userName: loginInfo.userName,
+                accessToken: access_token,
+            });
+            const me = await fetchMe();
+            setStoredUser({
+                userName: me.userName,
+                id: me.id,
+                email: me.email,
+                profileImg: me.profileImg,
+                accessToken: access_token,
+            });
+            onUpsertUserInfo?.(me);
+            setLoginInfo({ userName: "", passWord: "" });
+            nav(`/mypage/${me.userName}`);
+        } catch (err) {
+            window.alert(err.message ?? "아이디와 비밀번호를 확인하세요");
         }
-
-        //로그인 후에 로컬에다가 임시로 현재 로그인 중인 유저를 저장해놓겠다. 
-        localStorage.setItem("currentLoginUser", JSON.stringify(loginInfo)); 
-        setLoginInfo({
-            userName: "", 
-            passWord: "", 
-        }); 
-        const currentUser = localStorage.getItem("currentLoginUser"); 
-        const loginUser = JSON.parse(currentUser) || ""; 
-
-        //로그인 직후에 마이페이지로 돌아간다. 
-        nav(`/mypage/${loginUser.userName}`); 
-        console.log("로그인 시도");
     };
 
     return (

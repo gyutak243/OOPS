@@ -1,9 +1,9 @@
 import { useContext, useState, useRef } from "react";
-import "./SignUp.css"; 
-import { UserDataContext, UserDispatchContext } from "../util/context";
+import "./SignUp.css";
+import { UserDispatchContext } from "../util/context";
+import { checkUsername } from "../api/auth";
 
 const SignUp = ({ setView }) => {
-    const users = useContext(UserDataContext); 
     const {onCreateUserInfo} = useContext(UserDispatchContext);
     const idRef = useRef(); 
     const pwdRef = useRef();  
@@ -27,8 +27,8 @@ const SignUp = ({ setView }) => {
     }
     
 
-    const handleRegister = (e)=>{
-        e.preventDefault(); 
+    const handleRegister = async (e) => {
+        e.preventDefault();
         
         //폼이 작성되지 않으면 포커싱을 해준다. 
         if(newUser.userName.trim()===""){
@@ -46,44 +46,34 @@ const SignUp = ({ setView }) => {
             return; 
         }
 
-        //겹치는 아이디가 있으면 종료 
-        const isDuplicated = users.find((user)=> user.userName === newUser.userName); 
-
-        if(isDuplicated){
-            window.alert("겹치는 아이디가 존재합니다"); 
-            setNewUser({
-                ...newUser, 
-                userName: ""
-            })
-            idRef.current.focus(); 
-            return; 
+        if (newUser.passWord !== confirmPassword) {
+            setErrorMsg("비밀번호가 일치하는지 확인하세요!");
+            return;
         }
 
-        //폼에 작성된 값들을 확인한다. 
-        if(newUser.passWord === confirmPassword){
-            const userInfo = {
-                ...newUser
+        try {
+            const { available } = await checkUsername(newUser.userName);
+            if (!available) {
+                window.alert("겹치는 아이디가 존재합니다");
+                setNewUser({ ...newUser, userName: "" });
+                idRef.current.focus();
+                return;
             }
-            onCreateUserInfo(userInfo); 
-            setNewUser({
-                userName: "", 
-                passWord: "", 
-                email: "", 
-                likedPosts: [], 
-                badPosts: [], 
-            }); 
-            //가입 완료후에 로그인 페이지로 가게 해줬다. 
-            setView("login"); 
-            console.log(users); 
+        } catch (err) {
+            window.alert(err.message ?? "아이디 확인에 실패했습니다.");
+            return;
         }
 
-        else{
-            setErrorMsg("비밀번호가 일치하는지 확인하세요!"); 
-            return; 
+        try {
+            await onCreateUserInfo({ ...newUser });
+            setNewUser({ userName: "", passWord: "", email: "" });
+            setConfirmPassword("");
+            setErrorMsg("");
+            setView("login");
+        } catch {
+            /* onCreateUserInfo에서 alert 처리 */
         }
-
-
-    }
+    };
 
     return (
         <div className="auth-card">

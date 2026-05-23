@@ -16,13 +16,10 @@ const WriteSection = ()=>{
     
     const currentUser = localStorage.getItem("currentLoginUser"); 
     const loginUser = currentUser ? JSON.parse(currentUser) : null; 
-    const postUser = users.find((user)=>{
-        return user.userName === loginUser?.userName; 
-    }); 
+    const postUser = users.find((user) => user.userName === loginUser?.userName);
+    const authorId = postUser?.id ?? loginUser?.id;
 
-    // 만약의 상황(주소창 강제 진입)에서 
-    // 아래쪽 postUser.id를 읽다가 에러(Crash)가 나는 것을 막아주는 안전장치이다. 
-    if (!currentUser || !postUser) {
+    if (!currentUser || authorId == null) {
         return <p style={{ padding: "40px", textAlign: "center", color: "#666" }}>잘못된 접근이거나 로그인 정보가 없습니다.</p>; 
     }
 
@@ -34,7 +31,7 @@ const WriteSection = ()=>{
         }); 
     }
 
-    const onRegisterPost = (e)=>{
+    const onRegisterPost = async (e) => {
         e.preventDefault(); 
 
         if(write.title.trim()===""){
@@ -51,7 +48,7 @@ const WriteSection = ()=>{
             title: write.title, 
             content: write.content, 
             createdAt: new Date().toISOString(), 
-            authorId: postUser.id, 
+            authorId,
             viewCount: 0, 
             likeCount: 0, 
             badCount: 0, 
@@ -59,10 +56,14 @@ const WriteSection = ()=>{
             category: "free", 
         }
 
-        onCreatePost(postInfo); 
-        window.alert("글이 정상적으로 등록되었습니다. "); 
-        nav("/free"); 
-    }
+        try {
+            await onCreatePost(postInfo);
+            window.alert("글이 정상적으로 등록되었습니다.");
+            nav("/free");
+        } catch {
+            /* onCreatePost에서 alert 처리 */
+        }
+    };
 
     return (
         <main className="content-area">

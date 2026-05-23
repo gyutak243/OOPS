@@ -20,9 +20,15 @@ const Header = ({ onSearch }) => {
     const currentLoginUser = localStorage.getItem("currentLoginUser") || ""; 
     const loginUser = currentLoginUser ? JSON.parse(currentLoginUser) : null; 
     
-    const currentUserInfo = users.find((user) => {
-        return user.userName === loginUser?.userName; 
-    }); 
+    const currentUserInfo =
+        users.find((user) => user.userName === loginUser?.userName) ??
+        (loginUser?.userName
+            ? {
+                  userName: loginUser.userName,
+                  profileImg: loginUser.profileImg ?? "",
+                  id: loginUser.id,
+              }
+            : null);
 
     const onChangeSearch = (e) => {
         setSearch(e.target.value);

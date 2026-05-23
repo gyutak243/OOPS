@@ -1,9 +1,12 @@
-import "./MyPage.css"; 
-import { useContext, useState, useRef } from "react"; 
+import "./MyPage.css";
+import { useContext, useState, useRef } from "react";
 import { PostDataContext, UserDataContext, UserDispatchContext } from "../util/context";
 import { useNavigate, useParams } from "react-router-dom";
 import Activity from "./Activity";
 import SettingProfile from "./SettingProfile";
+import { clearAuth, getStoredUser, setStoredUser } from "../api/authStorage";
+import * as usersApi from "../api/users";
+import * as authApi from "../api/auth";
 
 const MyPage = () => {
     const posts = useContext(PostDataContext); 
@@ -32,24 +35,22 @@ const MyPage = () => {
         setMsg(""); 
     }
 
-    const identifyDuplicated = () => {
+    const identifyDuplicated = async () => {
         if (changeUserName.trim() === "") {
-            idRef.current.focus(); 
-            return; 
+            idRef.current.focus();
+            return;
         }
 
-        // 💡 본인의 현재 닉네임과 똑같이 입력했을 때는 중복 검사를 패스해주는 센스!
         if (changeUserName === currentUserData?.userName) {
             setMsg("현재 사용 중인 닉네임입니다.");
             return;
         }
 
-        const duplicatedName = users.find((user) => user.userName === changeUserName); 
-
-        if (duplicatedName) {
-            setMsg("중복된 아이디가 존재합니다!"); 
-        } else {
-            setMsg("사용 가능한 아이디입니다."); 
+        try {
+            const { available } = await authApi.checkUsername(changeUserName);
+            setMsg(available ? "사용 가능한 아이디입니다." : "중복된 아이디가 존재합니다!");
+        } catch {
+            setMsg("중복 확인에 실패했습니다.");
         }
     }
 
@@ -67,7 +68,7 @@ const MyPage = () => {
     }
 
     const handleLogout = () => {
-        localStorage.removeItem("currentLoginUser"); 
+        clearAuth();
         window.alert("성공적으로 로그아웃 되었습니다."); 
         nav("/"); 
     };
@@ -81,7 +82,7 @@ const MyPage = () => {
         setPwdMsg("");
     }
 
-    const changeSetting = () => {
+    const changeSetting = async () => {
         if (!currentUserData) return;
 
         // 1. 변경할 정보가 아예 없을 때 예외 처리
@@ -90,69 +91,60 @@ const MyPage = () => {
             return;
         }
 
-        let updatedPassword = currentUserData.passWord;
-
-        //비밀번호 데이터 세개중에 하나라도 있을때에 없는 데이터는 포커싱 
+        // 비밀번호 입력 검증
         if (myCurrentPwd || myNewPwd || confirmPwd) {
             if (myCurrentPwd.trim() === "") {
-                currentPwdRef.current.focus(); 
-                setPwdMsg("현재 비밀번호를 입력해 주세요.");
-                return; 
-            }
-            //현재 비밀번호가 일치하지 않으면 메시지를 보냄 
-            if (myCurrentPwd !== currentUserData.passWord) {
                 currentPwdRef.current.focus();
-                setPwdMsg("현재 비밀번호가 일치하지 않습니다."); 
-                return; 
+                setPwdMsg("현재 비밀번호를 입력해 주세요.");
+                return;
             }
             if (myNewPwd.trim() === "") {
-                newPwdRef.current.focus(); 
+                newPwdRef.current.focus();
                 setPwdMsg("새 비밀번호를 입력해 주세요.");
-                return; 
+                return;
             }
             if (confirmPwd.trim() === "") {
-                confirmRef.current.focus(); 
+                confirmRef.current.focus();
                 setPwdMsg("새 비밀번호 확인을 입력해 주세요.");
-                return; 
+                return;
             }
-
-            //새로운 비밀번호와 확인 비밀번호가 일치하지 않을때
             if (myNewPwd !== confirmPwd) {
                 confirmRef.current.focus();
-                setPwdMsg("새 비밀번호가 일치하지 않습니다."); 
-                return; 
+                setPwdMsg("새 비밀번호가 일치하지 않습니다.");
+                return;
             }
-            // 모든 관문을 넘었다면 변경할 패스워드 세팅
-            updatedPassword = myNewPwd;
         }
 
-        // 3. 데이터 패키징 및 전송
-        const userInfo = {
-            ...currentUserData,
-            userName: changeUserName.trim() !== "" ? changeUserName : currentUserData.userName,
-            passWord: updatedPassword,  
-        }
+        try {
+            // 닉네임 변경
+            if (changeUserName.trim() !== "" && changeUserName !== currentUserData.userName) {
+                const updated = await usersApi.updateProfile({ username: changeUserName });
+                onUpdateUserInfo(updated);
+                const stored = getStoredUser();
+                if (stored) setStoredUser({ ...stored, userName: updated.userName });
+                nav(`/mypage/${changeUserName}`, { replace: true });
+            }
 
-        onUpdateUserInfo(userInfo);
-        window.alert("변경사항이 저장되었습니다."); 
+            // 비밀번호 변경
+            if (myNewPwd.trim() !== "") {
+                await usersApi.updatePassword({
+                    currentPassword: myCurrentPwd,
+                    newPassword: myNewPwd,
+                });
+            }
 
-        //로컬에 변경사항을 반영해줘야한다. 
-        localStorage.setItem("currentLoginUser", JSON.stringify({userName : userInfo.userName ,passWord:userInfo.passWord })); 
-        
-        // 만약 닉네임(userName)이 바뀌었다면 URL 파라미터가 유효하지 않게 되므로 바뀐 주소로 새로 리다이렉트 시켜줍니다.
-        if (changeUserName.trim() !== "") {
-            nav(`/mypage/${changeUserName}`, { replace: true });
+            window.alert("변경사항이 저장되었습니다.");
+            clearAll();
+        } catch (err) {
+            setPwdMsg(err.message ?? "변경에 실패했습니다.");
         }
-        
-        //변경이 끝나면 칸을 비워준다. 
-        clearAll(); 
     }
 
     //회원 탈퇴 로직이다. 
     const deleteAccount = ()=>{
         if(window.confirm("정말로 회원 탈퇴를 진행하시겠습니까? 지워진 계정은 복구되지 않습니다.")){
             onDeleteUserInfo(currentUserData.id); 
-            localStorage.removeItem("currentLoginUser"); 
+            clearAuth();
             nav("/"); 
         }
     }

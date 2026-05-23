@@ -1,5 +1,5 @@
 import { useContext, useState, useRef } from "react";
-import "./ChangePassWord.css"; 
+import "./ChangePassWord.css";
 import { UserDataContext, UserDispatchContext } from "../util/context";
 
 const ChangePassWord = ({ setView }) => {
@@ -27,6 +27,9 @@ const ChangePassWord = ({ setView }) => {
 
     const handleResetPassword = (e) => {
         e.preventDefault();
+
+        setErrorMsg("비밀번호 변경은 마이페이지에서 이용해주세요.");
+        return;
 
         //폼이 작성되지 않았을시에 포커싱 적용
         if(userInfo.userName.trim()===""){

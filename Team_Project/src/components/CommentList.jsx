@@ -1,12 +1,16 @@
-import "./CommentList.css"; 
-import good from "../assets/good.png"; 
-import { useContext } from "react";
-import { CommentDataContext } from "../util/context";
+import "./CommentList.css";
+import { useContext, useEffect } from "react";
+import { CommentDataContext, CommentDispatchContext } from "../util/context";
 import CommentItem from "./CommentItem";
 import CommentInput from "./CommentInput";
 
-const CommentList = ({postId})=>{
-    const comments = useContext(CommentDataContext); 
+const CommentList = ({ postId }) => {
+    const comments = useContext(CommentDataContext);
+    const { onLoadCommentsForPost } = useContext(CommentDispatchContext) ?? {};
+
+    useEffect(() => {
+        onLoadCommentsForPost?.(postId);
+    }, [postId, onLoadCommentsForPost]);
     const currentScreenCommentInfo = comments.filter((comment)=>{
         return comment.postId === Number(postId); 
     }); 

@@ -32,7 +32,7 @@ const ActivityItem = ({type, id ,postId ,title, createdAt})=>{
             }
 
             else if(type==="comment"){
-                onDeleteComment(id); 
+                onDeleteComment(id, postId);
             }
         }
         

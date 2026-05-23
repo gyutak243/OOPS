@@ -4,49 +4,52 @@ import { CommentDataContext, CommentDispatchContext, UserDataContext } from "../
 
 const CommentInput = ({postId, parentId=null, onSuccess=(()=>{})})=>{
     const [comment, setComment] = useState(""); 
-    const {onCreateComment} = useContext(CommentDispatchContext); 
-    const commentRef = useRef(); 
-    const comments = useContext(CommentDataContext); 
+    const { onCreateComment } = useContext(CommentDispatchContext);
+    const commentRef = useRef();
     //현재 로그인 중인 유저 정보를 가져온다. 
     const currentUser = localStorage.getItem('currentLoginUser') || null; 
     const loginUser = JSON.parse(currentUser) || ''; 
     //user 데이터에서 현재 로그인 중인 유저의 데이터를 가져온다. 
     const users = useContext(UserDataContext) || []; 
-    const loginUserInfo = users.find((user)=>{
-        return user.userName === loginUser.userName; 
-    }); 
+    const loginUserInfo = loginUser
+        ? users.find((user) => user.userName === loginUser.userName)
+        : null;
+    const authorId = loginUserInfo?.id ?? loginUser?.id;
 
     
     const onChangeComment = (e)=>{
         setComment(e.target.value); 
     }
 
-    const handleSubmit = ()=>{
+    const handleSubmit = async () => {
         //현재 로그인한 유저가 없다면 메시지를 보여주고 종료
-        if(!loginUser){
-            window.alert("로그인 후에 이용 가능합니다."); 
-            return; 
+        if (!loginUser || authorId == null) {
+            window.alert("로그인 후에 이용 가능합니다.");
+            return;
         }
 
-        if(comment.trim()===""){
+        if (comment.trim() === "") {
             commentRef.current.focus(); 
             return; 
         }
 
         const commentInfo = {
             postId: Number(postId), 
-            authorId: loginUserInfo.id, 
+            authorId,
             content: comment, 
             createdAt: new Date().toISOString(), 
             parentId: parentId, 
             likeCount: 0, 
         }
 
-        onCreateComment(commentInfo); 
-        setComment(""); 
-        console.log(comments); 
-        onSuccess(); 
-    }
+        try {
+            await onCreateComment(commentInfo);
+            setComment("");
+            onSuccess();
+        } catch {
+            /* onCreateComment에서 alert 처리 */
+        }
+    };
     
 
     return (
