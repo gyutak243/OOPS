@@ -16,6 +16,7 @@ class User(Base):
 
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
     likes = relationship("Like", back_populates="user", cascade="all, delete-orphan")
+    bads = relationship("Bad", back_populates="user", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
     comment_likes = relationship("CommentLike", back_populates="user", cascade="all, delete-orphan")
 
@@ -34,6 +35,7 @@ class Post(Base):
 
     author = relationship("User", back_populates="posts")
     likes = relationship("Like", back_populates="post", cascade="all, delete-orphan")
+    bads = relationship("Bad", back_populates="post", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="post", cascade="all, delete-orphan")
 
 
@@ -47,6 +49,15 @@ class Like(Base):
     user = relationship("User", back_populates="likes")
     post = relationship("Post", back_populates="likes")
 
+class Bad(Base):
+    __tablename__ = "bads"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    post_id = Column(Integer, ForeignKey("posts.id"))
+
+    user = relationship("User", back_populates="bads")
+    post = relationship("Post", back_populates="bads")
 
 class Comment(Base):
     __tablename__ = "comments"

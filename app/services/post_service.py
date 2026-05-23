@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from app.models.models import Post, Like
+from app.models.models import Post, Like, Bad
 from app.schemas.schemas import PostCreate, PostResponse
 from typing import Optional
 
@@ -139,23 +139,34 @@ def bad_post(db: Session, post_id: int, user_id: int) -> dict:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="게시글이 없습니다"
         )
+    existing_bad = db.query(Bad).filter(
+        Bad.post_id == post_id,
+        Bad.user_id == user_id
+    ).first()
+    if existing_bad:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="이미 비추천한 게시글입니다"
+        )
+    bad = Bad(post_id=post_id, user_id=user_id)
+    db.add(bad)
     post.bad_count += 1
     db.commit()
     return {"message": "비추천 완료"}
 
 
 def unbad_post(db: Session, post_id: int, user_id: int) -> dict:
-    post = db.query(Post).filter(Post.id == post_id).first()
-    if not post:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="게시글이 없습니다"
-        )
-    if post.bad_count <= 0:
+    bad = db.query(Bad).filter(
+        Bad.post_id == post_id,
+        Bad.user_id == user_id
+    ).first()
+    if not bad:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="비추천 수가 0입니다"
+            detail="비추천하지 않은 게시글입니다"
         )
+    db.delete(bad)
+    post = db.query(Post).filter(Post.id == post_id).first()
     post.bad_count -= 1
     db.commit()
     return {"message": "비추천 취소"}

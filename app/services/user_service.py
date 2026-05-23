@@ -1,12 +1,19 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.models.models import User, Post, Comment
-from app.schemas.schemas import ProfileUpdate, PasswordUpdate
+from app.schemas.schemas import ProfileUpdate, PasswordUpdate, UserResponse
 from app.core.security import verify_password, get_password_hash
 
 
-def get_me(user: User) -> User:
-    return user
+def get_me(db: Session, user: User) -> UserResponse:
+    return UserResponse(
+        id=user.id,
+        username=user.username,
+        email=user.email,
+        profile_image=user.profile_image,
+        liked_posts=[like.post_id for like in user.likes],
+        bad_posts=[bad.post_id for bad in user.bads]
+    )
 
 
 def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> User:
