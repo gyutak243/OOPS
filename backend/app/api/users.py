@@ -76,3 +76,11 @@ def get_my_likes(
     current_user: User = Depends(get_current_user)
 ):
     return user_service.get_my_likes(db, current_user)
+
+
+@router.delete("/me")
+def delete_me(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return user_service.delete_user(db, current_user)

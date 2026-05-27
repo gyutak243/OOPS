@@ -2,36 +2,55 @@ import "./CommentItem.css";
 import { useContext, useState } from "react";
 import good from "../assets/good.png";
 import { formattedDate } from "../util/formattedDate";
-import { UserDataContext } from "../util/context";
+import { UserDataContext, UserDispatchContext } from "../util/context";
 import CommentInput from "./CommentInput";
 import * as commentsApi from "../api/comments";
-import { getStoredUser } from "../api/authStorage";
+import { getStoredUser, setStoredUser } from "../api/authStorage";
 
 const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCount}) => {
   const postDate = formattedDate(createdAt);
   const users = useContext(UserDataContext);
+  const { onUpdateUserInfo } = useContext(UserDispatchContext);
   const postUser = users?.find((user) => user.id === authorId);
   const name = postUser?.userName || "알 수 없음";
 
+  const stored = getStoredUser();
+  const loginUserInfo = stored ? users?.find((u) => u.userName === stored.userName) : null;
+  const initialLiked = loginUserInfo?.likedComments?.includes(id) ?? false;
+
   const [isReplyOpen, setIsReplyOpen] = useState(false);
-  const [numLike, setNumLike] = useState(likeCount);
-  const [isLiked, setIsLiked] = useState(false);
+  const [numLike, setNumLike] = useState(initialLiked ? likeCount : likeCount);
+  const [isLiked, setIsLiked] = useState(initialLiked);
 
   const onUpdateLike = async () => {
-    if (!getStoredUser()?.accessToken) {
+    if (!stored?.accessToken) {
       window.alert("로그인 후에 이용 가능합니다.");
       return;
     }
 
-    const nextLike = isLiked ? numLike - 1 : numLike + 1;
-    setNumLike(nextLike);
+    const nextLiked = isLiked ? numLike - 1 : numLike + 1;
+    setNumLike(nextLiked);
     setIsLiked(!isLiked);
+
+    const nextLikedComments = isLiked
+      ? (loginUserInfo.likedComments || []).filter((cid) => cid !== id)
+      : [id, ...(loginUserInfo?.likedComments || [])];
+
+    if (loginUserInfo) {
+      const updatedUser = { ...loginUserInfo, likedComments: nextLikedComments };
+      onUpdateUserInfo(updatedUser);
+      if (stored) setStoredUser({ ...stored, likedComments: nextLikedComments });
+    }
 
     try {
       await commentsApi.toggleLikeComment(postId, id);
     } catch (err) {
       setNumLike(numLike);
       setIsLiked(isLiked);
+      if (loginUserInfo) {
+        onUpdateUserInfo(loginUserInfo);
+        if (stored) setStoredUser({ ...stored, likedComments: loginUserInfo.likedComments || [] });
+      }
       window.alert(err.message ?? "좋아요 처리에 실패했습니다.");
     }
   };

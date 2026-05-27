@@ -41,6 +41,7 @@ export function userFromApi(user) {
     email: user.email,
     profileImg: user.profile_image ?? "",
     likedPosts: user.liked_post_ids ?? [],
+    likedComments: user.liked_comment_ids ?? [],
     badPosts: [],
   };
 }

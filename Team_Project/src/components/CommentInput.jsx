@@ -55,7 +55,6 @@ const CommentInput = ({postId, parentId=null, onSuccess=(()=>{})})=>{
     return (
         <div className="comment-form">
             <div className="comment-form__user-info">
-                {/* 추후에 로그인 정보 넣고서 작업할 것이다 */}
                 댓글 작성 &nbsp;<strong>{`${loginUser ? loginUser.userName : "로그인 전"}`}</strong>
             </div>
             <div className="comment-form__input-wrapper">

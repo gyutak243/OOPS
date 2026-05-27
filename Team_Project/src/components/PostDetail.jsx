@@ -29,6 +29,7 @@ function resolveLoginUser(users) {
       id: stored.id,
       userName: stored.userName,
       likedPosts: stored.likedPosts ?? [],
+      likedComments: stored.likedComments ?? [],
       badPosts: stored.badPosts ?? [],
     };
   }
@@ -107,6 +108,7 @@ const PostDetail = () => {
 
     try {
       await postsApi.toggleLikePost(Number(postId));
+      onFetchPost(postId);
     } catch (err) {
       onUpdatePostLocal(postData);
       onUpdateUserInfo(loginUserInfo);

@@ -118,10 +118,10 @@ const MyPage = () => {
         try {
             // 닉네임 변경
             if (changeUserName.trim() !== "" && changeUserName !== currentUserData.userName) {
-                const { user, accessToken } = await usersApi.updateProfile({ username: changeUserName });
-                onUpdateUserInfo(user);
+                const updated = await usersApi.updateProfile({ username: changeUserName });
+                onUpdateUserInfo(updated);
                 const stored = getStoredUser();
-                if (stored) setStoredUser({ ...stored, userName: user.userName, ...(accessToken ? { accessToken } : {}) });
+                if (stored) setStoredUser({ ...stored, userName: updated.userName });
                 nav(`/mypage/${changeUserName}`, { replace: true });
             }
 
@@ -140,12 +140,17 @@ const MyPage = () => {
         }
     }
 
-    //회원 탈퇴 로직이다. 
-    const deleteAccount = ()=>{
+    //회원 탈퇴 로직이다.
+    const deleteAccount = async () => {
         if(window.confirm("정말로 회원 탈퇴를 진행하시겠습니까? 지워진 계정은 복구되지 않습니다.")){
-            onDeleteUserInfo(currentUserData.id); 
-            clearAuth();
-            nav("/"); 
+            try {
+                await usersApi.deleteMe();
+                onDeleteUserInfo(currentUserData.id);
+                clearAuth();
+                nav("/");
+            } catch (err) {
+                window.alert(err.message ?? "회원 탈퇴에 실패했습니다.");
+            }
         }
     }
 

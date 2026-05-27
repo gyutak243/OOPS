@@ -6,12 +6,24 @@ from app.core.security import verify_password, get_password_hash, create_access_
 
 
 def get_users(db: Session) -> list:
-    return db.query(User).all()
+    users = db.query(User).all()
+    return [
+        {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "profile_image": user.profile_image,
+            "liked_post_ids": [like.post_id for like in user.likes],
+            "liked_comment_ids": [like.comment_id for like in user.comment_likes],
+        }
+        for user in users
+    ]
 
 
 def get_me(user: User) -> dict:
     liked_post_ids = [like.post_id for like in user.likes]
-    return {"id": user.id, "username": user.username, "email": user.email, "profile_image": user.profile_image, "liked_post_ids": liked_post_ids}
+    liked_comment_ids = [like.comment_id for like in user.comment_likes]
+    return {"id": user.id, "username": user.username, "email": user.email, "profile_image": user.profile_image, "liked_post_ids": liked_post_ids, "liked_comment_ids": liked_comment_ids}
 
 
 def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> dict:
@@ -76,3 +88,9 @@ def delete_my_comments(db: Session, user: User, comment_ids: list[int]) -> dict:
 
 def get_my_likes(db: Session, user: User) -> list:
     return [like.post for like in user.likes]
+
+
+def delete_user(db: Session, user: User) -> dict:
+    db.delete(user)
+    db.commit()
+    return {"message": "회원 탈퇴가 완료됐습니다"}

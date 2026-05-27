@@ -67,3 +67,10 @@ export async function deleteMyComments(commentIds) {
     body: commentIds,
   });
 }
+
+export async function deleteMe() {
+  return apiRequest("/users/me", {
+    method: "DELETE",
+    auth: true,
+  });
+}
