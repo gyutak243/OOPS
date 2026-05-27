@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.api.deps import get_db
-from app.schemas.schemas import UserCreate, UserResponse, Token, UserLogin
+from app.schemas.schemas import UserCreate, UserResponse, Token, UserLogin, SignupResponse
 from app.services.auth_service import register, login, check_username
 
 router = APIRouter(prefix="/auth", tags=["계정"])
 
 
-@router.post("/signup", response_model=UserResponse, status_code=201)
+@router.post("/signup", response_model=SignupResponse, status_code=201)
 def signup(user_data: UserCreate, db: Session = Depends(get_db)):
     return register(db, user_data)
 

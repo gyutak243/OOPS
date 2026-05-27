@@ -3,7 +3,8 @@ import { useEffect, useReducer } from 'react';
 import * as postsApi from './api/posts';
 import * as commentsApi from './api/comments';
 import * as authApi from './api/auth';
-import { fetchMe } from './api/users';
+import { fetchMe, fetchAllUsers } from './api/users';
+import { setStoredUser, clearAuth, getStoredUser } from './api/authStorage';
 import { getAccessToken } from './api/authStorage';
 import { Routes, Route } from 'react-router-dom';
 import { CommentDataContext, CommentDispatchContext, PostDataContext, PostDispatchContext, UserDataContext, UserDispatchContext } from './util/context';
@@ -104,11 +105,22 @@ function App() {
       .then((list) => dispatchPost({ type: "SET", data: list }))
       .catch((err) => console.error("게시글 목록 로드 실패:", err));
 
+    fetchAllUsers()
+      .then((list) => dispatchUser({ type: "SET", data: list }))
+      .catch((err) => console.error("유저 목록 로드 실패:", err));
+
     if (!getAccessToken()) return;
 
     fetchMe()
-      .then((user) => dispatchUser({ type: "UPSERT", userData: user }))
-      .catch((err) => console.error("로그인 세션 복원 실패:", err));
+      .then((user) => {
+        dispatchUser({ type: "UPSERT", userData: user });
+        const stored = getStoredUser();
+        if (stored) setStoredUser({ ...stored, likedPosts: user.likedPosts });
+      })
+      .catch((err) => {
+        console.error("로그인 세션 복원 실패:", err);
+        clearAuth();
+      });
   }, []);
 
   const onLoadCommentsForPost = async (postId) => {
@@ -170,8 +182,15 @@ function App() {
 
   const onCreateUserInfo = async (userInfo) => {
     try {
-      const created = await authApi.signup(userInfo);
-      dispatchUser({ type: "UPSERT", userData: created });
+      const { user, accessToken } = await authApi.signup(userInfo);
+      setStoredUser({
+        userName: user.userName,
+        id: user.id,
+        email: user.email,
+        profileImg: user.profileImg,
+        accessToken,
+      });
+      dispatchUser({ type: "UPSERT", userData: user });
     } catch (err) {
       window.alert(err.message ?? "회원가입에 실패했습니다.");
       throw err;

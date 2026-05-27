@@ -2,14 +2,21 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.models.models import User, Post, Comment
 from app.schemas.schemas import ProfileUpdate, PasswordUpdate
-from app.core.security import verify_password, get_password_hash
+from app.core.security import verify_password, get_password_hash, create_access_token
 
 
-def get_me(user: User) -> User:
-    return user
+def get_users(db: Session) -> list:
+    return db.query(User).all()
 
 
-def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> User:
+def get_me(user: User) -> dict:
+    liked_post_ids = [like.post_id for like in user.likes]
+    return {"id": user.id, "username": user.username, "email": user.email, "profile_image": user.profile_image, "liked_post_ids": liked_post_ids}
+
+
+def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> dict:
+    username_changed = False
+
     if profile_data.username:
         existing = db.query(User).filter(User.username == profile_data.username).first()
         if existing and existing.id != user.id:
@@ -18,13 +25,18 @@ def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> User
                 detail="이미 사용 중인 아이디입니다"
             )
         user.username = profile_data.username
+        username_changed = True
 
     if profile_data.profile_image:
         user.profile_image = profile_data.profile_image
 
     db.commit()
     db.refresh(user)
-    return user
+
+    result = {"user": user, "access_token": None}
+    if username_changed:
+        result["access_token"] = create_access_token(data={"sub": user.username})
+    return result
 
 
 def update_password(db: Session, user: User, password_data: PasswordUpdate) -> dict:

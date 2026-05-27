@@ -2,25 +2,23 @@ import "./CommentItem.css";
 import { useContext, useState } from "react";
 import good from "../assets/good.png";
 import { formattedDate } from "../util/formattedDate";
-import { CommentDispatchContext, UserDataContext } from "../util/context";
+import { UserDataContext } from "../util/context";
 import CommentInput from "./CommentInput";
 import * as commentsApi from "../api/comments";
+import { getStoredUser } from "../api/authStorage";
 
 const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCount}) => {
   const postDate = formattedDate(createdAt);
   const users = useContext(UserDataContext);
-  const { onUpdateComment } = useContext(CommentDispatchContext);
   const postUser = users?.find((user) => user.id === authorId);
   const name = postUser?.userName || "알 수 없음";
 
-  // 대댓글 창 열림/닫힘 상태
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [numLike, setNumLike] = useState(likeCount);
   const [isLiked, setIsLiked] = useState(false);
 
   const onUpdateLike = async () => {
-    const isLogin = localStorage.getItem("currentLoginUser") || "";
-    if(!isLogin){
+    if (!getStoredUser()?.accessToken) {
       window.alert("로그인 후에 이용 가능합니다.");
       return;
     }
@@ -30,28 +28,12 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
     setIsLiked(!isLiked);
 
     try {
-      if (isLiked) {
-        await commentsApi.unlikeComment(postId, id);
-      } else {
-        await commentsApi.likeComment(postId, id);
-      }
+      await commentsApi.toggleLikeComment(postId, id);
     } catch (err) {
-      setNumLike(isLiked ? numLike : numLike - 1);
+      setNumLike(numLike);
       setIsLiked(isLiked);
       window.alert(err.message ?? "좋아요 처리에 실패했습니다.");
-      return;
     }
-
-    const commentInfo = {
-      postId: postId,
-      authorId: authorId,
-      content: content,
-      createdAt: createdAt,
-      parentId: parentId,
-      likeCount: nextLike,
-    };
-
-    onUpdateComment(id, commentInfo);
   };
 
   return (
@@ -80,7 +62,6 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
               </button>
             )}
 
-            {/* 💡 핵심 수정: 버튼 태그 자체에 onClick과 disabled를 부여합니다 */}
             <button
               className={`comment-capsule-btn ${isLiked ? "comment-capsule-btn--active" : ""}`}
               onClick={onUpdateLike}
@@ -99,7 +80,6 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
         <p className="comment-box__text">{content}</p>
       </div>
 
-      {/* 대댓글 창이 열렸을 때 대댓글창을 보여준다 */}
       {isReplyOpen && (
         <CommentInput
           postId={postId}

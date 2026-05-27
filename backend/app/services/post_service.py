@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from app.models.models import Post, Like
+from app.models.models import Post, Like, User
 from app.schemas.schemas import PostCreate, PostResponse
 from typing import Optional
 
@@ -94,7 +94,7 @@ def delete_post(db: Session, post_id: int, user_id: int) -> dict:
     return {"message": "게시글이 삭제됐습니다"}
 
 
-def like_post(db: Session, post_id: int, user_id: int) -> dict:
+def toggle_like_post(db: Session, post_id: int, user_id: int) -> dict:
     post = db.query(Post).filter(Post.id == post_id).first()
     if not post:
         raise HTTPException(
@@ -106,33 +106,17 @@ def like_post(db: Session, post_id: int, user_id: int) -> dict:
         Like.user_id == user_id
     ).first()
     if existing_like:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="이미 좋아요한 게시글입니다"
-        )
+        db.delete(existing_like)
+        db.commit()
+        return {"liked": False, "message": "좋아요 취소"}
     like = Like(post_id=post_id, user_id=user_id)
     db.add(like)
     db.commit()
-    return {"message": "좋아요 완료"}
-
-
-def unlike_post(db: Session, post_id: int, user_id: int) -> dict:
-    like = db.query(Like).filter(
-        Like.post_id == post_id,
-        Like.user_id == user_id
-    ).first()
-    if not like:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="좋아요하지 않은 게시글입니다"
-        )
-    db.delete(like)
-    db.commit()
-    return {"message": "좋아요 취소"}
+    return {"liked": True, "message": "좋아요 완료"}
 
 
 def search_posts(db: Session, keyword: str) -> list[PostResponse]:
-    posts = db.query(Post).filter(
-        Post.title.contains(keyword) | Post.content.contains(keyword)
+    posts = db.query(Post).join(Post.author).filter(
+        Post.title.contains(keyword) | Post.content.contains(keyword) | User.username.contains(keyword)
     ).order_by(Post.created_at.desc()).all()
     return [make_post_response(post) for post in posts]

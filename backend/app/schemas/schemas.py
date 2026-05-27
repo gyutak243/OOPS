@@ -14,13 +14,24 @@ class UserResponse(BaseModel):
     username: str
     email: str
     profile_image: Optional[str] = None
+    liked_post_ids: list[int] = []
 
     class Config:
         from_attributes = True
 
+class SignupResponse(BaseModel):
+    user: UserResponse
+    access_token: str
+    token_type: str = "bearer"
+
 class ProfileUpdate(BaseModel):
     username: Optional[str] = None
     profile_image: Optional[str] = None
+
+class ProfileResponse(BaseModel):
+    user: UserResponse
+    access_token: Optional[str] = None
+    token_type: str = "bearer"
 
 class PasswordUpdate(BaseModel):
     current_password: str

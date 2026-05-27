@@ -47,10 +47,6 @@ export async function deletePost(postId) {
   return apiRequest(`/posts/${postId}`, { method: "DELETE", auth: true });
 }
 
-export async function likePost(postId) {
+export async function toggleLikePost(postId) {
   return apiRequest(`/posts/${postId}/like`, { method: "POST", auth: true });
-}
-
-export async function unlikePost(postId) {
-  return apiRequest(`/posts/${postId}/like`, { method: "DELETE", auth: true });
 }

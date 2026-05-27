@@ -1,6 +1,11 @@
 import { apiRequest } from "./client";
 import { userFromApi, postFromApi, commentFromApi } from "./mappers";
 
+export async function fetchAllUsers() {
+  const data = await apiRequest("/users");
+  return (data ?? []).map(userFromApi);
+}
+
 export async function fetchMe() {
   const data = await apiRequest("/users/me", { auth: true });
   return userFromApi(data);
@@ -15,7 +20,10 @@ export async function updateProfile({ username, profileImage }) {
     auth: true,
     body,
   });
-  return userFromApi(data);
+  return {
+    user: userFromApi(data.user),
+    accessToken: data.access_token,
+  };
 }
 
 export async function updatePassword({ currentPassword, newPassword }) {

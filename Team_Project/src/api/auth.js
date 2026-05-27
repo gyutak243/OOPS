@@ -13,7 +13,10 @@ export async function signup(userInfo) {
     method: "POST",
     body: userToSignupApi(userInfo),
   });
-  return userFromApi(data);
+  return {
+    user: userFromApi(data.user),
+    accessToken: data.access_token,
+  };
 }
 
 export async function checkUsername(username) {

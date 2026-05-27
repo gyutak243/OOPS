@@ -54,6 +54,7 @@ const Login = ({ setView }) => {
                 id: me.id,
                 email: me.email,
                 profileImg: me.profileImg,
+                likedPosts: me.likedPosts,
                 accessToken: access_token,
             });
             onUpsertUserInfo?.(me);
@@ -104,10 +105,6 @@ const Login = ({ setView }) => {
             <div className="auth-links-row">
                 <span className="auth-link-item" onClick={() => setView("register")} style={{ cursor: "pointer" }}>
                     회원 가입
-                </span>
-                <span className="auth-link-divider">|</span>
-                <span className="auth-link-item" onClick={() => setView("revise-pw")} style={{ cursor: "pointer" }}>
-                    비밀번호 변경하기
                 </span>
             </div>
         </div>

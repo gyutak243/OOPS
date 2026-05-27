@@ -31,16 +31,9 @@ export async function deleteComment(postId, commentId) {
   });
 }
 
-export async function likeComment(postId, commentId) {
+export async function toggleLikeComment(postId, commentId) {
   return apiRequest(`/posts/${postId}/comments/${commentId}/like`, {
     method: "POST",
-    auth: true,
-  });
-}
-
-export async function unlikeComment(postId, commentId) {
-  return apiRequest(`/posts/${postId}/comments/${commentId}/like`, {
-    method: "DELETE",
     auth: true,
   });
 }

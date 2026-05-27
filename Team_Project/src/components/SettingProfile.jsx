@@ -2,6 +2,7 @@ import man from "../assets/man_profile.png";
 import { useState, useRef, useContext } from "react";
 import { UserDataContext, UserDispatchContext } from "../util/context";
 import { useParams } from "react-router-dom";
+import { getStoredUser, setStoredUser } from "../api/authStorage";
 import * as usersApi from "../api/users";
 
 const SettingProfile = () => {
@@ -24,8 +25,10 @@ const SettingProfile = () => {
         setPreviewImg(man);
         if (currentUser) {
             try {
-                const updated = await usersApi.updateProfile({ profileImage: "" });
-                onUpdateUserInfo(updated);
+                const { user } = await usersApi.updateProfile({ profileImage: "" });
+                onUpdateUserInfo(user);
+                const stored = getStoredUser();
+                if (stored) setStoredUser({ ...stored, profileImg: "" });
             } catch (err) {
                 window.alert(err.message ?? "프로필 이미지 삭제에 실패했습니다.");
             }
@@ -42,8 +45,10 @@ const SettingProfile = () => {
 
                 if (currentUser) {
                     try {
-                        const updated = await usersApi.updateProfile({ profileImage: imgResult });
-                        onUpdateUserInfo(updated);
+                        const { user } = await usersApi.updateProfile({ profileImage: imgResult });
+                        onUpdateUserInfo(user);
+                        const stored = getStoredUser();
+                        if (stored) setStoredUser({ ...stored, profileImg: user.profileImg });
                     } catch (err) {
                         window.alert(err.message ?? "프로필 이미지 변경에 실패했습니다.");
                         setPreviewImg(currentUser.profileImg || man);

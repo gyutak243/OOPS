@@ -5,7 +5,7 @@ from app.schemas.schemas import UserCreate
 from app.core.security import verify_password, get_password_hash, create_access_token
 
 
-def register(db: Session, user_data: UserCreate) -> User:
+def register(db: Session, user_data: UserCreate) -> dict:
     # username 중복 확인
     if db.query(User).filter(User.username == user_data.username).first():
         raise HTTPException(
@@ -28,7 +28,9 @@ def register(db: Session, user_data: UserCreate) -> User:
     db.add(user)
     db.commit()
     db.refresh(user)
-    return user
+
+    token = create_access_token(data={"sub": user.username})
+    return {"user": user, "access_token": token, "token_type": "bearer"}
 
 
 def login(db: Session, username: str, password: str) -> dict:

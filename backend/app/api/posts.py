@@ -59,21 +59,12 @@ def delete_post(
 
 
 @router.post("/{post_id}/like")
-def like_post(
+def toggle_like_post(
     post_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return post_service.like_post(db, post_id, current_user.id)
-
-
-@router.delete("/{post_id}/like")
-def unlike_post(
-    post_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    return post_service.unlike_post(db, post_id, current_user.id)
+    return post_service.toggle_like_post(db, post_id, current_user.id)
 
 @router.post("/notice", response_model=PostResponse, status_code=201)
 def create_notice(

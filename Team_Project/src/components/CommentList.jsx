@@ -10,13 +10,10 @@ const CommentList = ({ postId }) => {
 
     useEffect(() => {
         onLoadCommentsForPost?.(postId);
-    }, [postId, onLoadCommentsForPost]);
+    }, [postId]);
     const currentScreenCommentInfo = comments.filter((comment)=>{
-        return comment.postId === Number(postId); 
-    }); 
-
-    //디버깅용
-    console.log(currentScreenCommentInfo); 
+        return comment.postId === Number(postId);
+    });
 
     return (
         <section className="comment-section">

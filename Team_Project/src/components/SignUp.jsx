@@ -2,6 +2,7 @@ import { useContext, useState, useRef } from "react";
 import "./SignUp.css";
 import { UserDispatchContext } from "../util/context";
 import { checkUsername } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = ({ setView }) => {
     const {onCreateUserInfo} = useContext(UserDispatchContext);
@@ -15,7 +16,8 @@ const SignUp = ({ setView }) => {
         email: "",
     }); 
     const [confirmPassword, setConfirmPassword] = useState(""); 
-    const [errorMsg, setErrorMsg] = useState(""); 
+    const [errorMsg, setErrorMsg] = useState("");
+    const nav = useNavigate();
 
     //state를 여러개 관리해주는 방식 대신 객체로 state를 관리해주는 방식을 선택했다. 
     const onChangeUser = (e)=>{
@@ -69,7 +71,7 @@ const SignUp = ({ setView }) => {
             setNewUser({ userName: "", passWord: "", email: "" });
             setConfirmPassword("");
             setErrorMsg("");
-            setView("login");
+            nav("/");
         } catch {
             /* onCreateUserInfo에서 alert 처리 */
         }
