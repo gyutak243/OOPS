@@ -8,3 +8,6 @@ python-dotenv
 pydantic-settings
 psycopg2-binary
 bcrypt==4.0.1
+beautifulsoup4
+requests
+apscheduler
