@@ -93,7 +93,7 @@ const Header = ({ onSearch }) => {
                     
                     <div className="header__auth-wrapper">
                         
-                        {currentUserInfo && (
+                        {currentUserInfo ? (
                             // 로그인 상태일때 랜더링 구조 
                             <div 
                                 className="header__profile-zone" 
@@ -110,12 +110,14 @@ const Header = ({ onSearch }) => {
                                 </div>
                                 <span className="header__user-name">{currentUserInfo.userName}님</span>
                             </div>
-                        )}
+                        ) : (
+                        <button className="header__btn-login" onClick={() => nav("/auth")}>
+                            <img src={manLogin} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright" />
+                            로그인 / 회원가입
+                        </button>
+                    )}
                     </div>
-                    <button className="header__btn-login" onClick={() => nav("/auth")}>
-                        <img src={manLogin} alt="프로필 아이콘" className="header__user-icon header__user-icon--bright" />
-                        로그인 / 회원가입
-                    </button>
+                    
                 </nav>
             </div>
         </header>
