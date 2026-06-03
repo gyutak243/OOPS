@@ -52,6 +52,9 @@ const PostDetail = () => {
   const postData = posts.find((post) => post.postId === Number(postId));
 
   if (!postData) {
+    // posts가 아직 로딩되지 않은 경우 (빈 배열) = 로딩 중
+    if (posts.length === 0) return null;
+    // posts는 로딩됐지만 해당 글이 없는 경우 = 진짜 없음
     window.alert("글이 존재하지 않습니다!");
     return;
   }
@@ -105,7 +108,6 @@ const PostDetail = () => {
 
     try {
       await postsApi.toggleLikePost(Number(postId));
-      onFetchPost(postId);
     } catch (err) {
       onUpdatePostLocal(postData);
       onUpdateUserInfo(loginUserInfo);
@@ -147,7 +149,6 @@ const PostDetail = () => {
 
     try {
       await postsApi.toggleBadPost(Number(postId));
-      onFetchPost(postId);
     } catch (err) {
       onUpdatePostLocal(postData);
       onUpdateUserInfo(loginUserInfo);

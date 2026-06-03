@@ -1,5 +1,5 @@
 import "./CommentItem.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import good from "../assets/good.png";
 import { formattedDate } from "../util/formattedDate";
 import { UserDataContext, UserDispatchContext } from "../util/context";
@@ -16,11 +16,19 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
 
   const stored = getStoredUser();
   const loginUserInfo = stored ? users?.find((u) => u.userName === stored.userName) : null;
-  const initialLiked = loginUserInfo?.likedComments?.includes(id) ?? false;
+  const isLikedByUser = loginUserInfo?.likedComments?.includes(id) ?? false;
 
   const [isReplyOpen, setIsReplyOpen] = useState(false);
-  const [numLike, setNumLike] = useState(initialLiked ? likeCount : likeCount);
-  const [isLiked, setIsLiked] = useState(initialLiked);
+  const [numLike, setNumLike] = useState(likeCount);
+  const [isLiked, setIsLiked] = useState(isLikedByUser);
+
+  useEffect(() => {
+    setNumLike(likeCount);
+  }, [likeCount, setNumLike]);
+
+  useEffect(() => {
+    setIsLiked(isLikedByUser);
+  }, [isLikedByUser, setIsLiked]);
 
   const onUpdateLike = async () => {
     if (!stored?.accessToken) {

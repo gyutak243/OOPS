@@ -15,6 +15,7 @@ class UserResponse(BaseModel):
     email: str
     profile_image: Optional[str] = None
     liked_post_ids: list[int] = []
+    liked_comment_ids: list[int] = []
     bad_posts: list[int] = []
 
     class Config:

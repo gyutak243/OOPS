@@ -10,7 +10,7 @@ const CommentList = ({ postId }) => {
 
     useEffect(() => {
         onLoadCommentsForPost?.(postId);
-    }, [postId]);
+    }, [postId, onLoadCommentsForPost]);
     const currentScreenCommentInfo = comments.filter((comment)=>{
         return comment.postId === Number(postId);
     });

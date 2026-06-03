@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useCallback } from 'react';
 import * as postsApi from './api/posts';
 import * as commentsApi from './api/comments';
 import * as authApi from './api/auth';
@@ -106,31 +106,35 @@ function App() {
       .catch((err) => console.error("게시글 목록 로드 실패:", err));
 
     fetchAllUsers()
-      .then((list) => dispatchUser({ type: "SET", data: list }))
-      .catch((err) => console.error("유저 목록 로드 실패:", err));
+      .then((list) => {
+        dispatchUser({ type: "SET", data: list });
 
-    if (!getAccessToken()) return;
+        if (!getAccessToken()) return;
 
-    fetchMe()
-  .then((user) => {
-    dispatchUser({ type: "UPSERT", userData: user });
-    const stored = getStoredUser();
-    if (stored) setStoredUser({ 
-      ...stored,
-      userName: stored.userName,
-      accessToken: stored.accessToken,
-      profileImg: user.profileImg, 
-      likedPosts: user.likedPosts, 
-      likedComments: user.likedComments
-    });
-  })
-  .catch((err) => {
-    console.error("로그인 세션 복원 실패:", err);
-    clearAuth();
-  });
+        return fetchMe().catch((err) => {
+          console.error("로그인 세션 복원 실패:", err);
+          clearAuth();
+        });
+      })
+      .then((user) => {
+        if (!user) return;
+        dispatchUser({ type: "UPSERT", userData: user });
+        const stored = getStoredUser();
+        if (stored) setStoredUser({
+          ...stored,
+          userName: stored.userName,
+          accessToken: stored.accessToken,
+          profileImg: user.profileImg,
+          likedPosts: user.likedPosts,
+          likedComments: user.likedComments
+        });
+      })
+      .catch((err) => {
+        console.error("유저 목록 로드 실패:", err);
+      });
   }, []);
 
-  const onLoadCommentsForPost = async (postId) => {
+  const onLoadCommentsForPost = useCallback(async (postId) => {
     try {
       const list = await commentsApi.fetchComments(postId);
       dispatchComment({
@@ -141,7 +145,7 @@ function App() {
     } catch (err) {
       console.error("댓글 로드 실패:", err);
     }
-  };
+  }, [dispatchComment]);
 
   const onCreatePost = async (postInfo) => {
     try {

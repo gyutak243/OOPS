@@ -12,6 +12,7 @@ def get_me(db: Session, user: User) -> UserResponse:
         email=user.email,
         profile_image=user.profile_image,
         liked_post_ids=[like.post_id for like in user.likes],
+        liked_comment_ids=[like.comment_id for like in user.comment_likes],
         bad_posts=[bad.post_id for bad in user.bads]
     )
     
