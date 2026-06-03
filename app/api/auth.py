@@ -3,13 +3,25 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db
 from app.schemas.schemas import UserCreate, UserResponse, Token, UserLogin
 from app.services.auth_service import register, login, check_username
+from app.core.security import create_access_token
 
 router = APIRouter(prefix="/auth", tags=["계정"])
 
-
-@router.post("/signup", response_model=UserResponse, status_code=201)
+@router.post("/signup", status_code=201)
 def signup(user_data: UserCreate, db: Session = Depends(get_db)):
-    return register(db, user_data)
+    user = register(db, user_data)
+    token = create_access_token(data={"sub": user.username})
+    return {
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "profile_image": user.profile_image,
+            "liked_post_ids": [],
+            "bad_posts": []
+        },
+        "access_token": token
+    }
 
 
 @router.post("/login", response_model=Token)
