@@ -97,4 +97,15 @@ def get_my_likes(
 @router.get("", response_model=list[UserResponse])
 def get_all_users(db: Session = Depends(get_db)):
     users = db.query(User).all()
-    return users
+    return [
+        UserResponse(
+            id=u.id,
+            username=u.username,
+            email=u.email,
+            profile_image=u.profile_image,
+            liked_post_ids=[like.post_id for like in u.likes],
+            liked_comment_ids=[like.comment_id for like in u.comment_likes],
+            bad_posts=[bad.post_id for bad in u.bads],
+        )
+        for u in users
+    ]

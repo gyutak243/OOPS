@@ -16,7 +16,11 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
 
   const stored = getStoredUser();
   const loginUserInfo = stored ? users?.find((u) => u.userName === stored.userName) : null;
-  const isLikedByUser = loginUserInfo?.likedComments?.includes(id) ?? false;
+  // 컨텍스트 유저의 likedComments가 아직 로딩되지 않았으면(localStorage에 없으면) 빈 배열로 폴백
+  const userLikedComments = loginUserInfo?.likedComments?.length > 0
+    ? loginUserInfo.likedComments
+    : (stored?.likedComments ?? []);
+  const isLikedByUser = userLikedComments.includes(id);
 
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [numLike, setNumLike] = useState(likeCount);
@@ -24,11 +28,11 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
 
   useEffect(() => {
     setNumLike(likeCount);
-  }, [likeCount, setNumLike]);
+  }, [likeCount]);
 
   useEffect(() => {
     setIsLiked(isLikedByUser);
-  }, [isLikedByUser, setIsLiked]);
+  }, [isLikedByUser]);
 
   const onUpdateLike = async () => {
     if (!stored?.accessToken) {
@@ -40,15 +44,18 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
     setNumLike(nextLiked);
     setIsLiked(!isLiked);
 
+    const currentLikedComments = loginUserInfo?.likedComments?.length > 0
+      ? loginUserInfo.likedComments
+      : (stored?.likedComments ?? []);
     const nextLikedComments = isLiked
-      ? (loginUserInfo.likedComments || []).filter((cid) => cid !== id)
-      : [id, ...(loginUserInfo?.likedComments || [])];
+      ? currentLikedComments.filter((cid) => cid !== id)
+      : [id, ...currentLikedComments];
 
     if (loginUserInfo) {
       const updatedUser = { ...loginUserInfo, likedComments: nextLikedComments };
       onUpdateUserInfo(updatedUser);
-      if (stored) setStoredUser({ ...stored, likedComments: nextLikedComments });
     }
+    if (stored) setStoredUser({ ...stored, likedComments: nextLikedComments });
 
     try {
       await commentsApi.toggleLikeComment(postId, id);
@@ -57,8 +64,8 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
       setIsLiked(isLiked);
       if (loginUserInfo) {
         onUpdateUserInfo(loginUserInfo);
-        if (stored) setStoredUser({ ...stored, likedComments: loginUserInfo.likedComments || [] });
       }
+      if (stored) setStoredUser({ ...stored, likedComments: currentLikedComments });
       window.alert(err.message ?? "좋아요 처리에 실패했습니다.");
     }
   };

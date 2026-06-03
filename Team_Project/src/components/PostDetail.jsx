@@ -5,7 +5,7 @@ import good from "../assets/good.png";
 import bad from "../assets/bad.png";
 import CommentList from "./CommentList";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { CommentDataContext, PostDataContext, PostDispatchContext, UserDataContext, UserDispatchContext } from "../util/context";
 import { formattedDate } from "../util/formattedDate";
 import { getStoredUser, setStoredUser } from "../api/authStorage";
@@ -45,8 +45,13 @@ const PostDetail = () => {
   const { onFetchPost, onUpdatePostLocal } = useContext(PostDispatchContext) || {};
   const { onUpdateUserInfo } = useContext(UserDispatchContext);
 
+  const fetchedRef = useRef(null);
+
   useEffect(() => {
-    onFetchPost(postId);
+    if (fetchedRef.current !== postId) {
+      fetchedRef.current = postId;
+      onFetchPost(postId);
+    }
   }, [postId]);
 
   const postData = posts.find((post) => post.postId === Number(postId));
