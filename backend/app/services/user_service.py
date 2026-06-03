@@ -39,7 +39,7 @@ def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> dict
         user.username = profile_data.username
         username_changed = True
 
-    if profile_data.profile_image:
+    if profile_data.profile_image is not None:
         user.profile_image = profile_data.profile_image
 
     db.commit()
