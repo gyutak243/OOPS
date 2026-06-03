@@ -14,6 +14,13 @@ def get_me_endpoint(
 ):
     return user_service.get_me(db, current_user)
 
+@router.delete("/me")
+def delete_me(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return user_service.delete_user(db, current_user)
+
 @router.put("/me/profile", response_model=UserResponse)
 def update_profile(
     profile_data: ProfileUpdate,

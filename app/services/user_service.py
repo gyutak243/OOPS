@@ -11,9 +11,14 @@ def get_me(db: Session, user: User) -> UserResponse:
         username=user.username,
         email=user.email,
         profile_image=user.profile_image,
-        liked_posts=[like.post_id for like in user.likes],
+        liked_post_ids=[like.post_id for like in user.likes],
         bad_posts=[bad.post_id for bad in user.bads]
     )
+    
+def delete_user(db: Session, user: User) -> dict:
+    db.delete(user)
+    db.commit()
+    return {"message": "회원탈퇴 완료"}
 
 
 def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> User:
@@ -26,7 +31,7 @@ def update_profile(db: Session, user: User, profile_data: ProfileUpdate) -> User
             )
         user.username = profile_data.username
 
-    if profile_data.profile_image:
+    if profile_data.profile_image is not None:
         user.profile_image = profile_data.profile_image
 
     db.commit()
