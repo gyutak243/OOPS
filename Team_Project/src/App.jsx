@@ -112,16 +112,22 @@ function App() {
     if (!getAccessToken()) return;
 
     fetchMe()
-      .then((user) => {
-        console.log("fetchMe 결과:", user);
-        dispatchUser({ type: "UPSERT", userData: user });
-        const stored = getStoredUser();
-        if (stored) setStoredUser({ ...stored, profileImg: user.profileImg, likedPosts: user.likedPosts, likedComments: user.likedComments });
-      })
-      .catch((err) => {
-        console.error("로그인 세션 복원 실패:", err);
-        clearAuth();
-      });
+  .then((user) => {
+    dispatchUser({ type: "UPSERT", userData: user });
+    const stored = getStoredUser();
+    if (stored) setStoredUser({ 
+      ...stored,
+      userName: stored.userName,
+      accessToken: stored.accessToken,
+      profileImg: user.profileImg, 
+      likedPosts: user.likedPosts, 
+      likedComments: user.likedComments
+    });
+  })
+  .catch((err) => {
+    console.error("로그인 세션 복원 실패:", err);
+    clearAuth();
+  });
   }, []);
 
   const onLoadCommentsForPost = async (postId) => {
@@ -208,6 +214,10 @@ function App() {
       id: userInfo.id,
       userData: { id: userInfo.id, ...userInfo },
     });
+    const stored = getStoredUser();
+    if (stored && userInfo.accessToken) {
+      setStoredUser({ ...stored, accessToken: userInfo.accessToken });
+    }
   };
 
   const onUpsertUserInfo = (userInfo) => {

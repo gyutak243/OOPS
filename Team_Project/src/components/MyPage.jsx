@@ -118,10 +118,10 @@ const MyPage = () => {
         try {
             // 닉네임 변경
             if (changeUserName.trim() !== "" && changeUserName !== currentUserData.userName) {
-                const updated = await usersApi.updateProfile({ username: changeUserName });
-                onUpdateUserInfo(updated);
+                const { user, accessToken } = await usersApi.updateProfile({ username: changeUserName });
                 const stored = getStoredUser();
-                if (stored) setStoredUser({ ...stored, userName: updated.userName });
+                if (stored) setStoredUser({ ...stored, userName: user.userName, accessToken: accessToken, likedPosts: user.likedPosts, likedComments: user.likedComments });
+                onUpdateUserInfo({ ...user, accessToken: accessToken });
                 nav(`/mypage/${changeUserName}`, { replace: true });
             }
 
