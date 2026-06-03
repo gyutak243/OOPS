@@ -77,3 +77,8 @@ def get_my_likes(
     current_user: User = Depends(get_current_user)
 ):
     return user_service.get_my_likes(db, current_user)
+
+@router.get("", response_model=list[UserResponse])
+def get_all_users(db: Session = Depends(get_db)):
+    users = db.query(User).all()
+    return users
