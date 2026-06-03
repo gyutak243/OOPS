@@ -21,6 +21,8 @@ def delete_me(
 ):
     return user_service.delete_user(db, current_user)
 
+from app.core.security import create_access_token
+
 @router.put("/me/profile")
 def update_profile(
     profile_data: ProfileUpdate,
@@ -28,6 +30,7 @@ def update_profile(
     current_user: User = Depends(get_current_user)
 ):
     user = user_service.update_profile(db, current_user, profile_data)
+    new_token = create_access_token(data={"sub": user.username})
     return {
         "user": {
             "id": user.id,
@@ -37,7 +40,7 @@ def update_profile(
             "liked_post_ids": [like.post_id for like in user.likes],
             "bad_posts": [bad.post_id for bad in user.bads]
         },
-        "access_token": None
+        "access_token": new_token
     }
 
 
