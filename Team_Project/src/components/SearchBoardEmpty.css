@@ -43,3 +43,43 @@
     margin-bottom: 4px;
     color: #002b49;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .board-empty-wrapper {
+        padding: 40px 16px;
+        min-height: 250px;
+    }
+
+    .emphasis-tung {
+        font-size: 20px;
+    }
+
+    .empty-message-box__title {
+        font-size: 15px;
+    }
+
+    .empty-message-box__icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .board-empty-wrapper {
+        padding: 30px 12px;
+        min-height: 200px;
+    }
+
+    .emphasis-tung {
+        font-size: 18px;
+    }
+
+    .empty-message-box__title {
+        font-size: 14px;
+    }
+}

@@ -185,3 +185,90 @@
   text-align: center;
 }
 
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .post-detail {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .contents-wrapper {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .contents-wrapper .sidebar {
+    display: none; /* 게시글 상세에서도 사이드바 숨김 */
+  }
+
+  .content-area {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .post-card__title {
+    font-size: 16px;
+  }
+
+  .post-card__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .post-card__text {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .post-main-image {
+    max-width: 100%;
+  }
+
+  .post-card__actions {
+    gap: 16px;
+    margin-top: 16px;
+    padding-bottom: 20px;
+  }
+
+  .btn-vote {
+    width: 40px;
+    height: 40px;
+  }
+
+  .btn-vote img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .vote-count {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-detail {
+    padding: 12px;
+  }
+
+  .content-area {
+    padding: 12px;
+  }
+
+  .post-card__title {
+    font-size: 15px;
+  }
+
+  .post-card__actions {
+    gap: 12px;
+  }
+
+  .btn-vote {
+    width: 36px;
+    height: 36px;
+  }
+}
+

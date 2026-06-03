@@ -31,3 +31,26 @@
   /* 애니메이션 적용 */
   animation: fadeInUp 0.8s ease-out forwards;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .main-layout {
+    padding-bottom: 60px;
+  }
+
+  .oops {
+    font-size: 36px;
+    margin: 40px 0 20px;
+    letter-spacing: -1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .oops {
+    font-size: 28px;
+    margin: 30px 0 16px;
+  }
+}

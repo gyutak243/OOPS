@@ -150,3 +150,50 @@
 .comment-capsule-btn--active:active {
     transform: none !important;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .comment-box--reply {
+        margin-left: 15px;
+    }
+
+    .comment-box {
+        padding: 10px 12px;
+    }
+
+    .comment-box__header {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .comment-box__text {
+        font-size: 12px;
+    }
+
+    .comment-capsule-btn {
+        padding: 3px 10px;
+    }
+
+    .comment-box__btn-reply {
+        padding: 3px 10px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .comment-box--reply {
+        margin-left: 10px;
+    }
+
+    .comment-box__user-info {
+        gap: 6px;
+        font-size: 11px;
+    }
+
+    .comment-box__actions {
+        gap: 5px;
+    }
+}

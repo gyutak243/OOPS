@@ -10,8 +10,7 @@ const HotPostTitleList = ()=>{
     //최신 글이 보일 수 있도록 수정
     const hotPostsSorted = hotPosts.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt)); 
     //리스트에서 최대 4개의 최신(최상단)글만 보일 수 있도록 해주었다. 
-    const postList = hotPostsSorted.slice(0, 4); 
-    console.log(postList); 
+    const postList = hotPostsSorted.slice(0, 4);
 
     return (
         <ul className="post-list">

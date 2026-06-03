@@ -100,3 +100,66 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .board-container {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .card-header h2 {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .top-row {
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .bottom-grid {
+    gap: 16px;
+  }
+
+  .post-list li {
+    padding: 10px 0;
+    font-size: 13px;
+  }
+
+  .board-item h3 {
+    font-size: 15px;
+    padding-left: 8px;
+  }
+
+  .board-item p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .board-container {
+    margin: 12px auto;
+    padding: 0 8px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .card-header h2 {
+    font-size: 14px;
+  }
+
+  .board-item h3 {
+    font-size: 14px;
+  }
+}

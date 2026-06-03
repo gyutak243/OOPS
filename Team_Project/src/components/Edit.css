@@ -49,3 +49,30 @@
     border-radius: 50%;
     flex-shrink: 0;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .content-area {
+        padding: 16px;
+    }
+
+    .write-form__footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-cancel {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-area {
+        padding: 12px;
+        gap: 14px;
+    }
+}

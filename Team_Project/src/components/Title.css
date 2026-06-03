@@ -25,3 +25,30 @@
 }
 
 .btn-subscribe__icon { width: 14px; }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .board-header-row {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding-left: 0;
+    }
+
+    .board-main-title {
+        font-size: 20px;
+    }
+
+    .btn-subscribe {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .board-main-title {
+        font-size: 18px;
+    }
+}

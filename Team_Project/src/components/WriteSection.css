@@ -65,3 +65,63 @@
 .btn-submit:hover {
     opacity: 0.9;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .content-area {
+        padding: 16px;
+        border-radius: 8px;
+        min-height: auto;
+    }
+
+    .write-form {
+        gap: 14px;
+    }
+
+    .write-form__title-input {
+        font-size: 18px;
+        padding: 12px 14px;
+    }
+
+    .write-form__content-input {
+        height: 300px;
+        padding: 14px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .write-form__footer {
+        padding-top: 16px;
+    }
+
+    .btn-submit {
+        padding: 12px 40px;
+        font-size: 15px;
+        border-radius: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-area {
+        padding: 12px;
+    }
+
+    .write-form__title-input {
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+
+    .write-form__content-input {
+        height: 250px;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .btn-submit {
+        padding: 10px 30px;
+        font-size: 14px;
+    }
+}

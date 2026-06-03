@@ -205,3 +205,75 @@
     align-items: center;
     gap: 15px;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none; /* 모바일에서 사이드바 숨김 */
+    }
+
+    .content-area {
+        padding: 16px;
+        min-height: auto;
+        border-radius: 8px;
+    }
+
+    .board-list-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .board-table th {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    .board-table td {
+        padding: 12px 6px;
+        font-size: 12px;
+    }
+
+    .board-table td.td-title {
+        padding-left: 8px;
+    }
+
+    .pagination-box {
+        padding-top: 20px;
+        gap: 10px;
+    }
+
+    /* 모바일에서 게시글 테이블: 제목만 표시 */
+    .board-table .col-num,
+    .board-table .col-author,
+    .board-table .col-date,
+    .board-table .col-view,
+    .board-table .col-vote {
+        display: none;
+    }
+
+    .board-table td:nth-child(1),  /* 번호 */
+    .board-table td:nth-child(3),  /* 글쓴이 */
+    .board-table td:nth-child(4),  /* 등록일 */
+    .board-table td:nth-child(5),  /* 조회수 */
+    .board-table td:nth-child(6) { /* 추천 */
+        display: none;
+    }
+
+    .board-table td.td-title {
+        text-align: left;
+        font-weight: 500;
+        color: #333;
+        padding: 14px 4px;
+        width: 100%;
+    }
+
+    .board-table th.col-title {
+        text-align: left;
+        padding-left: 4px;
+        width: 100%;
+    }
+}

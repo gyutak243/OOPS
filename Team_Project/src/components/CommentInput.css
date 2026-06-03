@@ -68,3 +68,28 @@
 .comment-form__btn-submit:active {
     transform: scale(0.96);
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .comment-form {
+        padding: 12px;
+    }
+
+    .comment-form__textarea {
+        height: 60px;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .comment-form__actions {
+        padding: 6px 10px;
+    }
+
+    .comment-form__btn-submit {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}

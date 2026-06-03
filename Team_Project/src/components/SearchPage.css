@@ -138,3 +138,102 @@ button { border: none; background: none; cursor: pointer; outline: none; }
     background-color: #dbe4ec;
     color: #333;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVE (768px 이하)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .search-page {
+        padding: 16px;
+        gap: 20px;
+    }
+
+    .board-table-wrapper {
+        padding: 8px 12px 16px 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .board-table th {
+        padding: 8px 6px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .board-table td {
+        padding: 12px 6px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .board-table td.td-title {
+        padding-left: 8px;
+    }
+
+    .board-header-row {
+        padding: 12px 0;
+    }
+
+    .search-summary {
+        font-size: 13px;
+    }
+
+    .pagination-box {
+        padding-top: 20px;
+        gap: 8px;
+    }
+
+    .p-arrow {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+
+    .p-num {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+    }
+
+    /* 모바일에서 검색 결과 테이블: 제목만 표시 */
+    .board-table .col-num,
+    .board-table .col-author,
+    .board-table .col-date,
+    .board-table .col-view,
+    .board-table .col-vote {
+        display: none;
+    }
+
+    .board-table td:nth-child(1),  /* 번호 */
+    .board-table td:nth-child(3),  /* 글쓴이 */
+    .board-table td:nth-child(4),  /* 등록일 */
+    .board-table td:nth-child(5),  /* 조회수 */
+    .board-table td:nth-child(6) { /* 추천 */
+        display: none;
+    }
+
+    .board-table td.td-title {
+        text-align: left;
+        font-weight: 500;
+        color: #333;
+        padding: 14px 4px;
+        width: 100%;
+    }
+
+    .board-table th.col-title {
+        text-align: left;
+        padding-left: 4px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-page {
+        padding: 12px;
+        gap: 16px;
+    }
+
+    .board-table-wrapper {
+        padding: 6px 8px 12px 8px;
+    }
+}
