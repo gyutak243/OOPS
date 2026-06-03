@@ -7,17 +7,12 @@ from app.services import user_service
 
 router = APIRouter(prefix="/users", tags=["사용자"])
 
-
-def get_me(db: Session, user: User) -> UserResponse:
-    return UserResponse(
-        id=user.id,
-        username=user.username,
-        email=user.email,
-        profile_image=user.profile_image,
-        liked_posts=[like.post_id for like in user.likes],
-        bad_posts=[bad.post_id for bad in user.bads]
-    )
-
+@router.get("/me", response_model=UserResponse)
+def get_me_endpoint(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return user_service.get_me(db, current_user)
 
 @router.put("/me/profile", response_model=UserResponse)
 def update_profile(
