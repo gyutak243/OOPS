@@ -119,6 +119,7 @@ def like_post(db: Session, post_id: int, user_id: int) -> dict:
     if existing_bad:
         db.delete(existing_bad)
         post.bad_count -= 1
+        db.commit()
 
     like = Like(post_id=post_id, user_id=user_id)
     db.add(like)
@@ -150,6 +151,7 @@ def bad_post(db: Session, post_id: int, user_id: int) -> dict:
     ).first()
     if existing_like:
         db.delete(existing_like)
+        db.commit()
 
     bad = Bad(post_id=post_id, user_id=user_id)
     db.add(bad)
