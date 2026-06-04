@@ -52,6 +52,7 @@ const PostDetail = () => {
       fetchedRef.current = postId;
       onFetchPost(postId);
     }
+     // eslint-disable-next-line 
   }, [postId]);
 
   const postData = posts.find((post) => post.postId === Number(postId));
