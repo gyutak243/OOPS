@@ -17,6 +17,9 @@ def get_me(db: Session, user: User) -> UserResponse:
     )
     
 def delete_user(db: Session, user: User) -> dict:
+    # author_id를 None으로 설정
+    db.query(Post).filter(Post.author_id == user.id).update({"author_id": None})
+    db.query(Comment).filter(Comment.author_id == user.id).update({"author_id": None})
     db.delete(user)
     db.commit()
     return {"message": "회원탈퇴 완료"}

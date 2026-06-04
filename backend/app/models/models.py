@@ -14,10 +14,10 @@ class User(Base):
     profile_image = Column(String, nullable=True)
     is_admin = Column(Boolean, default=False) 
 
-    posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
+    posts = relationship("Post", back_populates="author")
     likes = relationship("Like", back_populates="user", cascade="all, delete-orphan")
     bads = relationship("Bad", back_populates="user", cascade="all, delete-orphan")
-    comments = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
+    comments = relationship("Comment", back_populates="author")
     comment_likes = relationship("CommentLike", back_populates="user", cascade="all, delete-orphan")
 
 
@@ -28,7 +28,7 @@ class Post(Base):
     title = Column(String)
     content = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
-    author_id = Column(Integer, ForeignKey("users.id"))
+    author_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     category = Column(String, default="free")
     view_count = Column(Integer, default = 0)
     bad_count = Column(Integer, default = 0)
