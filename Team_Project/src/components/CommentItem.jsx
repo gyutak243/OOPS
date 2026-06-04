@@ -27,10 +27,12 @@ const CommentItem = ({id, postId, authorId, content, createdAt, parentId, likeCo
   const [isLiked, setIsLiked] = useState(isLikedByUser);
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/set-state-in-effect 
     setNumLike(likeCount);
   }, [likeCount]);
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/set-state-in-effect 
     setIsLiked(isLikedByUser);
   }, [isLikedByUser]);
 

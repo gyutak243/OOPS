@@ -28,7 +28,7 @@ const SearchItem = ({ ...props }) => {
           <span className="reply-badge">{`[${filteredComments.length}]`}</span>
         </div>
       </td>
-      <td>{searchedData.userName}</td>
+      <td>{searchedData?.userName}</td>
       <td>{date}</td>
       <td>{props.viewCount}</td>
       <td>{props.likeCount}</td>
