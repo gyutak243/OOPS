@@ -52,13 +52,13 @@ class PostResponse(BaseModel):
     title: str
     content: str
     created_at: datetime
-    author_id: int
+    author_id: Optional[int] = None
     like_count: int = 0
     bad_count: int = 0
     comment_count: int = 0
     category: str = "free"
     view_count: int = 0
-    
+
 
     class Config:
         from_attributes = True
@@ -73,7 +73,7 @@ class CommentResponse(BaseModel):
     id: int
     content: str
     created_at: datetime
-    author_id: int
+    author_id: Optional[int] = None
     post_id: int
     parent_id: Optional[int] = None
     like_count: int = 0

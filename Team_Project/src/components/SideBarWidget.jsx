@@ -4,15 +4,16 @@ import { PostDataContext } from "../util/context";
 import SideBarItem from "./SideBarItem";
 
 const SideBarWidget = ({type})=>{
-    //type은 free 혹은 notification이다 
+    //type은 free, notification, 혹은 hot(인기)이다
 
-    const posts = useContext(PostDataContext); 
+    const posts = useContext(PostDataContext);
 
-    const filteredData = posts.filter((post)=>{
-        return post.category === type; 
-    }); 
+    const filteredData = type === "hot"
+        ? posts.filter((post) => post.likeCount >= 10 || post.commentCount >= 10)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        : posts.filter((post) => post.category === type);
 
-    const dataList = filteredData.slice(0,5); 
+    const dataList = filteredData.slice(0,5);
 
     return (
         <ul className="sidebar-widget__list">

@@ -136,7 +136,6 @@ const MyPage = () => {
         const { user, accessToken } = await usersApi.updateProfile({
           username: changeUserName,
         });
-        console.log("user:", user);
         const stored = getStoredUser();
         if (stored)
           setStoredUser({

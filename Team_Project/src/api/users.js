@@ -20,7 +20,6 @@ export async function updateProfile({ username, profileImage }) {
     auth: true,
     body,
   });
-  console.log("raw data", data);
   return {
     user: userFromApi(data.user),
     accessToken: data.access_token,

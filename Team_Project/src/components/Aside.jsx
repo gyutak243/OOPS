@@ -33,7 +33,7 @@ const Aside = () => {
                 <h3 className="widget-popular__title" onClick={() => nav("/popular")}>
                     <img src={fire} alt="인기" className="widget-title-icon"/> 인기 게시판
                 </h3>
-                <SideBarWidget type={"free"}></SideBarWidget>
+                <SideBarWidget type={"hot"}></SideBarWidget>
             </section>
 
             <section className="sidebar__widget widget-board-preview">
