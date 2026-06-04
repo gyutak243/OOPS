@@ -32,16 +32,17 @@ def update_profile(
     user = user_service.update_profile(db, current_user, profile_data)
     new_token = create_access_token(data={"sub": user.username})
     return {
-        "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "profile_image": user.profile_image,
-            "liked_post_ids": [like.post_id for like in user.likes],
-            "bad_posts": [bad.post_id for bad in user.bads]
-        },
-        "access_token": new_token
-    }
+    "user": {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "profile_image": user.profile_image,
+        "liked_post_ids": [like.post_id for like in user.likes],
+        "liked_comment_ids": [like.comment_id for like in user.comment_likes],
+        "bad_posts": [bad.post_id for bad in user.bads]
+    },
+    "access_token": new_token
+}
 
 
 @router.put("/me/password")
