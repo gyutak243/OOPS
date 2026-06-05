@@ -1,0 +1,320 @@
+/* LOOPS - 글쓰기 페이지 통합 CSS
+   기존 post_Board.css 및 post_Detail.css의 수치를 기반으로 제작됨
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+    background-color: #e9eff4; 
+    color: #333333;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a { text-decoration: none; color: inherit; }
+ul, li { list-style: none; }
+button { border: none; background: none; cursor: pointer; outline: none; }
+
+/* HEADER */
+.header {
+    background-color: #ffffff;
+    padding: 12px 40px;
+    border-bottom: 1px solid #ccd6dd;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.header__inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__logo img {
+    height: 35px;
+    display: block;
+}
+
+.header__search-bar {
+    flex-grow: 1;
+    margin: 0 40px;
+    max-width: 460px;
+}
+
+.header__search-bar input {
+    width: 100%;
+    padding: 8px 20px;
+    border: 1px solid #002b49;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.header__link {
+    font-size: 14px;
+    font-weight: bold;
+    color: #002b49;
+}
+
+.header__btn-login {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #002b49;
+    color: #ffffff;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.header__user-icon--bright {
+    filter: brightness(1.7);
+    width: 16px;
+}
+
+/* MAIN LAYOUT */
+.main-layout {
+    max-width: 1320px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.board-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.board-main-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #002b49;
+}
+
+.btn-subscribe {
+    background-color: #002b49;
+    color: #ffffff;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-subscribe__icon { width: 14px; }
+
+.columns-container {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* SIDEBAR & WIDGETS (피드백 반영 수정본) */
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar__btn {
+    width: 100%;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.sidebar__btn--notice { background-color: #002b49; color: #ffffff; }
+.sidebar__btn--login-info { background-color: #002b49; color: #ffffff; text-align: center; }
+
+.sidebar__dropdown-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ccd6dd;
+}
+
+.sidebar__dropdown-trigger {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #002b49;
+    color: #ffffff;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.sidebar__menu-item a {
+    display: block;
+    padding: 9px 20px;
+    font-size: 13px;
+    color: #444444;
+}
+
+.sidebar__menu-item--active a {
+    background-color: #5b6e7a;
+    color: #ffffff;
+}
+
+.sidebar__widget {
+    background-color: #ffffff;
+    border: 1px solid #ccd6dd;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.widget-popular__title, .widget-board-preview__title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #002b49;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e9eff4;
+    display: flex;
+    align-items: center;
+}
+
+/* 불 아이콘 크기 수정 반영 */
+.widget-title-icon {
+    width: 14px;
+    height: auto;
+    margin-right: 5px;
+}
+
+/* 리스트 스타일 통일 (타 페이지와 일치하도록 수정) */
+.widget-popular__list li, .widget-board-preview__list li {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #555555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+}
+
+.widget-popular__list li:last-child, 
+.widget-board-preview__list li:last-child {
+    margin-bottom: 0;
+}
+
+.widget-popular__list li a:hover, 
+.widget-board-preview__list li a:hover {
+    text-decoration: underline;
+}
+
+/* 댓글 배지 스타일 통일 (Board.css 참고) */
+.reply-badge {
+    color: #004b7c;
+    font-weight: bold;
+    margin-left: 3px;
+    font-size: 11px;
+}
+
+/* CONTENT AREA (WRITE FORM) */
+.content-area {
+    flex-grow: 1;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    min-height: 700px;
+}
+
+.write-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 15px;
+}
+
+.write-form__title-input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid #002b49;
+    border-radius: 8px;
+    color: #002b49;
+    outline: none;
+}
+
+.write-form__body {
+    flex-grow: 1;
+}
+
+.write-form__content-input {
+    width: 100%;
+    height: 480px;
+    padding: 15px;
+    font-size: 14px;
+    border: 1px solid #002b49;
+    border-radius: 8px;
+    resize: none;
+    outline: none;
+    color: #333;
+}
+
+.write-form__footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.btn-submit {
+    background-color: #002b49;
+    color: #ffffff;
+    padding: 10px 40px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* FOOTER */
+.footer {
+    background-color: #ffffff;
+    padding: 25px;
+    text-align: center;
+    border-top: 1px solid #ccd6dd;
+}
+
+.footer__logo { height: 32px; }
+.footer__copyright { font-size: 11px; color: #777; margin-top: 5px; }
